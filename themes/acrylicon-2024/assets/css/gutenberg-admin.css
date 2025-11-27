@@ -1,0 +1,11 @@
+.wp-block {
+	max-width: 1360px; /* Adjust this value to match your front-end container width */
+}
+
+.wp-block[data-align="wide"] {
+	max-width: 1480px; /* Adjust for "wide" alignment */
+}
+
+.wp-block[data-align="full"] {
+	max-width: none; /* Full-width blocks */
+}

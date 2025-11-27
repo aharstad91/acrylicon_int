@@ -1,0 +1,27 @@
+{
+	"name": "acf/showreel-reference-kontor",
+	"title": "(2024) Showreel Reference > Kontor",
+	"description": "A block showcasing references",
+	"category": "design",
+	"icon": "info",
+	"keywords": ["references", "card", "icon"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "template.php"
+	},
+	"supports": {
+		"align": true,
+		"mode": false,
+		"jsx": true
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"preview_image_help": "https://example.com/path/to/preview/image.jpg"
+			}
+		}
+	},
+	"style": "file:./style.css",
+	"show_in_rest": true
+}

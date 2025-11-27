@@ -1,0 +1,208 @@
+/*
+Theme Enable AS - 2023
+Author: Konsulent Harstad v/Andreas Harstad // Orgnr. 921 029 438
+*/
+html.sr .ani-h {
+	visibility: hidden;
+}
+body, html, main, .iframe-container{
+	min-height: 100vh;
+	margin: 0;
+    /* Improve font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    
+    /* Prevent font from looking bold on dark backgrounds */
+    font-weight: normal;
+    
+    /* Prevent scaling blur */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+*{margin:0;padding:0;border:0;color:inherit}
+#wpadminbar{
+  top: -32px;
+}
+
+.wp-block-list {
+    list-style: initial !important;
+}
+
+.wp-block-post-featured-image img{height: 360px;}
+@media (min-width: 960px) {
+  .wp-block-post-featured-image img{height: 700px;}
+}
+
+.download-table ul li:first-of-type{
+  border-top: 0;
+}
+
+
+.Stack{ width: 100% !important; }
+.blue-bg iframe{
+  width: 100% !important;
+}
+
+.invisible{display: none}
+
+.size-full,
+.size-full img{width: 100%;}
+
+.wp-block-list{
+  position: relative;
+  left: 20px;
+  width: calc(100% - 24px);
+}
+.superoffice{
+  padding: 4rem 0;
+  background: #253761;
+  border-radius: 10px;
+}
+
+/* Featured image block max height */ 
+figure.rounded.wp-block-post-featured-image img {
+    height: 400px;
+}
+@media (min-width: 960px) {
+  /* Featured image block max height */ 
+  figure.rounded.wp-block-post-featured-image img {
+      height: 700px;
+  }
+}
+.wp-block-separator{border-top: 1px solid!important;}
+.editor ul {
+  list-style: none; /* Remove default bullets */
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.editor li, not:reference-tax li{
+  position: relative;
+  padding-left: 1.25em; /* Space for the bullet */
+  margin-bottom: 0.5em; /* Space between items */
+}
+
+.editor li:before, not:reference-tax li {
+  content: "•";
+  position: absolute;
+  left: 0;
+  font-size: 28px;
+  color: #a5a398;
+}
+@media (max-width: 960px) {
+  :where(.wp-block-columns.is-layout-flex){
+    gap: 1rem!important;
+  }
+}
+a{text-decoration: none;}
+img {display: block;}
+
+p, h1, h2, h3, h4, h5, h6, ul {
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+.editor ul{
+  list-style-position: inside;
+}
+.editor p{
+  margin-top: 1.75rem;
+}
+.iframe-container iframe{
+	height: 100vh;
+}
+main{
+	display: flex;
+	flex-direction: column;
+}
+footer{
+	margin-top: auto;
+}
+
+
+
+.wp-block-post-featured-image.is-style-rounded img {
+    border-radius: 0.5rem; /* 10px */
+    overflow: hidden;
+}
+
+.is-style-margin-top-small {
+    margin-top: 1rem;
+}
+
+.is-style-margin-top-medium {
+    margin-top: 2rem;
+}
+
+.is-style-margin-top-large {
+    margin-top: 3rem;
+}
+
+
+
+
+
+/* Optimalisert hamburger-meny */
+.mm-toggle {
+  position: relative;
+  width: 24px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mm-toggle span {
+  background-color: #e2251b;
+  width: 24px;
+  height: 3px;
+  display: block;
+  border-radius: 2px;
+  transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+  transform-origin: center;
+}
+
+/* Optimalisert transformasjon for kryss-ikonet */
+.mm-open span:nth-child(1) {
+  transform: translateY(8.75px) rotate(45deg);
+}
+
+.mm-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.mm-open span:nth-child(3) {
+  transform: translateY(-8.75px) rotate(-45deg);
+}
+#menuButton{
+  background: #f9f9f5;
+}
+/* Meny-panel stilisering - kompatibelt med dine TailwindCSS-klasser */
+#menuPanel {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mobilmeny-elementer */
+#menu-mobilmeny {
+  padding: 2rem 1.5rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#menu-mobilmeny .menu-item {
+  font-size: 1.5rem;
+}
+
+#menu-mobilmeny .menu-item a {
+  width: 100%;
+  display: block;
+  padding: 0.4rem 0;
+}
+
+

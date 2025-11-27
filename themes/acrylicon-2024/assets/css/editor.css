@@ -1,0 +1,6 @@
+
+@media (min-width: 1024px) {
+ .editor-styles-wrapper .h-96 {
+       height: 24rem;
+ }
+}

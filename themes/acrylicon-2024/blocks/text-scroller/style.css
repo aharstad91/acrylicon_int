@@ -1,0 +1,77 @@
+.text-scroller .scroller-outer {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.text-scroller .scroller-container {
+	width: 100%;
+	overflow: hidden;
+	padding: .5rem 0;
+}
+
+.text-scroller .scroller-track {
+	display: inline-flex;
+	white-space: nowrap;
+	animation-duration: 50s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.text-scroller .scroller-item {
+	display: inline-flex;
+	align-items: center;
+}
+
+/* Hide the last bullet */
+.text-scroller .scroller-item:last-child .bullet {
+	visibility: hidden;
+}
+
+.text-scroller .scroll-left .scroller-track {
+	animation-name: scroll-left;
+}
+
+.text-scroller .scroll-right .scroller-track {
+	animation-name: scroll-right;
+}
+
+/* Fade overlay gradients */
+.text-scroller .fade-overlay {
+	position: absolute;
+	width: 25px;
+	height: 100%;
+	top: 0;
+	z-index: 10;
+	pointer-events: none; /* Allow clicks to pass through */
+}
+@media (min-width: 640px) {
+	.text-scroller .fade-overlay {
+		width: 80px;
+	}
+}
+
+.text-scroller .fade-left {
+	left: 0;
+	background: linear-gradient(90deg, #F9F9F5 51.22%, rgba(249, 249, 245, 0) 100%);
+}
+
+.text-scroller .fade-right {
+	right: 0;
+	background: linear-gradient(270deg, #F9F9F5 51.22%, rgba(249, 249, 245, 0) 100%);
+}
+
+@keyframes scroll-left {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(-100% / 3)); }
+}
+
+@keyframes scroll-right {
+	0% { transform: translateX(calc(-100% / 3)); }
+	100% { transform: translateX(0); }
+}
+
+/* Pause animation on hover */
+.text-scroller:hover .scroller-track {
+	animation-play-state: paused;
+}

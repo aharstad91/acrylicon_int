@@ -1,0 +1,155 @@
+/* Form Wrapper */
+.form-blue_wrapper {
+  background: #253761;
+  padding: 2rem 1.5rem;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Söhne-Buch', sans-serif;
+}
+@media (min-width: 960px) {
+  
+  .form-blue_wrapper {
+    padding: 2.5rem;
+  }
+}
+
+.form-blue_wrapper .gform_title {
+  margin-bottom: 4rem;
+  font-size: 2rem;
+}
+
+  .form-blue .validation_message {
+    color: #ffffff!important;
+    font-size: 14px!important;
+    margin: 0!important;
+    border-left: 2px solid #e2241c;
+    padding-left: .5rem;
+    line-height: 18px;
+  }
+
+  .form-blue .gfield_error textarea{
+    background-color: transparent !important;
+    border-color: #ffffff!important;
+  }
+  .form-blue textarea {
+        border-color: #ffffff;
+    }
+
+.gform_button.button, .gform_button {
+        cursor: pointer;
+    }
+
+/* Form Elements - Common Styles */
+.gform_wrapper .form-blue {
+  /* Labels */
+  label {
+	color: #fff;
+	font-size: 16px;
+	font-family: 'SohneMono-Buch', sans-serif;
+  }
+
+  /* Inputs */
+  input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]),
+  select,
+  textarea {
+	width: 100%;
+	padding: 12px 0;
+	margin-bottom: 16px;
+	border: none;
+	border-bottom: 1px solid #c0c0c0;
+	font-size: 14px;
+	background: transparent;
+	border-radius: 0;
+	transition: all 0.3s ease;
+	box-sizing: border-box;
+  }
+
+  /* Submit Button */
+  .gform_button.button,
+  .gform_button {
+	width: fit-content;
+	padding: 1rem 2rem;
+	border-radius: 50px;
+	background: none;
+	border: 1px solid #fff;
+	margin-top: 2rem;
+	font-size: 18px;
+  }
+
+  /* Consent Label */
+  .gfield_consent_label {
+	font-size: 14px !important;
+	&:hover { cursor: pointer; }
+  }
+
+  /* Placeholders */
+  input::placeholder,
+  select::placeholder,
+  textarea::placeholder {
+	color: #bebebe;
+	font-family: 'SohneMono-Buch', sans-serif;
+	font-weight: 200;
+  }
+
+  /* Required Field */
+  .gfield_required {
+	color: #F9F9F5;
+	margin-left: 4px;
+  }
+}
+
+/* Focus States */
+.gform_wrapper input:focus,
+.gform_wrapper select:focus,
+.gform_wrapper textarea:focus {
+  outline: none!important;
+  border-bottom: 1px solid rgb(255, 255, 255)!important;
+  padding-left: 6px!important;
+}
+
+/* Error States */
+.gform_wrapper {
+  .gfield_error input,
+  .gfield_error select,
+  .gfield_error textarea {
+	border-color: #dc3545;
+	background-color: #fff8f8;
+  }
+
+  .validation_message {
+	color: #dc3545;
+	font-size: 14px;
+	margin: -12px 0 16px;
+  }
+}
+
+/* Grid Layout */
+.gform_wrapper.gravity-theme {
+  .gform_fields {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 16px 2%;
+	width: 100%;
+  }
+
+  .gfield {
+	grid-column: 1/-1;
+	min-width: 0;
+  }
+
+@media (min-width: 768px) {
+  	/* Grid Width Classes */
+  	.gfield--width-full               { grid-column: span 12; }
+  	.gfield--width-eleven-twelfths    { grid-column: span 11; }
+  	.gfield--width-five-sixths        { grid-column: span 10; }
+  	.gfield--width-three-quarter      { grid-column: span 9; }
+  	.gfield--width-two-thirds         { grid-column: span 8; }
+  	.gfield--width-seven-twelfths     { grid-column: span 7; }
+  	.gfield--width-half               { grid-column: span 6; }
+  	.gfield--width-five-twelfths      { grid-column: span 5; }
+  	.gfield--width-third              { grid-column: span 4; }
+  	.gfield--width-quarter            { grid-column: span 3; }
+  	.gfield--width-one-sixth          { grid-column: span 2; }
+  	.gfield--width-one-twelfth        { grid-column: span 1; }
+	}
+}

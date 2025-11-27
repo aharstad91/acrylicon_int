@@ -1,0 +1,26 @@
+{
+	"name": "acf/info-card",
+	"title": "Info Card (Blue card)",
+	"description": "A card displaying an icon and text with customizable sizes",
+	"category": "design",
+	"icon": "info",
+	"keywords": ["info", "card", "icon"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "template.php"
+	},
+	"supports": {
+		"align": true,
+		"mode": false,
+		"jsx": true
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"preview_image_help": "preview.jpg"
+			}
+		}
+	},
+	"show_in_rest": true
+}

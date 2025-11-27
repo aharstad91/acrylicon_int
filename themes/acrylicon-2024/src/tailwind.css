@@ -1,0 +1,380 @@
+/*
+ * Acrylicon WordPress Theme - Tailwind CSS
+ * Author: Andreas Harstad
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Layer - WordPress & Theme Specific Styles */
+@layer base {
+  html.sr .ani-h {
+    visibility: hidden;
+  }
+  
+  body, html, main, .iframe-container {
+    min-height: 100vh;
+    margin: 0;
+    /* Improve font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    
+    /* Prevent font from looking bold on dark backgrounds */
+    font-weight: normal;
+    
+    /* Prevent scaling blur */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: inherit;
+  }
+
+  #wpadminbar {
+    top: -32px;
+  }
+}
+
+/* WordPress Critical Styles - Outside layers to ensure they're always included */
+.alignwide {
+  margin-left: calc(25% - 25vw);
+  margin-right: calc(25% - 25vw);
+  max-width: 100vw;
+  width: auto;
+}
+
+.alignfull {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  max-width: 100vw;
+  width: 100vw;
+}
+
+@media (max-width: 920px) {
+  .alignwide {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.wp-block-list {
+  list-style: initial !important;
+}
+
+.wp-block-post-featured-image img {
+  height: 360px;
+}
+
+@media (min-width: 960px) {
+  .wp-block-post-featured-image img {
+    height: 700px;
+  }
+}
+
+.Stack {
+  width: 100% !important;
+}
+
+.blue-bg iframe {
+  width: 100% !important;
+}
+
+/* Components Layer - Custom Components */
+@layer components {
+  /* WordPress Gutenberg Specific Styles */
+  .is-style-small-gap .is-layout-grid,
+  .is-style-small-gap.editor-styles-wrapper {
+    gap: 1rem !important;
+  }
+  
+  .is-style-large-gap .is-layout-grid,
+  .is-style-large-gap.editor-styles-wrapper {
+    gap: 4rem !important;
+  }
+
+  .is-style-medium-gap .is-layout-grid,
+  .is-style-medium-gap.editor-styles-wrapper{
+    gap: 3rem !important;
+  }
+
+  .download-table ul li:first-of-type {
+    border-top: 0;
+  }
+}
+
+/* Utilities Layer - Custom Utilities */
+@layer utilities {
+  /* Custom utility classes that aren't in Tailwind */
+  .font-sohne-buch {
+    font-family: 'Soehne Buch', sans-serif;
+  }
+
+  .font-sohne-mono {
+    font-family: 'Soehne Mono', monospace;
+  }
+
+  .list-style-initial,
+  .list-style-initial ul {
+    list-style: initial;
+    list-style-position: inside;
+  }
+
+  /* Legacy class names for backward compatibility */
+  .small-gap {
+    gap: 1rem;
+  }
+
+  .x-small-gap {
+    gap: 0.25rem;
+  }
+
+  .mt-reset {
+    margin-top: 0 !important;
+  }
+
+  /* Custom fractional widths */
+  .w-1-5 {
+    width: 20%;
+  }
+
+  .w-2-6 {
+    width: 33.333333%;
+  }
+
+  .w-9-12 {
+    width: 75%;
+  }
+
+  /* Custom flex basis */
+  .flex-1-2 {
+    flex-basis: 50%;
+  }
+
+  .flex-1-3 {
+    flex-basis: 33.333%;
+  }
+
+  .flex-1-4 {
+    flex-basis: 25%;
+  }
+
+  /* Custom border colors */
+  .border-gray {
+    border-color: #52585C;
+  }
+
+  .border-slate-300 {
+    border-color: rgb(203 213 225);
+  }
+
+  /* Other custom utilities */
+  .vertical-align-middle {
+    vertical-align: middle;
+  }
+
+  .col-gap-24 {
+    column-gap: 6rem;
+  }
+
+  .col-gap-6 {
+    column-gap: 1.5rem;
+  }
+
+  .row-gap-16 {
+    row-gap: 4rem;
+  }
+
+  .row-gap-4 {
+    row-gap: 1rem;
+  }
+
+  .row-gap-2 {
+    row-gap: 0.5rem;
+  }
+}
+
+/* Block Editor Specific Styles */
+.block-editor__container .h-124.h-124 {
+  height: 31rem; /* 496px */
+}
+
+/* Block-Specific Styles - Animations and Complex Components */
+
+/* Text Scroller Block */
+.text-scroller .scroller-outer {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.text-scroller .scroller-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+.text-scroller .scroller-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation-duration: 50s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.text-scroller .scroller-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.text-scroller .scroller-item:last-child .bullet {
+  visibility: hidden;
+}
+
+.text-scroller .scroll-left .scroller-track {
+  animation-name: scroll-left;
+}
+
+.text-scroller .scroll-right .scroller-track {
+  animation-name: scroll-right;
+}
+
+.text-scroller .fade-overlay {
+  position: absolute;
+  width: 25px;
+  height: 100%;
+  top: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .text-scroller .fade-overlay {
+    width: 80px;
+  }
+}
+
+.text-scroller .fade-left {
+  left: 0;
+  background: linear-gradient(90deg, #F9F9F5 51.22%, rgba(249, 249, 245, 0) 100%);
+}
+
+.text-scroller .fade-right {
+  right: 0;
+  background: linear-gradient(270deg, #F9F9F5 51.22%, rgba(249, 249, 245, 0) 100%);
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% / 3)); }
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(calc(-100% / 3)); }
+  100% { transform: translateX(0); }
+}
+
+.text-scroller:hover .scroller-track {
+  animation-play-state: paused;
+}
+
+/* Slider Block - Swiper Styles */
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 1rem;
+  bottom: auto !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.swiper-pagination-bullet {
+  width: 40px !important;
+  height: 4px !important;
+  margin: 0 !important;
+  border-radius: 1px !important;
+  background: #DEDCCD !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #E2241C !important;
+  opacity: 1 !important;
+}
+
+.swiper-container {
+  position: relative;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  margin-top: 0;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 20px;
+  color: #111827;
+  transition: color 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: #E2241C;
+}
+
+.swiper-button-next:hover:after,
+.swiper-button-prev:hover:after {
+  color: #ffffff;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.swiper-slide {
+  width: 100% !important;
+  height: 600px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 8px;
+}
+
+.wp-admin .swiper-button-next,
+.wp-admin .swiper-button-prev,
+.wp-admin .swiper-pagination {
+  display: none;
+}

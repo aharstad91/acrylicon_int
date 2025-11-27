@@ -1,0 +1,26 @@
+{
+	"name": "acf/global-reference",
+	"title": "Global References",
+	"description": "A block showcasing references",
+	"category": "design",
+	"icon": "info",
+	"keywords": ["references", "card", "icon"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "template.php"
+	},
+	"supports": {
+		"align": true,
+		"mode": false,
+		"jsx": true
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"preview_image_help": "https://example.com/path/to/preview/image.jpg"
+			}
+		}
+	},
+	"show_in_rest": true
+}

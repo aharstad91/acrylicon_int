@@ -1,0 +1,43 @@
+/* Font Face Declarations */
+@font-face {
+	font-family: 'Söhne-Buch';
+	src: url('../fonts/soehne-buch.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Söhne-BuchKursiv';
+	src: url('../fonts/soehne-buch-kursiv.woff2') format('woff2');
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'SohneMono-Buch';
+	src: url('../fonts/soehne-mono-buch.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Font Classes */
+.font-sohne-buch {
+	font-family: 'Söhne-Buch', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.font-sohne-kursiv {
+	font-family: 'Söhne-BuchKursiv', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.font-sohne-mono {
+	font-family: 'SohneMono-Buch', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

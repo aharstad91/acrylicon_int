@@ -1,0 +1,34 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build output (compiled Tailwind CSS)
+assets/css/tailwind.css
+assets/css/tailwind.css.map
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# WordPress
+wp-config.php
+.htaccess
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

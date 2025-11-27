@@ -1,11 +1,22 @@
 # Ignorer alt som standard
 /*
 
-# Inkluder themes og plugins mappene
-!/themes/
-!/plugins/
+# Inkluder .gitignore
+!.gitignore
 
-# Ignorer cache og midlertidige filer i themes/plugins
+# === THEMES ===
+!/themes/
+/themes/*
+# Kun vårt eget tema
+!/themes/acrylicon-2024/
+
+# === PLUGINS ===
+!/plugins/
+/plugins/*
+# Legg til egne plugins her:
+# !/plugins/mitt-plugin/
+
+# === IGNORER I ALLE MAPPER ===
 **/.DS_Store
 **/Thumbs.db
 **/*.log
@@ -13,6 +24,4 @@
 **/*.swp
 **/node_modules/
 **/.sass-cache/
-
-# Inkluder .gitignore filen selv
-!.gitignore
+**/vendor/

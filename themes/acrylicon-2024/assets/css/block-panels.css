@@ -1,0 +1,264 @@
+:root {
+   /* Font sizes */
+   --h1-size: 5rem;     /* 80px */
+   --h2-size: 3rem;     /* 48px */
+   --h3-size: 2rem;     /* 32px */
+   --h4-size: 1.5rem;   /* 24px */
+   --h5-size: 1.25rem;  /* 20px */
+   --h6-size: 1rem;     /* 16px */
+   --p-size: 1.125rem;  /* 18px */
+   --small-size: 1rem;  /* 16px */
+
+   /* Mobile Font sizes */
+   --h1-size-mobile: 3rem;     /* 48px */
+   --h2-size-mobile: 2rem;     /* 32px */
+   --h3-size-mobile: 1.5rem;   /* 24px */
+   --h4-size-mobile: 1.25rem;  /* 20px */
+   --h5-size-mobile: 1rem;     /* 16px */
+   --h6-size-mobile: 0.875rem; /* 14px */
+   --p-size-mobile: 1rem;      /* 16px */
+   --small-size-mobile: 0.875rem; /* 14px */
+
+   /* Line Heights */
+   --line-height-tight: 1.1;
+   --line-height-normal: 1.2;
+   --line-height-relaxed: 1.5;
+}
+
+/* Desktop Styles */
+@media (min-width: 769px) {
+   /* Typography - Font Sizes */
+   h1.font-size-small { 
+       font-size: var(--h2-size);  /* 48px */
+       line-height: var(--line-height-normal);
+   }
+   h2.font-size-small { 
+       font-size: var(--h3-size);  /* 32px */
+       line-height: var(--line-height-normal);
+   }
+   h3.font-size-small { 
+       font-size: var(--h4-size);  /* 24px */
+       line-height: var(--line-height-relaxed);
+   }
+   h4.font-size-small { 
+       font-size: var(--h5-size);  /* 20px */
+       line-height: var(--line-height-relaxed);
+   }
+   h5.font-size-small { 
+       font-size: var(--h6-size);  /* 16px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-small { 
+       font-size: var(--small-size); /* 16px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   h1.font-size-medium { 
+       font-size: var(--h1-size);  /* 80px */
+       line-height: var(--line-height-tight);
+   }
+   h2.font-size-medium { 
+       font-size: var(--h2-size);  /* 48px */
+       line-height: var(--line-height-tight);
+   }
+   h3.font-size-medium { 
+       font-size: var(--h3-size);  /* 32px */
+       line-height: var(--line-height-normal);
+   }
+   h4.font-size-medium { 
+       font-size: var(--h4-size);  /* 24px */
+       line-height: var(--line-height-normal);
+   }
+   h5.font-size-medium { 
+       font-size: var(--h5-size);  /* 20px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-medium { 
+       font-size: var(--h6-size);  /* 16px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   h1.font-size-large { 
+       font-size: calc(var(--h1-size) * 1.2);  /* 96px */
+       line-height: var(--line-height-tight);
+   }
+   h2.font-size-large { 
+       font-size: calc(var(--h1-size) * 0.8);  /* 64px */
+       line-height: var(--line-height-tight);
+   }
+   h3.font-size-large { 
+       font-size: var(--h2-size);  /* 48px */
+       line-height: var(--line-height-normal);
+   }
+   h4.font-size-large { 
+       font-size: var(--h3-size);  /* 32px */
+       line-height: var(--line-height-normal);
+   }
+   h5.font-size-large { 
+       font-size: var(--h4-size);  /* 24px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-large { 
+       font-size: var(--h5-size);  /* 20px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   /* Column Gaps - Desktop */
+   .wp-block-columns.medium-gap {
+       gap: 2rem;
+   }
+   .wp-block-columns.large-gap {
+       gap: 4rem;
+   }
+   .wp-block-columns .small-gap {
+       gap: .5rem;
+   }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+   /* Typography - Font Sizes Mobile */
+   h1.font-size-small { 
+       font-size: var(--h2-size-mobile);  /* 32px */
+       line-height: var(--line-height-normal);
+   }
+   h2.font-size-small { 
+       font-size: var(--h3-size-mobile);  /* 24px */
+       line-height: var(--line-height-normal);
+   }
+   h3.font-size-small { 
+       font-size: var(--h4-size-mobile);  /* 20px */
+       line-height: var(--line-height-relaxed);
+   }
+   h4.font-size-small { 
+       font-size: var(--h5-size-mobile);  /* 16px */
+       line-height: var(--line-height-relaxed);
+   }
+   h5.font-size-small { 
+       font-size: var(--h6-size-mobile);  /* 14px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-small { 
+       font-size: var(--small-size-mobile); /* 14px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   h1.font-size-medium { 
+       font-size: var(--h1-size-mobile);  /* 48px */
+       line-height: var(--line-height-tight);
+   }
+   h2.font-size-medium { 
+       font-size: var(--h2-size-mobile);  /* 32px */
+       line-height: var(--line-height-tight);
+   }
+   h3.font-size-medium { 
+       font-size: var(--h3-size-mobile);  /* 24px */
+       line-height: var(--line-height-normal);
+   }
+   h4.font-size-medium { 
+       font-size: var(--h4-size-mobile);  /* 20px */
+       line-height: var(--line-height-normal);
+   }
+   h5.font-size-medium { 
+       font-size: var(--h5-size-mobile);  /* 16px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-medium { 
+       font-size: var(--h6-size-mobile); /* 14px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   h1.font-size-large { 
+       font-size: calc(var(--h1-size-mobile) * 1.2);  /* 57.6px */
+       line-height: var(--line-height-tight);
+   }
+   h2.font-size-large { 
+       font-size: calc(var(--h2-size-mobile) * 1.2);  /* 38.4px */
+       line-height: var(--line-height-tight);
+   }
+   h3.font-size-large { 
+       font-size: calc(var(--h3-size-mobile) * 1.2);  /* 28.8px */
+       line-height: var(--line-height-normal);
+   }
+   h4.font-size-large { 
+       font-size: calc(var(--h4-size-mobile) * 1.2);  /* 24px */
+       line-height: var(--line-height-normal);
+   }
+   h5.font-size-large { 
+       font-size: calc(var(--h5-size-mobile) * 1.2);  /* 19.2px */
+       line-height: var(--line-height-relaxed);
+   }
+   h6.font-size-large { 
+       font-size: calc(var(--h6-size-mobile) * 1.2);  /* 16.8px */
+       line-height: var(--line-height-relaxed);
+   }
+
+   /* Column Gaps - Mobile */
+   
+   
+   .wp-block-columns .small-gap {
+       gap: .5rem;
+   }
+
+   .wp-block-columns .medium-gap {
+       gap: 1.5rem;
+   }
+
+   .wp-block-columns .large-gap {
+       gap: 2rem;
+   }
+}
+
+/* Common styles (outside media queries) */
+/* Spacing - Margins */
+.editor .margin-top-none {
+   margin-top: 0rem;
+}
+
+.editor .margin-top-small {
+   margin-top: 1rem;
+}
+
+.editor .margin-top-medium {
+   margin-top: 2rem;
+}
+
+.editor .margin-top-large {
+   margin-top: 3rem;
+}
+
+
+
+
+.editor .margin-bottom-none {
+    margin-bottom: 0;
+}
+.editor .margin-bottom-small {
+    margin-bottom: 1rem;
+}
+.editor .margin-bottom-medium {
+    margin-bottom: 2rem ;
+}
+.editor .margin-bottom-large {
+    margin-bottom: 3rem;
+}
+
+
+/* Featured Image Styles */
+.wp-block-post-featured-image.rounded img {
+   border-radius: 8px;
+}
+
+/* Optional: Small screen adjustments */
+@media (max-width: 480px) {
+   .wp-block-columns.medium-gap {
+       gap: 1rem;
+   }
+
+   .wp-block-columns.large-gap {
+       gap: 1.5rem;
+   }
+   .wp-block-columns .small-gap {
+       gap: .5rem;
+   }
+}

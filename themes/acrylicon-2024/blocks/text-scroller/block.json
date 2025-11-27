@@ -1,0 +1,25 @@
+{
+	"name": "acf/text-scroller",
+	"title": "Text Scroller",
+	"description": "",
+	"category": "formatting",
+	"icon": "admin-page",
+	"keywords": ["feature", "meta", "acf"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "template.php"
+	},
+	"supports": {
+		"align": true,
+		"mode": false,
+		"jsx": true
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"preview_image_help": "https://example.com/path/to/preview/image.jpg"
+			}
+		}
+	}
+}
