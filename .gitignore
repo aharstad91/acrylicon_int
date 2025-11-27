@@ -1,0 +1,18 @@
+# Ignorer alt som standard
+/*
+
+# Inkluder themes og plugins mappene
+!/themes/
+!/plugins/
+
+# Ignorer cache og midlertidige filer i themes/plugins
+**/.DS_Store
+**/Thumbs.db
+**/*.log
+**/*.bak
+**/*.swp
+**/node_modules/
+**/.sass-cache/
+
+# Inkluder .gitignore filen selv
+!.gitignore
