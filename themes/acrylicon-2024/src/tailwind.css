@@ -382,3 +382,34 @@
 .wp-admin .swiper-pagination {
   display: none;
 }
+
+.wp-admin .swiper {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.wp-admin .swiper-wrapper {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wp-admin .swiper-slide {
+  flex: 0 0 auto;
+  width: 100% !important;
+  opacity: 1;
+}
+
+/* Responsive height adjustments */
+@media (max-width: 1024px) {
+  .swiper-slide {
+    height: 620px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper-slide {
+    height: 450px !important;
+  }
+}
