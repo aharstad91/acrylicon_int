@@ -85,7 +85,7 @@ if ($is_preview) {
 		<?php endif; ?>
 
 		<?php if ($link && $link_text) : ?>
-		<a class="w-fit px-8 py-3 text-white bg-red rounded-full" 
+		<a class="w-fit px-8 py-3 text-white bg-acryl-red rounded-full" 
 		   href="<?php echo esc_url(home_url($link)); ?>"
 		   aria-label="<?php echo esc_attr(sprintf(__('%s - Read more', 'your-theme-text-domain'), $title)); ?>">
 			<div class="flex gap-3 text-lg">

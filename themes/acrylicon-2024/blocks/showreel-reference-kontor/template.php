@@ -130,7 +130,7 @@ $wp_query = new WP_Query($query_args);
 										foreach($type_terms as $term): 
 											if($term->slug === 'dybdecase'): ?>
 												<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-												class="inline-block bg-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
+												class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
 													<?php echo esc_html($term->name); ?>
 												</a>
 											<?php endif;
@@ -173,7 +173,7 @@ $wp_query = new WP_Query($query_args);
 										}
 										?>
 										<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-										class="inline-block bg-neutral-3 no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
+										class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
 											<?php echo esc_html($term->name); ?>
 										</a>
 									<?php endforeach; ?>

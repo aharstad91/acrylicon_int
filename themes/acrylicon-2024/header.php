@@ -37,7 +37,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/apple-touch-icon.png" />
 	<link rel="manifest" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/site.webmanifest" />
 </head>
-<body <?php body_class('font-sohne-buch black text-base scroll-smooth bg-neutral-3 font-normal'); ?>>
+<body <?php body_class('font-sohne-buch black text-base scroll-smooth bg-acryl-beige-lightest font-normal'); ?>>
 
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJ93BLWH"
@@ -61,7 +61,7 @@
 		</div>
 	</div>
 </header>
-<header class="lg:hidden sticky relative top-0 z-50 w-full bg-neutral-3" style="height: 76px;">
+<header class="lg:hidden sticky relative top-0 z-50 w-full bg-acryl-beige-lightest" style="height: 76px;">
 	<div class="flex items-center justify-between py-4 px-4 py-2">
 		<a href="<?php echo home_url(); ?>" class="flex items-center">
 			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
@@ -81,7 +81,7 @@
 		</button>
 	</div>
 	
-	<div id="menuPanel" class="z-40 w-full h-screen bg-neutral-2 overflow-y-auto opacity-0 invisible">
+	<div id="menuPanel" class="z-40 w-full h-screen bg-acryl-beige-lighter overflow-y-auto opacity-0 invisible">
 		<?php wp_nav_menu(array(
 			'theme_location'  => 'mobile',
 			'menu_class'      => 'flex flex-col w-full',

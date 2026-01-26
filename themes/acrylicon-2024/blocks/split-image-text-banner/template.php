@@ -25,7 +25,7 @@ if (!empty($block['anchor'])) {
 /**
  * Handle block classes
  */
-$class_name = 'bg-dark-blue text-white rounded-lg overflow-hidden';
+$class_name = 'bg-acryl-dark-blue text-white rounded-lg overflow-hidden';
 if (!empty($block['className'])) {
 	$class_name .= ' ' . trim($block['className']);
 }
@@ -95,7 +95,7 @@ $class_name .= " icon-{$img_size} text-{$text_size}"; ?>
 			<?php endif; ?>
 
 			<?php if ($link && $link_text) : ?>
-			<a class="w-fit px-6 py-3 border border-solid border-neutral-1 rounded-full hover-opacity-80" 
+			<a class="w-fit px-6 py-3 border border-solid border-acryl-beige-light rounded-full hover-opacity-80" 
 		    href="<?php echo esc_url(home_url($link)); ?>"
 			   aria-label="<?php echo esc_attr(sprintf(__('%s - Read more', 'your-theme-text-domain'), $title)); ?>">
 				<div class="flex gap-3 text-lg items-center">

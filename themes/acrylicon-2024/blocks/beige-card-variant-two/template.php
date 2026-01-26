@@ -42,7 +42,7 @@ if ($excerpt) {
 	}
 }
 ?>
-<div <?php echo $anchor; ?> class="beige-card-variant-two-container bg-neutral-2 p-6 rounded-lg px-10 py-10 mb-1 <?php echo esc_attr($class_name); ?>">
+<div <?php echo $anchor; ?> class="beige-card-variant-two-container bg-acryl-beige-lighter p-6 rounded-lg px-10 py-10 mb-1 <?php echo esc_attr($class_name); ?>">
 	<div class="card-content">
 		<?php if ($title) : ?>
 			<h3 class="text-lg lg:text-2xl font-normal text-black mb-1 mb-4"><?php echo esc_html($title); ?></h3>

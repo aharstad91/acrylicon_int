@@ -38,7 +38,7 @@ $button_link = get_field('button_link');
 				<h2 class="text-2xl md:text-3xl lg:text-5xl font-normal"><?php echo esc_html($title); ?></h2>
 			</div>
 			<div>
-				<a href="<?php echo $button_link ? esc_url(home_url($button_link)) : esc_url(home_url('/')); ?>" style="white-space: nowrap; display: inline-block;" class="bg-red text-white rounded-full px-8 py-3 no-underline">
+				<a href="<?php echo $button_link ? esc_url(home_url($button_link)) : esc_url(home_url('/')); ?>" style="white-space: nowrap; display: inline-block;" class="bg-acryl-red text-white rounded-full px-8 py-3 no-underline">
 					<?php echo esc_html($button_text); ?>
 					<svg xmlns="http://www.w3.org/2000/svg" style="margin-left: 0.5rem; width: 1rem; height: 1rem; display: inline-block; vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<path d="M5 12h14"></path>

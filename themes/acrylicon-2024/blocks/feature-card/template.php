@@ -37,7 +37,7 @@ if (!empty($block['align'])) {
 			$title = get_sub_field('title');
 			$excerpt = get_sub_field('excerpt');
 			?>
-			<div class="featured-card bg-neutral-2 items-center py-6 px-4 flex gap-4 rounded-lg">
+			<div class="featured-card bg-acryl-beige-lighter items-center py-6 px-4 flex gap-4 rounded-lg">
 				<?php 
 				if ($image) {
 					echo wp_get_attachment_image($image, 'full', false, array(

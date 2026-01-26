@@ -68,7 +68,7 @@ if (have_rows('feature_card_repeater')): ?>
 			$text_class = 'info-card-description ';
 			$text_class .= ($text_size === 'large') ? 'text-2xl lg:text-3xl' : 'text-lg';
 		?>
-			<div class="flex flex-col py-8 px-8 bg-light-blue p-5 rounded-lg">
+			<div class="flex flex-col py-8 px-8 bg-acryl-light-blue p-5 rounded-lg">
 				<div>
 					<div class="icon-wrapper mb-10">
 						<?php echo wp_get_attachment_image($icon, 'thumbnail', false, array('class' => $icon_class)); ?>
@@ -83,7 +83,7 @@ if (have_rows('feature_card_repeater')): ?>
 					</div>
 				</div>
 				<?php if ($button_text && $button_link): ?>
-					<a class="flex w-fit px-4 py-2 text-white bg-dark-blue rounded-full mt-12" 
+					<a class="flex w-fit px-4 py-2 text-white bg-acryl-dark-blue rounded-full mt-12" 
 					href="<?php echo esc_url(home_url($button_link)); ?>">
 						<div class="flex gap-3 text-lg">
 							<span><?php echo esc_html($button_text); ?></span>

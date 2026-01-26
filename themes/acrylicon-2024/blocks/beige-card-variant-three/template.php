@@ -69,7 +69,7 @@ if (have_rows('beige-card-variant-three-repeater')): ?>
 				$title_class = 'font-normal ';
 				$title_class .= ($title_size === 'large') ? 'text-2xl' : 'text-lg';
 			?>
-				<div class="beige-card bg-neutral-2 rounded-lg overflow-hidden <?php echo $img ? 'md:grid md:grid-cols-2 md:auto-rows-auto' : 'block'; ?>">
+				<div class="beige-card bg-acryl-beige-lighter rounded-lg overflow-hidden <?php echo $img ? 'md:grid md:grid-cols-2 md:auto-rows-auto' : 'block'; ?>">
 					<?php if ($img): ?>
 						<div class="relative md:h-full">
 							<?php echo wp_get_attachment_image($img, 'large', false, array('class' => 'object-cover w-full md:absolute md:h-full object-center')); ?>

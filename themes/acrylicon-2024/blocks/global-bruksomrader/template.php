@@ -51,7 +51,7 @@ $wp_query = new WP_Query($query_args);
 			<?php foreach ($terms as $term): ?>
 				<li>
 					<a href="<?php echo esc_url(get_term_link($term, 'bruksomrader-kategorier')); ?>" 
-					   class="flex rounded-full px-4 py-2 border border-solid border-neutral-1 no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
+					   class="flex rounded-full px-4 py-2 border border-solid border-acryl-beige-light no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
 					   <?php echo esc_html($term->name); ?>
 					</a>
 				</li>
@@ -74,7 +74,7 @@ $wp_query = new WP_Query($query_args);
 								<div class="mb-2 absolute">
 									<?php foreach($post_terms as $term): ?>
 										<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-										class="inline-block bg-neutral-3 no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
+										class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
 											<?php echo esc_html($term->name); ?>
 										</a>
 									<?php endforeach; ?>

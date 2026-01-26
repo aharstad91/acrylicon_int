@@ -37,7 +37,7 @@ if (!empty($block['align'])) {
 			$title = get_sub_field('title');
 			$excerpt = get_sub_field('excerpt');
 			?>
-			<div class="items-start bg-neutral-2 flex gap-4 rounded-lg">
+			<div class="items-start bg-acryl-beige-lighter flex gap-4 rounded-lg">
 				<?php 
 				if ($image) {
 					echo wp_get_attachment_image($image, 'full', false, array(

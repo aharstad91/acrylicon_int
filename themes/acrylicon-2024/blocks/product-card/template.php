@@ -35,7 +35,7 @@ if (!empty($block['data']['preview_image_help'])) {
 	return;
 }
 ?>
-<div <?php echo $anchor; ?> class="bg-neutral-2 mb-6 lg:flex rounded-lg overflow-hidden <?php echo esc_attr($class_name); ?>">
+<div <?php echo $anchor; ?> class="bg-acryl-beige-lighter mb-6 lg:flex rounded-lg overflow-hidden <?php echo esc_attr($class_name); ?>">
 	<figure class="lg:w-1-3 flex-shrink-0 flex-1-3 h-full ">
 		<a href="<?php echo home_url(); ?>/<?php echo esc_html($permalink); ?>">
 			<?php echo wp_get_attachment_image($image, 'full', false, array(
@@ -57,7 +57,7 @@ if (!empty($block['data']['preview_image_help'])) {
 				$field = get_field_object('product_type');
 				$type_label = $field['choices'][$type];
 			?>
-			<div class="text-sm bg-neutral-3 border rounded-3xl py-1 px-4 border-solid border-black ">
+			<div class="text-sm bg-acryl-beige-lightest border rounded-3xl py-1 px-4 border-solid border-black ">
 				<?php echo esc_html($type_label); ?>
 			</div>
 			<?php endif; ?>-->

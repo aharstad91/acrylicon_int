@@ -25,7 +25,7 @@ $current_term_id = get_queried_object_id();
 			<?php foreach ($terms as $term): ?>
 				<li>
 					<a href="<?php echo esc_url(get_term_link($term, 'referanser-kategorier')); ?>" 
-					   class="flex rounded-full px-4 py-2 border border-solid border-neutral-1 no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
+					   class="flex rounded-full px-4 py-2 border border-solid border-acryl-beige-light no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
 					   <?php echo esc_html($term->name); ?>
 					</a>
 				</li>
@@ -51,14 +51,14 @@ $current_term_id = get_queried_object_id();
 							if (($post_terms && !is_wp_error($post_terms)) || $is_dybde_case): ?>
 								<div class="mb-2 absolute">
 									<?php if ($is_dybde_case): ?>
-										<span class="inline-block bg-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
+										<span class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
 											Dybdecase
 										</span>
 									<?php endif; ?>
 									<?php if ($post_terms && !is_wp_error($post_terms)): ?>
 										<?php foreach($post_terms as $term): ?>
 											<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-											class="inline-block bg-neutral-3 no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
+											class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
 												<?php echo esc_html($term->name); ?>
 											</a>
 										<?php endforeach; ?>

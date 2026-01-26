@@ -59,7 +59,7 @@
 													// Display category terms
 													if ($post_terms && !is_wp_error($post_terms)): 
 														foreach($post_terms as $term): ?>
-															<span class="inline-block bg-neutral-3 no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
+															<span class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
 																<?php echo esc_html($term->name); ?>
 															</span>
 														<?php endforeach;
