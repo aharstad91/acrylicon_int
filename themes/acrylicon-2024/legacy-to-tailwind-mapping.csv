@@ -1,0 +1,31 @@
+Legacy Class,Tailwind Equivalent,Action,Notes
+bg-red,bg-acryl-red,Config + Find/Replace,Custom brand color
+bg-dark-blue,bg-acryl-dark-blue,Config + Find/Replace,Custom brand color
+bg-light-blue,bg-acryl-light-blue,Config + Find/Replace,Custom brand color
+bg-neutral-1,bg-acryl-beige-light,Config + Find/Replace,Custom beige color
+bg-neutral-2,bg-acryl-beige-lighter,Config + Find/Replace,Custom beige color
+bg-neutral-3,bg-acryl-beige-lightest,Config + Find/Replace,Custom beige color
+bg-black,bg-acryl-black,Config + Find/Replace,Custom black color
+bg-gray-1,bg-acryl-gray-1,Config + Find/Replace,Custom gray (conflicts with Tailwind gray-100)
+bg-gray-2,bg-acryl-gray-2,Config + Find/Replace,Custom gray
+bg-gray-3,bg-acryl-gray-3,Config + Find/Replace,Custom gray
+text-red,text-acryl-red,Find/Replace,Uses bg-acryl-red config
+text-dark-blue,text-acryl-dark-blue,Find/Replace,Uses bg-acryl-dark-blue config
+text-light-blue,text-acryl-light-blue,Find/Replace,Uses bg-acryl-light-blue config
+text-neutral-1,text-acryl-beige-light,Find/Replace,Uses beige config
+text-neutral-2,text-acryl-beige-lighter,Find/Replace,Uses beige config
+text-neutral-3,text-acryl-beige-lightest,Find/Replace,Uses beige config
+text-gray-1,text-acryl-gray-1,Find/Replace,Uses custom gray config
+text-gray-2,text-acryl-gray-2,Find/Replace,Uses custom gray config
+text-gray-3,text-acryl-gray-3,Find/Replace,Uses custom gray config
+md-,md:,Find/Replace (syntax),Responsive prefix change (612 lines in utility-md.css)
+lg-,lg:,Find/Replace (syntax),Responsive prefix change (632 lines in utility-lg.css)
+.alignwide,Keep in tailwind.css,Already in Tailwind source,WordPress Gutenberg class
+.alignfull,Keep in tailwind.css,Already in Tailwind source,WordPress Gutenberg class
+.is-style-small-gap,Keep in tailwind.css,Already in Tailwind source,WordPress Gutenberg class
+.is-style-large-gap,Keep in tailwind.css,Already in Tailwind source,WordPress Gutwind class
+.is-style-medium-gap,Keep in tailwind.css,Already in Tailwind source,WordPress Gutenberg class
+h-124,h-[31rem],Arbitrary value (one-off),496px - used in utility.css
+h-140,h-[35rem],Arbitrary value (one-off),560px - need to audit usage
+h-150,h-[37.5rem],Arbitrary value (one-off),600px - need to audit usage
+h-160,h-[40rem],Arbitrary value (one-off),640px - need to audit usage

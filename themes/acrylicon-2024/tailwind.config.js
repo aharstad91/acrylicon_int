@@ -9,17 +9,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'red': '#E2241C',
-        'dark-blue': '#253761',
-        'light-blue': '#D5EDF7',
-        'neutral-1': '#DEDCCD',
-        'neutral-2': '#F2F1E8',
-        'neutral-3': '#F9F9F5',
-        'black': '#2B3338',
-        'gray-1': '#6E7272',
-        'gray-2': '#8D9191',
-        'gray-3': '#626262',
-        'dark': '#2B3338',
+        // Custom brand colors with acryl- prefix to avoid Tailwind conflicts
+        'acryl-red': '#E2241C',
+        'acryl-dark-blue': '#253761',
+        'acryl-light-blue': '#D5EDF7',
+        'acryl-beige': {
+          'light': '#DEDCCD',
+          'lighter': '#F2F1E8',
+          'lightest': '#F9F9F5',
+        },
+        'acryl-black': '#2B3338',
+        'acryl-gray': {
+          '1': '#6E7272',
+          '2': '#8D9191',
+          '3': '#626262',
+        },
       },
       fontFamily: {
         'sohne-buch': ['Soehne Buch', 'sans-serif'],
