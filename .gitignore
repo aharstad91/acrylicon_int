@@ -13,8 +13,14 @@
 # === PLUGINS ===
 !/plugins/
 /plugins/*
-# Legg til egne plugins her:
-# !/plugins/mitt-plugin/
+# Egne plugins:
+!/plugins/acrylicon-multisite-sync/
+
+# === MU-PLUGINS ===
+!/mu-plugins/
+
+# === DOCS ===
+!/docs/
 
 # === IGNORER I ALLE MAPPER ===
 **/.DS_Store

@@ -1,0 +1,80 @@
+.acrylicon-sync-metabox {
+	padding: 10px 0;
+}
+
+.sync-status {
+	padding: 10px;
+	margin-bottom: 15px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.sync-status.synced {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+.sync-status.not-synced {
+	background: #fff3cd;
+	border: 1px solid #ffeaa7;
+	color: #856404;
+}
+
+.sync-status .dashicons {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+}
+
+.sync-actions {
+	margin-bottom: 15px;
+}
+
+.sync-actions label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.sync-actions select {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#acrylicon-sync-button {
+	width: 100%;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+#sync-result {
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#sync-result.success {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+#sync-result.error {
+	background: #f8d7da;
+	border: 1px solid #f5c6cb;
+	color: #721c24;
+}
+
+.sync-info {
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #ddd;
+}
+
+.sync-info ul {
+	margin: 5px 0;
+}
