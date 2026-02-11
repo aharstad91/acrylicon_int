@@ -4,6 +4,46 @@
 
 ---
 
+## 2026-02-11 – Internasjonal side oversatt til engelsk
+
+### Beslutninger
+- **Full innholdsoversettelse av internasjonal side (blog 1):** All brukersynlig tekst oversatt fra norsk til engelsk — sidetitler, CPT-titler (produkter, referanser, bruksområder, gode grunner, levetidskostnader, bærekraft), forsideinnhold (17KB ACF-blokker), navigasjonsmenyer, footer-menyer, taxonomi-termer (referanser-type, referanser-kategorier, referanser-produkter).
+- **Norge-spesifikt innhold slettet fra internasjonal:** 3 sider (Karriere, Nyhetsbrev, Komponenter) og 5 norske kontorposter slettet. Karriere-blokk erstattet med "Global presence"-blokk.
+- **Dynamisk flerspråklig footer:** `footer.php` bruker `get_current_blog_id()` for å vise "Applications"/"Bruksområder" og "Offices"/"Kontorer" per site.
+- **Hardkodet "Dybdecase" fikset:** `specific-references-loop/template.php` rendrer nå taxonomi-termnavn dynamisk i stedet for hardkodet norsk tekst. "Filtrer på industri" gjort dynamisk.
+- **Yoast SEO oppdatert:** Tittel og meta description for forsiden oversatt til engelsk.
+
+### Resultater
+- Navigasjon: Benefits, Applications, References, Products, About AcryliCon, Contact
+- Forside: Alle 17KB ACF-blokkinnhold på engelsk
+- Footer: Engelske overskrifter og menyelementer
+- Taxonomier: "Case study" (fra "Dybdecase"), "Schools and public buildings" (fra "Skoler og offentlige bygg"), produktsystemer "Floor"/"Wall" (fra "Gulv"/"Vegg")
+- SEO-tittel: "AcryliCon – When sustainability and durability meet"
+
+### Observasjoner
+- **WP Fastest Cache var vanskelig:** Cache måtte tømmes på domene-nivå (`cache/acryli-28355.jana-osl.servebolt.cloud/`), ikke bare `cache/all/`. Browser-cache krevde også cache-busting query parameters.
+- **Mange hardkodede norske strenger i templates:** "Dybdecase" i reference-block, "Filtrer på industri", footer-overskrifter. Multisite-oppsett krever systematisk gjennomgang av alle templates for hardkodet tekst.
+- **URL-slugs er fortsatt norske:** `/fordeler/`, `/bruksomrader/`, `/referanser/`, `/baerekraft/` etc. Fungerer, men ikke ideelt for SEO.
+- **Footer "Offices"-kolonnen er tom:** Norske kontorer slettet, ingen internasjonale kontor-CPTs opprettet ennå.
+
+### Parkert / Åpne spørsmål
+- **URL-slugs:** Bør oversettes til engelsk for SEO (`/benefits/`, `/applications/`, `/references/`). Krever slug-oppdatering + redirects.
+- **Fabrikk-side:** Bruker nevnte eksplisitt behov for en dedikert fabrikkside (AcryliCon Polymers GmbH).
+- **CPT body content:** Kun titler er oversatt. Brødtekst i produkter, referanser, bruksområder etc. er fortsatt norsk.
+- **Internasjonale kontorer:** Trenger nye kontor-CPTs for internasjonale lokasjoner.
+- **Andre templates med hardkodet norsk:** Bør gjøre en systematisk gjennomgang av alle block-templates.
+
+### Retning
+**Den internasjonale forsiden ser nå profesjonell og engelskspråklig ut.** Monika og stakeholders vil se tydelig fremgang. Navigasjon, forside, footer — alt er oversatt og konsistent.
+
+Neste naturlige steg for internasjonal:
+1. **Oversett CPT-innhold** — Produktbeskrivelser, referansetekster, bruksområder-tekster. Forsiden linker til disse.
+2. **Fabrikk-side** — Ny eksklusiv side for AcryliCon Polymers GmbH.
+3. **URL-slugs** — Oversett til engelske URLer med redirects.
+4. **Kontor-CPTs** — Opprett internasjonale kontorer.
+
+---
+
 ## 2026-02-11 – Multisite-sync plugin deployet til produksjon
 
 ### Beslutninger
