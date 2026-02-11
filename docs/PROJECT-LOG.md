@@ -4,11 +4,38 @@
 
 ---
 
-## 2026-02-11 – Beslutning: SuperOffice beholdes
+## 2026-02-11 – Multisite-sync plugin deployet til produksjon
 
 ### Beslutninger
-- **Gravity Forms erstatter IKKE SuperOffice ennå.** SuperOffice brukes videre som CRM inntil videre. Gravity Forms + Zapier → SuperOffice-integrasjon er parkert.
-- **Neste steg:** Deploy multisite-sync plugin + mu-plugins til prod, slik at lokal og prod er i sync.
+- **Security fix #006 implementert:** Lagt til `validate_file()` i media handler med 3-stegs validering (extension + MIME, WordPress whitelist, getimagesize for bilder). Filer valideres FØR kopiering mellom sites.
+- **Todo #004 nedgradert fra P1 til P2:** Refererer til R2-sync-kode som ikke eksisterer ennå. Blir relevant først når R2-integrasjon (#008) bygges.
+- **Plugin deployet:** `acrylicon-multisite-sync` og `acrylicon-shared-taxonomies.php` (mu-plugin) nå aktive på produksjon.
+- **Gravity Forms/SuperOffice:** SuperOffice beholdes som CRM inntil videre. Gravity Forms-integrasjon parkert.
+
+### Resultater
+- Plugin: Aktivert uten feil på PHP 8.4
+- MU-plugin: Automatisk lastet (shared taxonomies mellom sites)
+- Sikkerhet: Media handler blokkerer nå ugyldige filtyper, polyglot-angrep, og ikke-tillatte MIME-typer
+
+### Observasjoner
+- **Pluginet er kompakt og godt strukturert:** 696 linjer fordelt på 6 klasser. Draft-first sync pattern med cleanup på feil. Solid fundament.
+- **6 av 8 P1 todos er R2-relaterte:** #001, #002, #003, #005, #007, #008 handler alle om Cloudflare R2 som ikke er satt opp ennå. Disse er P1 for R2-funksjonalitet, men irrelevante inntil R2 faktisk bygges. Vurder bulk-nedgradering til P2.
+- **Produksjon er nå i sync med lokal:** Tema (Tailwind), plugin (multisite-sync), og mu-plugin (shared-taxonomies) er alle deployet.
+
+### Parkert / Åpne spørsmål
+- **R2-relaterte todos (#001-003, #005, #007-008):** Bør nedgraderes til P2. De er reelle issues, men for kode/infrastruktur som ikke finnes ennå.
+- **Automatisk deploy-pipeline:** Manuell scp fungerer, men er feilbar. Bør vi sette opp en enkel deploy-script?
+- **Plugin-testing i prod:** Ingen referanser er synkronisert ennå. Bør teste sync-funksjonaliteten med ett testinnlegg.
+
+### Retning
+**Infrastrukturen er nå komplett:** HTTPS, Tailwind, PageSpeed 99/100, multisite-sync plugin — alt er på plass. Fundamentet er solid.
+
+Neste naturlige steg er **forretningsverdi**, ikke mer infrastruktur:
+1. **SEO 69 → 90+** — Meta descriptions, Open Graph, JSON-LD. Direkte synlighet.
+2. **Test sync i prod** — Synkroniser en referanse fra hovedsite til Norway. Bevis at pluginet fungerer.
+3. **Gravity Forms** — Erstatte SuperOffice iFrames når tiden er inne.
+
+Det harde spørsmålet gjenstår: *Bruker vi mer tid på .no, eller starter vi .com (Fase 2)?* Med alt på plass nå er .no i svært god stand. SEO er den siste lavthengende frukten som gir direkte forretningsverdi.
 
 ---
 
