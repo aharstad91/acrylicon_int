@@ -82,31 +82,25 @@ function enqueue_gutenberg_admin_styles() {
 		array(),
 		filemtime(get_template_directory() . '/assets/css/editor.css')
 	);
-	wp_enqueue_style(
-		'utility',
-		get_template_directory_uri() . '/assets/css/utility.css',
-		array(),
-		'1.0.0'
-	);
-	
-	wp_enqueue_style(
-		'utility-md',
-		get_template_directory_uri() . '/assets/css/utility-md.css',
-		array(),
-		'1.0.0'
-	);
-	
-	wp_enqueue_style(
-		'utility-lg',
-		get_template_directory_uri() . '/assets/css/utility-lg.css',
-		array(),
-		'1.0.0'
-	);
+
+	// Legacy utility files removed - now using Tailwind CSS
+	// wp_enqueue_style('utility', get_template_directory_uri() . '/assets/css/utility.css', array(), '1.0.0');
+	// wp_enqueue_style('utility-md', get_template_directory_uri() . '/assets/css/utility-md.css', array(), '1.0.0');
+	// wp_enqueue_style('utility-lg', get_template_directory_uri() . '/assets/css/utility-lg.css', array(), '1.0.0');
+
 	wp_enqueue_style(
 		'gravity',
 		get_template_directory_uri() . '/assets/css/gravity.css',
 		array(),
 		'1.0.0'
+	);
+
+	// Tailwind CSS for block editor - replaces utility files
+	wp_enqueue_style(
+		'tailwind-editor',
+		get_template_directory_uri() . '/assets/css/tailwind.css',
+		array(),
+		filemtime(get_template_directory() . '/assets/css/tailwind.css')
 	);
 }
 add_action('enqueue_block_editor_assets', 'enqueue_gutenberg_admin_styles');

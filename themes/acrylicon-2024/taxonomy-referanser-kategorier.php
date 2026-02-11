@@ -81,7 +81,7 @@ $terms = get_terms([
 										<?php if ($post_terms && !is_wp_error($post_terms)): ?>
 											<?php foreach($post_terms as $term): ?>
 												<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-												class="inline-block bg-neutral-3 no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
+												class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
 													<?php echo esc_html($term->name); ?>
 												</a>
 											<?php endforeach; ?>

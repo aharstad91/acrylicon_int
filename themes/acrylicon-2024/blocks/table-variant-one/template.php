@@ -40,7 +40,7 @@ if (!empty($block['align'])) {
 				$row_class = $is_red ? 'row-red' : '';
 				$text_class = $is_red ? 'text-red' : 'text-dark';
 				// Set detail text class based on red_color field
-				$detail_class = $is_red ? '' : 'text-gray-1';
+				$detail_class = $is_red ? '' : 'text-acryl-gray-1';
 		?>
 			<li class="table-row <?php echo esc_attr($row_class); ?> border-t border-solid border-gray-200">
 				<dl class="grid grid-cols-2 py-4 <?php echo esc_attr($text_class); ?>">

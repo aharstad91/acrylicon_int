@@ -22,6 +22,9 @@
 # === DOCS ===
 !/docs/
 
+# === CREDENTIALS ===
+docs/security/credentials.md
+
 # === IGNORER I ALLE MAPPER ===
 **/.DS_Store
 **/Thumbs.db

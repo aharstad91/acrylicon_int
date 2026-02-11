@@ -1,0 +1,27 @@
+Block Name,Frontend Tested,Editor Tested,Visual Issues,CSS Classes Working,Notes
+feature-card,No,No,,,
+beige-card-variant-two,No,No,,,
+beige-card-variant-three,No,No,,,Simple block - style.css deleted
+blue-card-variant-two,No,No,,,
+info-card,No,No,,,Simple block - style.css deleted
+office-staff-card,No,No,,,
+global-reference,No,No,,,Simple block - style.css deleted
+contact-form,No,No,,,
+product-card,No,No,,,
+showreel-reference-bruksomrader,No,No,,,
+showreel-reference-produkter,No,No,,,
+showreel-reference-kontor,No,No,,,
+technical-info-table,No,No,,,
+download-list,No,No,,,
+download-table,No,No,,,
+split-image-text-banner,No,No,,,
+split-image-text-card,No,No,,,
+global-bruksomrader,No,No,,,
+office-contact-card,No,No,,,
+slider-block,No,No,,,Complex block - migrated to tailwind.css
+specific-references-loop,No,No,,,Simple block - style.css deleted
+image-split,No,No,,,
+table-variant-one,No,No,,,
+header-with-red-back-link,No,No,,,
+text-scroller,No,No,,,Complex block - migrated to tailwind.css
+section-title-with-red-button-right,No,No,,,

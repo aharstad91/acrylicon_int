@@ -58,7 +58,7 @@ if ($styles) {
 
 <div <?php echo $wrapper_attributes; ?>>
 	<div class="staff-card-inner flex flex-col overflow-hidden max-w-sm">
-		<div class="bg-neutral-2 pt-12 mb-4 rounded-lg">
+		<div class="bg-acryl-beige-lighter pt-12 mb-4 rounded-lg">
 			<?php 
 			$image_id = get_field('image');
 			if($image_id): ?>
@@ -69,7 +69,7 @@ if ($styles) {
 					array('class' => 'block h-72 w-full object-cover object-center my-0')
 				); ?>
 			<?php else: ?>
-				<div class="block h-72 w-full bg-neutral-100 flex items-center justify-center my-0">
+				<div class="block h-72 w-full bg-acryl-beige-light00 flex items-center justify-center my-0">
 					<svg class="w-24 h-24 text-neutral-300" fill="currentColor" viewBox="0 0 24 24">
 						<path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8c0 2.208-1.79 4-3.998 4-2.208 0-3.998-1.792-3.998-4s1.79-4 3.998-4c2.208 0 3.998 1.792 3.998 4z"/>
 					</svg>
@@ -92,7 +92,7 @@ if ($styles) {
 				<?php endif; ?>
 			</header>
 
-			<div class="font-sohne-mono text-gray-3">
+			<div class="font-sohne-mono text-acryl-gray-3">
 				<?php if($tel = get_field('tel')): ?>
 					<div class="flex items-center">
 						<a href="tel:+47<?php echo str_replace(' ', '', esc_attr($tel)); ?>">

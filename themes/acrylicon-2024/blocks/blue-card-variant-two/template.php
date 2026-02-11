@@ -43,7 +43,7 @@ $className .= " {$columns_count}";
 				$link = get_sub_field('link');
 				
 				// Add border class if card is active/checked
-				$card_class = 'bg-light-blue rounded-lg flex flex-row items-center justify-between px-4 lg:px-6 py-4 lg:py-8';
+				$card_class = 'bg-acryl-light-blue rounded-lg flex flex-row items-center justify-between px-4 lg:px-6 py-4 lg:py-8';
 				if ($active) {
 					$card_class .= ' border border-solid border-black';
 				}

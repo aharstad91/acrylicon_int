@@ -15,7 +15,7 @@ if (!empty($block['anchor'])) {
 }
 
 // Create class attribute allowing for custom "className" and "align" values.
-$className = 'info-card bg-light-blue p-5 rounded-lg max-w-sm mx-auto';
+$className = 'info-card bg-acryl-light-blue p-5 rounded-lg max-w-sm mx-auto';
 if (!empty($block['className'])) {
 	$className .= ' ' . $block['className'];
 }
