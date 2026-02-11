@@ -4,6 +4,59 @@
 
 ---
 
+## 2026-02-11 – PageSpeed 69 → 99 (mobil) / 100 (desktop)
+
+### Beslutninger
+- **Deferred non-critical CSS:** gravity.css, swiper.css og block-panels.css lastes nå med `media="print" onload="this.media='all'"`. Fjerner dem fra render-blocking chain uten å miste funksjonalitet.
+- **Deferred jQuery:** La til `defer`-attributt på jquery.min.js og jquery-migrate.min.js via `script_loader_tag`-filter. Trygt fordi ingen inline jQuery brukes på forsiden — alt jQuery-avhengig er i scripts.js (footer).
+- **WebP-konvertering og auto-serving:** Konverterte nøkkelbilder på forsiden med `cwebp` (quality 80). La til `.htaccess`-rewrite som automatisk serverer .webp-filer når browser sender `Accept: image/webp`. Hero-bilde: 862 KiB PNG → 51 KiB WebP (94% reduksjon).
+- **Tidligere i sesjonen:** Fjernet duplisert ScrollReveal (unpkg), IE-fix script, hardcoded Swiper CSS/JS. Flyttet Swiper til wp_enqueue. La til `preload="metadata"` på video-blokker.
+
+### Resultater
+
+| Metrikk | Før | Etter (mobil) | Desktop |
+|---|---|---|---|
+| Performance | 69 | **99** | **100** |
+| FCP | 2.0s | **0.9s** | 0.2s |
+| LCP | 11.3s | **2.2s** | 0.7s |
+| TBT | 130ms | **60ms** | — |
+| Speed Index | 5.1s | **0.9s** | — |
+| Accessibility | 79 | **84** | 90 |
+
+### Observasjoner
+- **LCP-flaskehalsen var todelt:** Render-blocking CSS/JS-kjede (4,410ms → 650ms etter defer) + enorm hero-PNG (862K). Begge måtte fikses for å få effekt — bare én av dem ville ikke gitt 99.
+- **WebP .htaccess-rewrite er elegant:** Browsere som støtter WebP får automatisk WebP. Gamle browsere (finnes de?) får original. Ingen WordPress-kode endret for bildene.
+- **Kun forsidebilder konvertert til WebP.** Resten av bildene på siten er fortsatt JPEG/PNG. Bør kjøre bulk-konvertering for hele uploads-mappen.
+- **SEO-score er fortsatt 69.** Dette er meta/struktur-relatert (meta descriptions, structured data), ikke PageSpeed.
+
+### Parkert / Åpne spørsmål
+- ~~**WebP-konvertering:** Bør vurderes som neste optimalisering.~~ — Løst for forsiden, men trenger bulk-konvertering for resten.
+- **Bulk WebP-konvertering:** Bør kjøre `cwebp` på alle JPEG/PNG i uploads/ for å dekke hele siten.
+- **Automatisk WebP ved upload:** Bør settes opp slik at nye bilder automatisk konverteres til WebP.
+- **SEO 69 → 90+:** Trenger meta descriptions, Open Graph, structured data (JSON-LD).
+
+---
+
+## 2026-02-11 – Bildekomprimering (5 GB frigjort)
+
+### Beslutninger
+- **522 JPEGs over 5MB komprimert** med ImageMagick `mogrify` på prod: resize til maks 2400px, kvalitet 82, progressive, strip metadata.
+- **Resultat:** 7.0 GB → 443 MB for de 522 filene. Uploads-mappen gikk fra 11 GB til 3.8 GB. Servebolt-lagring ned fra 10.48 GB til 5.56 GB.
+- Ingen originaler beholdt — filene er overskrevet in-place. For web-bruk er 2400px og kvalitet 82 mer enn tilstrekkelig.
+- Største enkeltfiler var 30-34 MB rå kamerabilder (7952x5304) fra 2022-fotoshoot, duplisert mellom hovedsite og sites/3/ (Norway).
+
+### Observasjoner
+- **Duplisering mellom subsites:** sites/3/ (Norway) var 5.2 GB — nesten identisk med hovedsitens uploads. Multisite kopierer media per subsite i stedet for å dele. Dette skalerer dårlig med flere land.
+- **Ingen WebP:** Kun 10 WebP-filer totalt. Konvertering til WebP ville gitt ytterligere ~30-50% besparelse.
+- **PDFs:** 60 MB i store PDFs — ubetydelig foreløpig.
+
+### Parkert / Åpne spørsmål
+- **Media-skalering for multisite:** Trenger en løsning som deler media mellom subsites i stedet for å duplisere. Alternativer: Cloudflare R2, shared uploads-mappe, eller WP Offload Media.
+- **WebP-konvertering:** Bør vurderes som neste optimalisering.
+- **Automatisk komprimering:** Bør settes opp slik at nye uploads komprimeres automatisk (ShortPixel, Imagify, eller server-side hook).
+
+---
+
 ## 2026-02-11 – Tailwind deploy + HTTPS
 
 ### Beslutninger

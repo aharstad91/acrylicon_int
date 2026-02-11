@@ -41,13 +41,18 @@ function theme_enqueue_scripts() {
 	// Tailwind CSS - replaces utility.css, utility-md.css, and utility-lg.css
 	wp_enqueue_style('tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), filemtime(get_template_directory() . '/assets/css/tailwind.css'));
 
+	// Swiper (was hardcoded in header.php and footer.php)
+	wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
+	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('scrollreveal', get_template_directory_uri() . '/assets/scripts/scrollreveal.min.js', array(), '1.0.0', false);
+	wp_enqueue_script('scrollreveal', get_template_directory_uri() . '/assets/scripts/scrollreveal.min.js', array(), '1.0.0', true);
 	wp_enqueue_script('scrollock', get_template_directory_uri() . '/assets/scripts/bodyScrollLock.js', array(), '1.0.0', true);
 	wp_enqueue_script('headroom', get_template_directory_uri() . '/assets/scripts/headroom.js', array(), '1.0.0', true);
-	wp_enqueue_script('scripts', get_template_directory_uri() . '/assets/scripts/scripts.js', array(), '1.0.0', true);
+	wp_enqueue_script('scripts', get_template_directory_uri() . '/assets/scripts/scripts.js', array('jquery', 'scrollreveal'), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
+
 
 function enqueue_custom_block_editor_assets() {
 	wp_enqueue_script(
@@ -294,6 +299,42 @@ function register_acf_blocks() {
 	}
 }
 
+// Optimize video blocks: add preload="metadata" to reduce LCP impact
+function optimize_video_block($block_content, $block) {
+	if ($block['blockName'] === 'core/video') {
+		$block_content = str_replace('<video ', '<video preload="metadata" ', $block_content);
+	}
+	return $block_content;
+}
+add_filter('render_block', 'optimize_video_block', 10, 2);
+
+// Defer non-critical CSS to reduce render-blocking (PageSpeed: saves ~1,160ms)
+function defer_non_critical_css($html, $handle, $href, $media) {
+	$defer_handles = array('gravity', 'custom-block-styles', 'swiper');
+	if (in_array($handle, $defer_handles) && !is_admin()) {
+		return sprintf(
+			'<link rel="stylesheet" id="%s-css" href="%s" media="print" onload="this.media=\'all\'">' . "\n" .
+			'<noscript><link rel="stylesheet" href="%s" media="%s"></noscript>' . "\n",
+			esc_attr($handle),
+			esc_url($href),
+			esc_url($href),
+			esc_attr($media)
+		);
+	}
+	return $html;
+}
+add_filter('style_loader_tag', 'defer_non_critical_css', 10, 4);
+
+// Add defer to jQuery to stop it from render-blocking (PageSpeed: saves ~680ms)
+function add_defer_to_scripts($tag, $handle, $src) {
+	$defer_handles = array('jquery-core', 'jquery-migrate');
+	if (in_array($handle, $defer_handles) && !is_admin()) {
+		return str_replace(' src=', ' defer src=', $tag);
+	}
+	return $tag;
+}
+add_filter('script_loader_tag', 'add_defer_to_scripts', 10, 3);
+
 // SVG Support
 function cc_mime_types($mimes) {
 	$mimes['svg'] = 'image/svg+xml';
@@ -319,16 +360,6 @@ add_filter('edit_post_link', function($link, $post_id, $text) {
 
 
 
-add_action('init', 'debug_registered_blocks', 30);
-
-function debug_registered_blocks() {
-	if (function_exists('acf_get_block_types')) {
-		$blocks = acf_get_block_types();
-		error_log('Registered ACF Blocks: ' . print_r($blocks, true));
-	} else {
-		error_log('ACF function acf_get_block_types does not exist');
-	}
-}
 
 require_once get_template_directory() . '/assets/components/register.php';
 require_once get_template_directory() . '/assets/components/titles.php';
