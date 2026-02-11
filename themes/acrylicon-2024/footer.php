@@ -15,7 +15,7 @@
 			<div class="space-y-8">
 				<!-- Industri Section -->
 				<div class="space-y-4">
-					<h2 class="text-base font-normal mb-4">Bruksområder</h2>
+					<h2 class="text-base font-normal mb-4"><?php echo ( get_current_blog_id() === 1 ) ? 'Applications' : 'Bruksområder'; ?></h2>
 					<?php
 					wp_nav_menu(array(
 						'theme_location'  => 'footer-three',
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="space-y-4">
-				<h2 class="text-base font-normal mb-4">Kontorer</h2>
+				<h2 class="text-base font-normal mb-4"><?php echo ( get_current_blog_id() === 1 ) ? 'Offices' : 'Kontorer'; ?></h2>
 				<?php
 				wp_nav_menu(array(
 					'theme_location'  => 'footer-four',

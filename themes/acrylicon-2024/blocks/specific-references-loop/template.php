@@ -20,7 +20,7 @@ $current_term_id = get_queried_object_id();
 
 <?php if ($show_taxonomy && !empty($terms) && !is_wp_error($terms)): ?>
 	<div class="mb-8">
-		<h4 class="font-sohne-mono">Filtrer på industri</h4>
+		<h4 class="font-sohne-mono"><?php echo ( get_current_blog_id() === 1 ) ? 'Filter by industry' : 'Filtrer på industri'; ?></h4>
 		<ul class="mt-4 flex flex-wrap gap-2 px-0 list-none reference-tax">
 			<?php foreach ($terms as $term): ?>
 				<li>
@@ -47,12 +47,14 @@ $current_term_id = get_queried_object_id();
 							$post_terms = get_the_terms($post->ID, 'referanser-kategorier');
 							$product_terms = get_the_terms($post->ID, 'referanser-produkter');
 							$is_dybde_case = has_term('dybdecase', 'referanser-type', $post->ID);
-							
+
 							if (($post_terms && !is_wp_error($post_terms)) || $is_dybde_case): ?>
 								<div class="mb-2 absolute">
-									<?php if ($is_dybde_case): ?>
+									<?php if ($is_dybde_case):
+										$type_term = get_term_by('slug', 'dybdecase', 'referanser-type');
+									?>
 										<span class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
-											Dybdecase
+											<?php echo $type_term ? esc_html($type_term->name) : 'Case study'; ?>
 										</span>
 									<?php endif; ?>
 									<?php if ($post_terms && !is_wp_error($post_terms)): ?>
