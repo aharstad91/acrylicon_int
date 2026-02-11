@@ -35,6 +35,17 @@
 - **Automatisk WebP ved upload:** Bør settes opp slik at nye bilder automatisk konverteres til WebP.
 - **SEO 69 → 90+:** Trenger meta descriptions, Open Graph, structured data (JSON-LD).
 
+### Retning
+Fundamentet er nå solid: **Performance 99/100, HTTPS, Tailwind deployet, lagring under kontroll (5.56 GB).** Det er den viktigste forutsetningen for alt som kommer — AI Search og Google belønner rask side.
+
+Neste prioriteter bør være:
+1. **SEO 69 → 90+** — Meta descriptions, Open Graph, JSON-LD structured data. Dette er lavthengende frukt som direkte påvirker synlighet.
+2. **Bulk WebP-konvertering** — Forsiden er fikset, men undersider serverer fortsatt tunge JPEG/PNG. Kan automatiseres med et script.
+3. **Cloudflare R2** (todo #008) — Ikke akutt nå (5.56/10 GB), men blir det når flere land legges til.
+4. **Gravity Forms + Zapier → SuperOffice** — Erstatte iFrames. Viktig for konvertering.
+
+Det harde spørsmålet: *Er det verdt å bruke mer tid på .no nå, eller bør fokus flyttes til .com (Fase 2)?* Med 99/100 PageSpeed og HTTPS er .no i god nok stand til å stå. SEO-forbedring og Gravity Forms gir direkte forretningsverdi. R2 og bulk WebP er "nice to have" inntil multisite-skalering faktisk blir et problem.
+
 ---
 
 ## 2026-02-11 – Bildekomprimering (5 GB frigjort)
