@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-02-11 – Beslutning: SuperOffice beholdes
+
+### Beslutninger
+- **Gravity Forms erstatter IKKE SuperOffice ennå.** SuperOffice brukes videre som CRM inntil videre. Gravity Forms + Zapier → SuperOffice-integrasjon er parkert.
+- **Neste steg:** Deploy multisite-sync plugin + mu-plugins til prod, slik at lokal og prod er i sync.
+
+---
+
 ## 2026-02-11 – PageSpeed 69 → 99 (mobil) / 100 (desktop)
 
 ### Beslutninger

@@ -27,6 +27,11 @@ class Media_Handler {
 			return false;
 		}
 
+		// Validate file type before copying
+		if ( ! $this->validate_file( $file_path, $attachment_id ) ) {
+			return false;
+		}
+
 		// Switch to target site
 		switch_to_blog( $target_blog_id );
 
@@ -49,10 +54,13 @@ class Media_Handler {
 			return false;
 		}
 
+		// Get validated MIME type
+		$filetype = wp_check_filetype( basename( $new_file ) );
+
 		// Register attachment in database
 		$attachment_data = [
 			'guid' => $upload_dir['url'] . '/' . $filename,
-			'post_mime_type' => mime_content_type( $new_file ),
+			'post_mime_type' => $filetype['type'] ?: mime_content_type( $new_file ),
 			'post_title' => pathinfo( $filename, PATHINFO_FILENAME ),
 			'post_content' => '',
 			'post_status' => 'inherit'
@@ -72,5 +80,41 @@ class Media_Handler {
 
 		restore_current_blog();
 		return $attach_id;
+	}
+
+	/**
+	 * Validate file type and content before copying
+	 *
+	 * @param string $file_path Absolute path to source file
+	 * @param int $attachment_id Source attachment ID (for logging)
+	 * @return bool True if file is safe to copy
+	 */
+	private function validate_file( $file_path, $attachment_id ) {
+		$basename = basename( $file_path );
+
+		// Validate extension and MIME type
+		$filetype = wp_check_filetype_and_ext( $file_path, $basename );
+
+		if ( ! $filetype['ext'] || ! $filetype['type'] ) {
+			error_log( "[Acrylicon Sync] Blocked: invalid file type for attachment $attachment_id ($basename)" );
+			return false;
+		}
+
+		// Check against WordPress allowed MIME types
+		$allowed_mimes = get_allowed_mime_types();
+		if ( ! in_array( $filetype['type'], $allowed_mimes, true ) ) {
+			error_log( "[Acrylicon Sync] Blocked: MIME type {$filetype['type']} not allowed for attachment $attachment_id ($basename)" );
+			return false;
+		}
+
+		// Verify image files are actually valid images (blocks polyglot attacks)
+		if ( str_starts_with( $filetype['type'], 'image/' ) && 'image/svg+xml' !== $filetype['type'] ) {
+			if ( false === @getimagesize( $file_path ) ) {
+				error_log( "[Acrylicon Sync] Blocked: file claims image but fails validation for attachment $attachment_id ($basename)" );
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
