@@ -38,7 +38,7 @@ if (!empty($block['align'])) {
 				
 				// Set row class based on red_color field
 				$row_class = $is_red ? 'row-red' : '';
-				$text_class = $is_red ? 'text-red' : 'text-dark';
+				$text_class = $is_red ? 'text-acryl-red' : 'text-dark';
 				// Set detail text class based on red_color field
 				$detail_class = $is_red ? '' : 'text-acryl-gray-1';
 		?>

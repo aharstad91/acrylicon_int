@@ -38,7 +38,7 @@ $title = get_field('title');
 
 <div <?php echo $anchor; ?> class="<?php echo esc_attr($class_name); ?> mb-8">
 	<?php if ($back_text && $back_link_text) : ?>
-		<a href="<?php echo esc_url(home_url($back_link_text)); ?>" class="text-red flex items-center gap-2 text-red-600 mb-4 font-sohne-mono">
+		<a href="<?php echo esc_url(home_url($back_link_text)); ?>" class="text-acryl-red flex items-center gap-2 mb-4 font-sohne-mono">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
 				<path d="M19 12H5"></path>
 				<path d="M12 19l-7-7 7-7"></path>

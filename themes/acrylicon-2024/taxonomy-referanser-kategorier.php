@@ -28,7 +28,7 @@ $references_query = new WP_Query( [
 
 <div class="max-w-screen-2xl mx-auto px-4 mt-44 pb-8">
 	<div class="header-with-red-back-link mb-8">
-		<a href="<?php bloginfo( 'url' ); ?>/<?php echo $is_english ? 'references' : 'referanser'; ?>" class="text-red flex items-center gap-2 text-red-600 mb-4 font-sohne-mono">
+		<a href="<?php bloginfo( 'url' ); ?>/<?php echo $is_english ? 'references' : 'referanser'; ?>" class="text-acryl-red flex items-center gap-2 mb-4 font-sohne-mono">
 			<?php echo svg_icon( 'arrow', [
 				'width'  => '16px',
 				'height' => '16px',

@@ -11,7 +11,7 @@
 				<div class="">
 					<?php foreach($category_terms as $term): ?>
 						<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-				   		class="flex-shrink no-wrap bg-red text-white rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300">
+				   		class="flex-shrink no-wrap bg-acryl-red text-white rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300">
 							<?php echo esc_html($term->name); ?>
 						</a>
 					<?php endforeach; ?>
@@ -100,7 +100,7 @@
 													if ($type_terms && !is_wp_error($type_terms)): 
 														foreach($type_terms as $term): 
 															if($term->slug === 'dybdecase'): ?>
-																<span class="inline-block bg-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
+																<span class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 relative top-3 left-3">
 																	<?php echo esc_html($term->name); ?>
 																</span>
 															<?php endif;
