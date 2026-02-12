@@ -1,8 +1,7 @@
 /* Product Sheet Print Styles */
 
-/* Elements to hide when printing */
 @media print {
-	/* Hide site header, footer, nav, print button, download section */
+	/* ===== HIDE NON-PRINT ELEMENTS ===== */
 	body > header,
 	body > footer,
 	.print-hide,
@@ -11,104 +10,172 @@
 		display: none !important;
 	}
 
-	/* Remove page padding that accounts for fixed header */
+	/* ===== PAGE SETUP ===== */
+	@page {
+		size: A4 portrait;
+		margin: 8mm 10mm;
+	}
+
+	body {
+		background: white !important;
+		font-size: 10pt !important;
+		line-height: 1.4 !important;
+	}
+
+	/* Remove all screen-specific spacing */
 	.product-sheet {
-		padding-top: 0 !important;
+		padding: 0 !important;
 		margin: 0 !important;
 		max-width: none !important;
 	}
 
-	/* Reset body background for print */
-	body {
-		background: white !important;
-		font-size: 11pt !important;
-	}
-
-	/* A4 page setup */
-	@page {
-		size: A4 portrait;
-		margin: 10mm;
-	}
-
-	/* Force colors to print */
-	.product-sheet-content {
+	/* ===== FORCE COLORS (even without "Background graphics" checkbox) ===== */
+	*,
+	*::before,
+	*::after {
 		print-color-adjust: exact !important;
 		-webkit-print-color-adjust: exact !important;
 	}
 
-	/* Dark blue header/footer backgrounds */
-	.product-sheet-header,
-	.product-sheet-footer {
-		print-color-adjust: exact !important;
-		-webkit-print-color-adjust: exact !important;
-	}
-
-	/* Beige card backgrounds */
-	.bg-acryl-beige-lighter {
-		print-color-adjust: exact !important;
-		-webkit-print-color-adjust: exact !important;
-	}
-
-	/* Remove rounded corners and shadows for cleaner print */
+	/* ===== SHEET CONTAINER ===== */
 	.product-sheet-content {
 		border-radius: 0 !important;
 		box-shadow: none !important;
 	}
 
-	/* Hero image sizing for print */
+	/* ===== HEADER ===== */
+	.product-sheet-header {
+		padding: 12px 20px !important;
+	}
+
+	.product-sheet-header h1 {
+		font-size: 22pt !important;
+		line-height: 1.2 !important;
+	}
+
+	.product-sheet-header p {
+		font-size: 8pt !important;
+		margin-bottom: 2px !important;
+	}
+
+	.print-logo {
+		width: 140px !important;
+	}
+
+	/* ===== HERO IMAGE — compact for print ===== */
 	.product-sheet-hero img {
-		height: 200px !important;
+		height: 160px !important;
 		object-fit: cover;
+		display: block;
 	}
 
-	/* Prevent page breaks inside sections */
-	.print-section {
-		break-inside: avoid;
+	/* ===== MAIN CONTENT AREA ===== */
+	.product-sheet-content > div:not(.product-sheet-hero) {
+		padding: 10px 20px !important;
 	}
 
-	/* Ensure page breaks work between sections */
-	.product-sheet-content > div {
-		break-inside: avoid;
+	/* ===== SECTION HEADINGS ===== */
+	.product-sheet-content h2 {
+		font-size: 12pt !important;
+		margin-bottom: 6px !important;
+		padding-bottom: 4px !important;
 	}
 
-	/* Feature cards — tighter for print */
-	.product-sheet .grid.lg\:grid-cols-2 {
-		grid-template-columns: repeat(2, 1fr) !important;
+	/* ===== SECTION SPACING ===== */
+	.product-sheet-content .mb-12 {
+		margin-bottom: 20px !important;
+	}
+
+	.product-sheet-content .space-y-12 > * + * {
+		margin-top: 20px !important;
+	}
+
+	/* ===== DESCRIPTION + BENEFITS (full width, stacked) ===== */
+	.product-sheet-content .editor,
+	.product-sheet-content .editor p {
+		font-size: 9pt !important;
+		line-height: 1.4 !important;
+	}
+
+	/* Benefits list */
+	.product-sheet-content .space-y-3 > li {
+		margin-bottom: 4px !important;
+		font-size: 9pt !important;
+		line-height: 1.3 !important;
+	}
+
+	/* ===== FEATURE CARDS (full width, stacked) ===== */
+	.product-sheet-content .bg-acryl-beige-lighter.p-4 {
+		padding: 6px 8px !important;
+		font-size: 8pt !important;
+	}
+
+	.product-sheet-content .bg-acryl-beige-lighter.p-4 img {
+		width: 32px !important;
+		height: 32px !important;
+	}
+
+	.product-sheet-content .bg-acryl-beige-lighter.p-4 p {
+		font-size: 8pt !important;
+		line-height: 1.3 !important;
+		margin-bottom: 1px !important;
+	}
+
+	/* ===== TECHNICAL INFO TABLE ===== */
+	.product-sheet-content dl {
+		display: flex !important;
 		gap: 8px !important;
 	}
 
-	/* Technical info table — force 2-column layout */
-	.product-sheet dl.md\:flex {
-		display: flex !important;
+	.product-sheet-content dl dt,
+	.product-sheet-content dl dd {
+		font-size: 9pt !important;
+		line-height: 1.3 !important;
 	}
 
-	/* Logo sizing for print */
-	.print-logo {
-		width: 180px !important;
+	.product-sheet-content .py-3 {
+		padding-top: 4px !important;
+		padding-bottom: 4px !important;
 	}
 
-	/* Links — show URL on print */
-	.product-sheet-content a[href]:not(.print-hide a)::after {
-		content: none; /* Don't show URLs, keeps it clean like the PDF */
+	/* ===== FOOTER ===== */
+	.product-sheet-footer {
+		padding: 8px 20px !important;
+		font-size: 8pt !important;
 	}
 
-	/* Reduce spacing for print */
-	.product-sheet-content .mb-12 {
-		margin-bottom: 1.5rem !important;
+	.product-sheet-footer img {
+		width: 100px !important;
 	}
 
-	.product-sheet-content .py-8 {
-		padding-top: 1rem !important;
-		padding-bottom: 1rem !important;
+	/* ===== PAGE BREAK CONTROL ===== */
+	/*
+	 * Fixed page layout:
+	 *   Page 1: Header + hero + description/benefits + features
+	 *   Page 2: Technical info + footer
+	 * Empty space at bottom of page 1 is intentional.
+	 */
+
+	/* Page 2 starts here */
+	.print-page-2 {
+		break-before: page !important;
 	}
 
-	.product-sheet-content .lg\:py-12 {
-		padding-top: 1.5rem !important;
-		padding-bottom: 1.5rem !important;
+	/* Keep small elements together */
+	.product-sheet-content .bg-acryl-beige-lighter {
+		break-inside: avoid;
+	}
+
+	.product-sheet-content dl {
+		break-inside: avoid;
+	}
+
+	.product-sheet-footer {
+		break-inside: avoid;
 	}
 }
 
-/* Screen-only: sheet looks like a page even on screen */
+/* ===== SCREEN ONLY ===== */
 @media screen {
 	.product-sheet-content {
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);

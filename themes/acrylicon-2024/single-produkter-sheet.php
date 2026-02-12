@@ -48,9 +48,9 @@ get_header();
 
 		<div class="px-8 lg:px-16 py-8 lg:py-12">
 
-			<?php // Description + Benefits side by side ?>
+			<?php // Description + Benefits ?>
 			<?php if ( $sheet['description'] || $sheet['benefits'] ) : ?>
-			<section class="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 print-section">
+			<section class="space-y-12 mb-12 print-section">
 				<?php if ( $sheet['description'] ) : ?>
 				<div>
 					<h2 class="text-lg lg:text-2xl font-normal mb-4 pb-3 border-b border-solid border-gray-2">
@@ -86,7 +86,7 @@ get_header();
 				<h2 class="text-lg lg:text-2xl font-normal mb-6 pb-3 border-b border-solid border-gray-2">
 					<?php echo $is_english ? 'System Features' : 'Systemegenskaper'; ?>
 				</h2>
-				<div class="grid lg:grid-cols-2 gap-3">
+				<div class="space-y-3">
 					<?php foreach ( $sheet['features'] as $feature ) : ?>
 					<div class="bg-acryl-beige-lighter p-4 rounded-lg flex items-start gap-4">
 						<?php if ( ! empty( $feature['image'] ) ) : ?>
@@ -108,9 +108,9 @@ get_header();
 			</section>
 			<?php endif; ?>
 
-			<?php // Technical information ?>
+			<?php // Technical information — starts on page 2 in print ?>
 			<?php if ( $sheet['technical_info'] ) : ?>
-			<section class="mb-12 print-section">
+			<section class="mb-12 print-page-2">
 				<h2 class="text-lg lg:text-2xl font-normal mb-6 pb-3 border-b border-solid border-gray-2">
 					<?php echo $is_english ? 'Technical Information' : 'Teknisk informasjon'; ?>
 				</h2>

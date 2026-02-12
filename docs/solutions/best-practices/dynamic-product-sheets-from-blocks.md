@@ -34,13 +34,19 @@ Used `query_vars` filter + `template_include` filter to load a custom template w
 ### Print CSS
 - `@media print` hides header, footer, nav, print button
 - `print-color-adjust: exact` forces background colors
-- `break-inside: avoid` on sections prevents splitting
-- A4 page size with 10mm margins
+- `break-before: page` on `.print-page-2` for fixed page assignments (more reliable than `break-inside: avoid` on large containers)
+- A4 page size with 8mm/10mm margins
+- Full-width stacked layout (simpler than 2-col for print)
 
 ## Gotchas
 - **Short paragraphs captured as description**: Tags like "Produkter" got picked up. Fixed by filtering paragraphs shorter than 50 chars.
 - **Recursive block parsing needed**: Content blocks are nested inside `wp:group` and `wp:columns` wrappers. Must recurse into innerBlocks.
 - **Image IDs vs URLs**: ACF block image fields store attachment IDs, not URLs. Use `wp_get_attachment_image()` to render.
+- **Print page layout**: `break-inside: avoid` on large containers pushes everything to page 2. Better approach: assign sections to fixed pages with `break-before: page`.
+- **Tailwind class compilation**: New utility classes (e.g., `space-y-12`) require `npm run build:css` before they appear.
+
+## Status
+**Proof of concept** — not part of MVP. Feature is functional but hidden (only accessible via `?view=sheet` on product URLs). Not linked from any page or navigation.
 
 ## Files
 - `inc/product-sheet-helpers.php` — Block parser
