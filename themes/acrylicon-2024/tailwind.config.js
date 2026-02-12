@@ -2,12 +2,18 @@
 module.exports = {
   content: [
     './*.php',
+    './inc/**/*.php',
     './blocks/**/*.php',
     './assets/**/*.js',
     './assets/components/**/*.php',
   ],
   theme: {
     extend: {
+      fontSize: {
+        'xl':  ['1.25rem', '2.25rem'],
+        '3xl': ['1.875rem', '2.75rem'],
+        '7xl': ['5rem', '1.25'],
+      },
       colors: {
         // Custom brand colors with acryl- prefix to avoid Tailwind conflicts
         'acryl-red': '#E2241C',
