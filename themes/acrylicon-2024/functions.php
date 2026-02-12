@@ -53,6 +53,19 @@ function theme_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
 
+// Reference grid filter — only load when the block is on the page
+function acrylicon_enqueue_reference_filter() {
+	if ( has_block( 'acf/global-reference' ) ) {
+		wp_enqueue_script(
+			'reference-filter',
+			get_template_directory_uri() . '/assets/js/reference-filter.js',
+			array(),
+			filemtime( get_template_directory() . '/assets/js/reference-filter.js' ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'acrylicon_enqueue_reference_filter' );
 
 function enqueue_custom_block_editor_assets() {
 	wp_enqueue_script(

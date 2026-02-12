@@ -1,222 +1,216 @@
 <?php
 /**
  * Block Name: References Grid
- * Description: A block to display reference posts in a grid layout with category filter
+ * Description: Display reference posts with client-side filtering by industry, product, and office.
  */
 
-// Get selected posts
-$selected_posts = get_field('specific_references');
-$show_taxonomy = get_field('show_taxonomy') ?: false;
-$post_count = get_field('post_count') ?: -1; // Default to all posts if not specified
+$is_english    = ( get_current_blog_id() === 1 );
+$show_taxonomy = get_field( 'show_taxonomy' ) ?: false;
+$post_count    = get_field( 'post_count' ) ?: -1;
+$selected_posts = get_field( 'specific_references' );
 
-// Get all terms for the navigation
-$terms = get_terms([
-	'taxonomy' => 'referanser-kategorier',
-	'hide_empty' => true,
-]);
+// Query all references (or selected subset)
+if ( $selected_posts ) {
+	$references = $selected_posts;
+} else {
+	$query = new WP_Query( [
+		'post_type'      => 'referanser',
+		'posts_per_page' => $post_count,
+		'post_status'    => 'publish',
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	] );
+	$references = $query->posts;
+	wp_reset_postdata();
+}
 
-// Get current term ID from URL if we're on a taxonomy archive
-$current_term_id = get_queried_object_id();
+if ( empty( $references ) ) {
+	echo '<p class="text-gray-600">' . ( $is_english ? 'No references found.' : 'Ingen referanser funnet.' ) . '</p>';
+	return;
+}
 
-// Store original query
-global $wp_query;
-$original_query = $wp_query;
+// Pre-fetch all taxonomy data and sort: case studies first, then by date
+$cards = [];
+foreach ( $references as $ref ) {
+	$post_id = is_object( $ref ) ? $ref->ID : $ref;
+
+	$cat_terms     = get_the_terms( $post_id, 'referanser-kategorier' ) ?: [];
+	$product_terms = get_the_terms( $post_id, 'referanser-produkter' ) ?: [];
+	$office_terms  = get_the_terms( $post_id, 'referanser-kontor' ) ?: [];
+	$type_terms    = get_the_terms( $post_id, 'referanser-type' ) ?: [];
+
+	$is_case_study = false;
+	if ( is_array( $type_terms ) ) {
+		foreach ( $type_terms as $t ) {
+			if ( in_array( $t->slug, [ 'dybdecase', 'case-study' ], true ) ) {
+				$is_case_study = true;
+				break;
+			}
+		}
+	}
+
+	$cards[] = [
+		'id'            => $post_id,
+		'is_case_study' => $is_case_study,
+		'date'          => get_post_field( 'post_date', $post_id ),
+		'categories'    => is_array( $cat_terms ) ? $cat_terms : [],
+		'products'      => is_array( $product_terms ) ? $product_terms : [],
+		'offices'       => is_array( $office_terms ) ? $office_terms : [],
+	];
+}
+
+// Sort: case studies first, then newest first
+usort( $cards, function ( $a, $b ) {
+	if ( $a['is_case_study'] !== $b['is_case_study'] ) {
+		return $b['is_case_study'] <=> $a['is_case_study'];
+	}
+	return strcmp( $b['date'], $a['date'] );
+} );
+
+// Collect terms for filter UI (only terms that actually appear on these posts)
+$filter_categories = [];
+$filter_products   = [];
+$filter_offices    = [];
+
+foreach ( $cards as $card ) {
+	foreach ( $card['categories'] as $t ) {
+		$filter_categories[ $t->slug ] = $t->name;
+	}
+	foreach ( $card['products'] as $t ) {
+		$filter_products[ $t->slug ] = $t->name;
+	}
+	foreach ( $card['offices'] as $t ) {
+		// Strip "Acrylicon" prefix for cleaner display
+		$name = preg_replace( '/^Acrylicon\s+/i', '', $t->name );
+		$filter_offices[ $t->slug ] = $name;
+	}
+}
+
+asort( $filter_categories );
+asort( $filter_products );
+asort( $filter_offices );
+
+$total = count( $cards );
 ?>
 
-<?php if ($show_taxonomy && !empty($terms) && !is_wp_error($terms)): ?>
-	<div class="mb-8">
-		<h4 class="font-sohne-mono">Filtrer på industri</h4>
-		<ul class="mt-4 flex flex-wrap gap-2 px-0 list-none reference-tax">
-			<?php foreach ($terms as $term): ?>
-				<li>
-					<a href="<?php echo esc_url(get_term_link($term, 'referanser-kategorier')); ?>" 
-					   class="flex rounded-full px-4 py-2 border border-solid border-acryl-beige-light no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
-					   <?php echo esc_html($term->name); ?>
-					</a>
-				</li>
+<?php if ( $show_taxonomy ) : ?>
+<div class="reference-filters mb-10 space-y-6" data-total="<?php echo $total; ?>">
+
+	<?php if ( $filter_categories ) : ?>
+	<div class="filter-group" data-filter-taxonomy="categories">
+		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Industry' : 'Industri'; ?></h4>
+		<div class="flex flex-wrap gap-2">
+			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
+				<?php echo $is_english ? 'All' : 'Alle'; ?>
+			</button>
+			<?php foreach ( $filter_categories as $slug => $name ) : ?>
+			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
+				<?php echo esc_html( $name ); ?>
+			</button>
 			<?php endforeach; ?>
-		</ul>
+		</div>
 	</div>
+	<?php endif; ?>
+
+	<?php if ( $filter_products ) : ?>
+	<div class="filter-group" data-filter-taxonomy="products">
+		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Product system' : 'Produktsystem'; ?></h4>
+		<div class="flex flex-wrap gap-2">
+			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
+				<?php echo $is_english ? 'All' : 'Alle'; ?>
+			</button>
+			<?php foreach ( $filter_products as $slug => $name ) : ?>
+			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
+				<?php echo esc_html( $name ); ?>
+			</button>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php endif; ?>
+
+	<?php if ( $filter_offices ) : ?>
+	<div class="filter-group" data-filter-taxonomy="offices">
+		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Office' : 'Kontor'; ?></h4>
+		<div class="flex flex-wrap gap-2">
+			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
+				<?php echo $is_english ? 'All' : 'Alle'; ?>
+			</button>
+			<?php foreach ( $filter_offices as $slug => $name ) : ?>
+			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
+				<?php echo esc_html( $name ); ?>
+			</button>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php endif; ?>
+
+	<p class="reference-count font-sohne-mono text-sm text-acryl-gray-1">
+		<?php echo $is_english ? 'Showing' : 'Viser'; ?>
+		<span class="reference-count-visible"><?php echo $total; ?></span>
+		<?php echo $is_english ? 'of' : 'av'; ?>
+		<?php echo $total; ?>
+		<?php echo $is_english ? 'references' : 'referanser'; ?>
+	</p>
+</div>
 <?php endif; ?>
 
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-<?php
-// Check if specific posts are selected
-if ($selected_posts): 
-	// Use selected posts
-	foreach ($selected_posts as $post): 
-		setup_postdata($post);
-		?>
-		<div class="flex flex-col">
-			<?php if (has_post_thumbnail($post)): ?>
-				<div class="mb-4">
-					<div class="block relative">
-						<?php 
-						// Get the terms for the current post
-						$post_terms = get_the_terms($post->ID, 'referanser-kategorier');
-						$product_terms = get_the_terms($post->ID, 'referanser-produkter');
-						$type_terms = get_the_terms($post->ID, 'referanser-type');
-						
-						if (($post_terms && !is_wp_error($post_terms)) || ($type_terms && !is_wp_error($type_terms))): ?>
-							<div class="mb-2 absolute">
-								<?php 
-								// First display dybdecase if it exists
-								if ($type_terms && !is_wp_error($type_terms)): 
-									foreach($type_terms as $term): 
-										if($term->slug === 'dybdecase'): ?>
-											<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-											class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
-												<?php echo esc_html($term->name); ?>
-											</a>
-										<?php endif;
-									endforeach;
-								endif; ?>
-								<?php if ($post_terms && !is_wp_error($post_terms)): ?>
-									<?php foreach($post_terms as $term): ?>
-										<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-										class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
-											<?php echo esc_html($term->name); ?>
-										</a>
-									<?php endforeach; ?>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
-						<a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="block">
-							<?php 
-							echo get_the_post_thumbnail($post->ID, 'large', array(
-								'class' => 'h-124 w-full object-cover rounded-lg',
-								'alt'   => get_the_title($post->ID)
-							)); 
-							?>
-						</a>
-					</div>
+<div class="reference-grid grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+	<?php foreach ( $cards as $card ) :
+		$post_id       = $card['id'];
+		$is_case_study = $card['is_case_study'];
+
+		$cat_slugs     = implode( ',', wp_list_pluck( $card['categories'], 'slug' ) );
+		$product_slugs = implode( ',', wp_list_pluck( $card['products'], 'slug' ) );
+		$office_slugs  = implode( ',', wp_list_pluck( $card['offices'], 'slug' ) );
+	?>
+	<div class="reference-card flex flex-col<?php echo $is_case_study ? ' lg:col-span-2' : ''; ?>"
+		data-categories="<?php echo esc_attr( $cat_slugs ); ?>"
+		data-products="<?php echo esc_attr( $product_slugs ); ?>"
+		data-offices="<?php echo esc_attr( $office_slugs ); ?>"
+		data-type="<?php echo $is_case_study ? 'case-study' : 'reference'; ?>">
+
+		<?php if ( has_post_thumbnail( $post_id ) ) : ?>
+		<div class="mb-4">
+			<div class="block relative">
+				<div class="absolute top-3 left-3 flex flex-wrap gap-1 z-10">
+					<?php if ( $is_case_study ) : ?>
+						<span class="inline-block bg-acryl-red text-white rounded-full px-3 py-1 text-sm">
+							<?php echo $is_english ? 'Case Study' : 'Dybdecase'; ?>
+						</span>
+					<?php endif; ?>
+					<?php foreach ( $card['categories'] as $term ) : ?>
+						<span class="inline-block bg-acryl-beige-lightest rounded-full px-3 py-1 text-sm">
+							<?php echo esc_html( $term->name ); ?>
+						</span>
+					<?php endforeach; ?>
 				</div>
-			<?php endif; ?>
-			<h3 class="text-3xl font-normal my-0 mb-2">
-				<a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="no-underline">
-					<?php echo get_the_title($post->ID); ?>
+				<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="block">
+					<?php echo get_the_post_thumbnail( $post_id, 'large', [
+						'class' => 'w-full object-cover rounded-lg h-124',
+						'alt'   => get_the_title( $post_id ),
+					] ); ?>
 				</a>
-			</h3>
-			<?php if ($product_terms && !is_wp_error($product_terms)): ?>
-				<div class="text-base black font-sohne-mono">
-					<?php 
-					$product_names = array_map(function($term) {
-						return esc_html($term->name);
-					}, $product_terms);
-					echo implode(', ', $product_names);
-					?>
-				</div>
-			<?php endif; ?>
-			<?php if (has_excerpt($post->ID)): ?>
-				<p class="text-gray-600">
-					<?php echo get_the_excerpt($post->ID); ?>
-				</p>
-			<?php endif; ?>
-		</div>
-	<?php endforeach; 
-	wp_reset_postdata();
-else: 
-	// No specific posts selected, query all reference posts
-	$query_args = [
-		'post_type' => 'referanser',
-		'posts_per_page' => $post_count,
-		'post_status' => 'publish',
-		'orderby' => 'date',
-		'order' => 'DESC'
-	];
-	
-	// Add tax query if we're on a taxonomy archive
-	if ($current_term_id && term_exists($current_term_id, 'referanser-kategorier')) {
-		$query_args['tax_query'] = [
-			[
-				'taxonomy' => 'referanser-kategorier',
-				'field'    => 'term_id',
-				'terms'    => $current_term_id,
-			]
-		];
-	}
-	
-	$references_query = new WP_Query($query_args);
-	
-	if ($references_query->have_posts()):
-		while ($references_query->have_posts()): $references_query->the_post();
-			$post = get_post();
-			?>
-			<div class="flex flex-col">
-				<?php if (has_post_thumbnail($post->ID)): ?>
-					<div class="mb-4">
-						<div class="block relative">
-							<?php 
-							// Get the terms for the current post
-							$post_terms = get_the_terms($post->ID, 'referanser-kategorier');
-							$product_terms = get_the_terms($post->ID, 'referanser-produkter');
-							$type_terms = get_the_terms($post->ID, 'referanser-type');
-							
-							if (($post_terms && !is_wp_error($post_terms)) || ($type_terms && !is_wp_error($type_terms))): ?>
-								<div class="mb-2 absolute">
-									<?php 
-									// First display dybdecase if it exists
-									if ($type_terms && !is_wp_error($type_terms)): 
-										foreach($type_terms as $term): 
-											if($term->slug === 'dybdecase'): ?>
-												<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-												class="inline-block bg-acryl-red text-white no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
-													<?php echo esc_html($term->name); ?>
-												</a>
-											<?php endif;
-										endforeach;
-									endif; ?>
-									<?php if ($post_terms && !is_wp_error($post_terms)): ?>
-										<?php foreach($post_terms as $term): ?>
-											<a href="<?php echo esc_url(get_term_link($term)); ?>" 
-											class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
-												<?php echo esc_html($term->name); ?>
-											</a>
-										<?php endforeach; ?>
-									<?php endif; ?>
-								</div>
-							<?php endif; ?>
-							<a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="block">
-								<?php 
-								echo get_the_post_thumbnail($post->ID, 'large', array(
-									'class' => 'h-124 w-full object-cover rounded-lg',
-									'alt'   => get_the_title($post->ID)
-								)); 
-								?>
-							</a>
-						</div>
-					</div>
-				<?php endif; ?>
-				<h3 class="text-3xl font-normal my-0 mb-2">
-					<a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="no-underline">
-						<?php echo get_the_title($post->ID); ?>
-					</a>
-				</h3>
-				<?php if ($product_terms && !is_wp_error($product_terms)): ?>
-					<div class="text-base black font-sohne-mono">
-						<?php 
-						$product_names = array_map(function($term) {
-							return esc_html($term->name);
-						}, $product_terms);
-						echo implode(', ', $product_names);
-						?>
-					</div>
-				<?php endif; ?>
-				<?php if (has_excerpt($post->ID)): ?>
-					<p class="text-gray-600">
-						<?php echo get_the_excerpt($post->ID); ?>
-					</p>
-				<?php endif; ?>
 			</div>
-		<?php endwhile;
-		wp_reset_postdata();
-	else: ?>
-		<p class="text-gray-600">No references found.</p>
-	<?php endif;
-endif; ?>
+		</div>
+		<?php endif; ?>
+
+		<h3 class="<?php echo $is_case_study ? 'text-4xl' : 'text-3xl'; ?> font-normal my-0 mb-2">
+			<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="no-underline">
+				<?php echo get_the_title( $post_id ); ?>
+			</a>
+		</h3>
+
+		<?php if ( $card['products'] ) : ?>
+		<div class="text-base text-black font-sohne-mono">
+			<?php echo esc_html( implode( ', ', wp_list_pluck( $card['products'], 'name' ) ) ); ?>
+		</div>
+		<?php endif; ?>
+
+		<?php if ( has_excerpt( $post_id ) ) : ?>
+		<p class="text-acryl-gray-1 mt-2">
+			<?php echo get_the_excerpt( $post_id ); ?>
+		</p>
+		<?php endif; ?>
+	</div>
+	<?php endforeach; ?>
 </div>
-<?php 
-// Restore original query
-$wp_query = $original_query;
-wp_reset_query();
-?>
