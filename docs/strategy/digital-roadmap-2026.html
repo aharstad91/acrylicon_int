@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital veikart for AcryliCon 2026–2027</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --dark-blue: #253761;
+            --red: #E2241C;
+            --light-blue: #D5EDF7;
+            --light-blue-soft: #EBF5FA;
+            --neutral-1: #f8f9fa;
+            --neutral-2: #e9ecef;
+            --neutral-3: #dee2e6;
+            --gray-1: #6c757d;
+            --gray-2: #495057;
+            --gray-3: #343a40;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-3);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* ---- HERO ---- */
+        .hero {
+            background: var(--dark-blue);
+            color: var(--white);
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 50%;
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--light-blue);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero h1 span {
+            color: var(--light-blue);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-meta {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ---- LAYOUT ---- */
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        section + section {
+            border-top: 1px solid var(--neutral-2);
+        }
+
+        /* ---- INTRO ---- */
+        .intro {
+            background: var(--neutral-1);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .intro p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--gray-2);
+        }
+
+        .intro p + p {
+            margin-top: 16px;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .value-item {
+            background: var(--white);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .value-item-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .value-item h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+
+        .value-item p {
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            color: var(--gray-1) !important;
+        }
+
+        /* ---- PHASE HEADER ---- */
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .phase-number {
+            width: 56px;
+            height: 56px;
+            background: var(--dark-blue);
+            color: var(--white);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .phase-number.active {
+            background: var(--red);
+        }
+
+        .phase-header-text h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            line-height: 1.2;
+        }
+
+        .phase-header-text span {
+            font-size: 14px;
+            color: var(--gray-1);
+            font-weight: 500;
+        }
+
+        /* ---- SOLUTION CARD ---- */
+        .solution-card {
+            background: var(--white);
+            border: 1px solid var(--neutral-2);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .solution-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .solution-card-header {
+            padding: 32px 32px 0;
+        }
+
+        .solution-card-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+
+        .solution-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--red);
+            background: rgba(226, 36, 28, 0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .solution-card-body {
+            padding: 24px 32px 32px;
+        }
+
+        .situation-block {
+            background: var(--neutral-1);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        .situation-block-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 8px;
+        }
+
+        .situation-block p {
+            font-size: 15px;
+            color: var(--gray-2);
+            line-height: 1.7;
+        }
+
+        .result-block {
+            background: var(--light-blue-soft);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        .result-block-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .result-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-block li {
+            font-size: 15px;
+            color: var(--gray-2);
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .result-block li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .solution-card-footer {
+            display: flex;
+            border-top: 1px solid var(--neutral-2);
+        }
+
+        .footer-stat {
+            flex: 1;
+            padding: 20px 32px;
+            text-align: center;
+        }
+
+        .footer-stat + .footer-stat {
+            border-left: 1px solid var(--neutral-2);
+        }
+
+        .footer-stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 4px;
+        }
+
+        .footer-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .footer-stat-value.saving {
+            color: #16a34a;
+        }
+
+        .footer-stat-note {
+            font-size: 12px;
+            color: var(--gray-1);
+            margin-top: 2px;
+        }
+
+        /* ---- PHASE SUMMARY ---- */
+        .phase-summary {
+            background: var(--neutral-1);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .phase-summary-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-1);
+        }
+
+        .phase-summary-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        /* ---- OVERVIEW TABLE ---- */
+        .overview-section {
+            background: var(--dark-blue);
+            color: var(--white);
+            border-top: none;
+        }
+
+        .overview-section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .overview-section .section-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            margin-bottom: 48px;
+        }
+
+        .overview-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(255,255,255,0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 48px;
+        }
+
+        .overview-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .overview-table td {
+            padding: 16px 24px;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .overview-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .overview-table .phase-name {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .overview-table .phase-period {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .overview-table .phase-amount {
+            font-weight: 700;
+            color: var(--light-blue);
+            text-align: right;
+        }
+
+        .overview-table .total-row td {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            font-weight: 700;
+            font-size: 17px;
+            padding-top: 20px;
+        }
+
+        .overview-table .total-row .phase-amount {
+            color: var(--white);
+        }
+
+        /* ---- PERSPECTIVE ---- */
+        .perspective-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .perspective-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .perspective-card .big-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--light-blue);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .perspective-card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.5;
+        }
+
+        .perspective-quote {
+            background: rgba(255,255,255,0.04);
+            border-left: 3px solid var(--light-blue);
+            padding: 24px 28px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 48px;
+        }
+
+        .perspective-quote p {
+            font-size: 17px;
+            font-style: italic;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+        }
+
+        /* ---- RETAINER ---- */
+        .retainer-section {
+            background: var(--neutral-1);
+            border-top: none;
+        }
+
+        .retainer-card {
+            background: var(--white);
+            border: 2px solid var(--dark-blue);
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .retainer-card-header {
+            background: var(--dark-blue);
+            color: var(--white);
+            padding: 28px 32px;
+            text-align: center;
+        }
+
+        .retainer-card-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .retainer-card-header p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .retainer-card-body {
+            padding: 32px;
+        }
+
+        .retainer-price {
+            text-align: center;
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .retainer-price .amount {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--dark-blue);
+        }
+
+        .retainer-price .period {
+            font-size: 16px;
+            color: var(--gray-1);
+            font-weight: 400;
+        }
+
+        .retainer-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .retainer-features li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray-2);
+        }
+
+        .retainer-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .retainer-note {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--neutral-2);
+            font-size: 13px;
+            color: var(--gray-1);
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* ---- CLOSING ---- */
+        .closing {
+            text-align: center;
+            padding: 80px 40px;
+            background: var(--white);
+        }
+
+        .closing h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 12px;
+        }
+
+        .closing p {
+            font-size: 16px;
+            color: var(--gray-1);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ---- NAV ---- */
+        .phase-nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neutral-2);
+            z-index: 100;
+            padding: 0 40px;
+        }
+
+        .phase-nav-inner {
+            max-width: 840px;
+            margin: 0 auto;
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+        }
+
+        .phase-nav a {
+            display: block;
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-1);
+            text-decoration: none;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .phase-nav a:hover {
+            color: var(--dark-blue);
+            border-bottom-color: var(--neutral-3);
+        }
+
+        /* ---- PRINT ---- */
+        @media print {
+            .phase-nav { display: none; }
+            .hero { padding: 40px; }
+            section { padding: 40px 0; }
+            .solution-card { break-inside: avoid; }
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 700px) {
+            .hero { padding: 60px 24px; }
+            .hero h1 { font-size: 32px; }
+            .container { padding: 0 24px; }
+            .value-grid { grid-template-columns: 1fr; }
+            .perspective-cards { grid-template-columns: 1fr; }
+            .solution-card-header { padding: 24px 24px 0; }
+            .solution-card-body { padding: 20px 24px 24px; }
+            .solution-card-footer { flex-direction: column; }
+            .footer-stat + .footer-stat { border-left: none; border-top: 1px solid var(--neutral-2); }
+            .phase-summary { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="phase-nav">
+    <div class="phase-nav-inner">
+        <a href="#intro">Bakgrunn</a>
+        <a href="#phase-1">Fase 1 – Grunnmur</a>
+        <a href="#phase-2">Fase 2 – Selgerverktøy</a>
+        <a href="#phase-3">Fase 3 – Kundeverktøy</a>
+        <a href="#phase-4">Fase 4 – Profesjonalisering</a>
+        <a href="#phase-5">Fase 5 – Vekst</a>
+        <a href="#overview">Totalbilde</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <span class="hero-label">Strategisk veikart</span>
+    <h1>Fra nettside til<br><span>digital plattform</span></h1>
+    <p class="hero-subtitle">Hvordan AcryliCon kan spare tid, styrke salget og skalere internasjonalt med smarte digitale verktøy.</p>
+    <p class="hero-meta">Utarbeidet av Andreas Harstad &middot; Februar 2026</p>
+</header>
+
+<!-- INTRO -->
+<section class="intro" id="intro">
+    <div class="container">
+        <p>AcryliCon har investert i ny visuell profil, moderne nettsted og internasjonal lansering. Grunnmuren er på plass.</p>
+        <p>Neste steg er å bruke nettstedet som mer enn en digital brosjyre. All informasjon om produkter, referanser, sertifiseringer og kontorer finnes allerede i systemet. Ved å bygge verktøy på toppen av disse dataene kan vi skape reell forretningsverdi:</p>
+
+        <div class="value-grid">
+            <div class="value-item">
+                <div class="value-item-icon">⏱</div>
+                <h3>Spare tid og penger</h3>
+                <p>Erstatte manuelt arbeid med automatiserte løsninger</p>
+            </div>
+            <div class="value-item">
+                <div class="value-item-icon">📊</div>
+                <h3>Styrke salget</h3>
+                <p>Gi selgerne konkrete verktøy til kundemøter</p>
+            </div>
+            <div class="value-item">
+                <div class="value-item-icon">🏗</div>
+                <h3>Enklere for fagfolk</h3>
+                <p>Gjøre det lettest mulig å spesifisere AcryliCon</p>
+            </div>
+            <div class="value-item">
+                <div class="value-item-icon">🌍</div>
+                <h3>Skalere globalt</h3>
+                <p>Alt fungerer automatisk for alle land</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PHASE 1 -->
+<section id="phase-1">
+    <div class="container">
+        <div class="phase-header">
+            <div class="phase-number active">1</div>
+            <div class="phase-header-text">
+                <h2>Grunnmuren</h2>
+                <span>Q1 2026 &middot; Pågår</span>
+            </div>
+        </div>
+
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Under arbeid</div>
+                <h3>Internasjonal nettside</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Løsningen</div>
+                    <p>Engelskspråklig nettside bygd som en del av WordPress multisite — samme design og kvalitet som den norske. Arkitekturen er bygd slik at nye land enkelt kan kobles på senere med lokal tilpasning av innhold, kontorer og referanser.</p>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">100 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Status</div>
+                    <div class="footer-stat-value" style="color: var(--red)">Pågår</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PHASE 2 -->
+<section id="phase-2">
+    <div class="container">
+        <div class="phase-header">
+            <div class="phase-number">2</div>
+            <div class="phase-header-text">
+                <h2>Selgerverktøy</h2>
+                <span>Q2 2026</span>
+            </div>
+        </div>
+
+        <!-- Produktblad -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Kostnadsbesparelse</div>
+                <h3>Produktblad-generator</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>Produktblader oppdateres manuelt av ekstern grafiker. Hver endring koster tid og penger. Selgere risikerer å bruke utdaterte versjoner som ligger lokalt — noe som kan skape uheldige situasjoner i kundemøter.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Produktblader genereres automatisk fra nettsidens data — alltid oppdatert</li>
+                        <li>Profesjonelt design, klar for print og digital deling</li>
+                        <li>Eliminerer kostnaden til ekstern grafiker for løpende oppdateringer</li>
+                        <li>Fjerner risikoen for utdaterte dokumenter hos selgerne</li>
+                        <li>Fungerer automatisk for alle språk og land</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">100 – 120 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Estimert årlig besparelse</div>
+                    <div class="footer-stat-value saving">100 – 150 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Tilbakebetaling</div>
+                    <div class="footer-stat-value">Under 12 mnd</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referanseark -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Salgsverktøy</div>
+                <h3>Referanseark-generator</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>AcryliCon har et stort antall prosjektreferanser — fra fiskeindustri til sykehus, fra 1978 til i dag. Men selgerne har ingen enkel måte å sette sammen en relevant referansepakke til et spesifikt kundemøte.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Filtrer referanser etter bruksområde, produkt og region</li>
+                        <li>Generer en profesjonell referansepakke med 3-5 prosjekter — på sekunder</li>
+                        <li>Skreddersydd til hvert kundemøte: «Her er fem sykehus vi har levert til»</li>
+                        <li>Utnytter referanseporteføljen som allerede finnes i systemet</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">60 – 80 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Sterkere salgspitch</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-summary">
+            <span class="phase-summary-label">Samlet investering fase 2</span>
+            <span class="phase-summary-value">160 – 200 000 kr</span>
+        </div>
+    </div>
+</section>
+
+<!-- PHASE 3 -->
+<section id="phase-3">
+    <div class="container">
+        <div class="phase-header">
+            <div class="phase-number">3</div>
+            <div class="phase-header-text">
+                <h2>Kundeverktøy</h2>
+                <span>Q3 2026</span>
+            </div>
+        </div>
+
+        <!-- TCO -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Salgsverktøy</div>
+                <h3>TCO-kalkulator — Totaløkonomi</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>AcryliCons sterkeste argument er totaløkonomi: gulvene varer 4–8 ganger lenger enn epoxy og polyuretan. Men dette formidles muntlig. Kunden må stole på påstanden uten å se tallene selv.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Interaktiv kalkulator: velg areal og bruksområde, sammenlign over 10–30 år</li>
+                        <li>Forvandler «dere er dyre» til «dere er billigst over tid» — med kundens egne tall</li>
+                        <li>PDF-rapport med prosjektnavn som følger beslutningsgrunnlaget internt hos kunden</li>
+                        <li>Hvis dette tipper én ekstra kontrakt i året, har det betalt seg mange ganger</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">80 – 120 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Konverteringsverktøy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produktvelger -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Lead-kvalifisering</div>
+                <h3>Produktvelger</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>AcryliCon har 12 produktsystemer for 12 bruksområder. For nye kunder er det uoversiktlig — de må lese seg gjennom alt eller ringe for veiledning.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Enkel veiviser: «Hva slags lokale? Hvilke krav?» → anbefalt produkt</li>
+                        <li>Kunder som tar kontakt vet allerede hva de trenger</li>
+                        <li>Kontorene bruker mindre tid på grunnleggende rådgivning</li>
+                        <li>Fungerer som salgsverktøy 24/7, på alle språk</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">60 – 80 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Kvalifiserte leads</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-summary">
+            <span class="phase-summary-label">Samlet investering fase 3</span>
+            <span class="phase-summary-value">140 – 200 000 kr</span>
+        </div>
+    </div>
+</section>
+
+<!-- PHASE 4 -->
+<section id="phase-4">
+    <div class="container">
+        <div class="phase-header">
+            <div class="phase-number">4</div>
+            <div class="phase-header-text">
+                <h2>Profesjonalisering</h2>
+                <span>Q4 2026</span>
+            </div>
+        </div>
+
+        <!-- Dokumentportal -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Lead-generering</div>
+                <h3>Sertifiserings- og dokumentportal</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>Arkitekter og innkjøpere trenger teknisk dokumentasjon og sertifiseringer (BREEAM, M1, LEED, DNV m.fl.) for å spesifisere AcryliCon. I dag sendes disse manuelt per e-post på forespørsel.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Selvbetjening: fagfolk finner og laster ned dokumentasjon selv</li>
+                        <li>E-post ved nedlasting = oversikt over hvem som vurderer AcryliCon</li>
+                        <li>Sparer intern tid på dokumenthåndtering</li>
+                        <li>For BREEAM/LEED-prosjekter er dette obligatorisk — gjør det enkelt å velge AcryliCon</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">50 – 70 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Leads + tidsbesparelse</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Garantibevis -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Merkevarebygging</div>
+                <h3>Digitalt garantibevis med QR-kode</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Situasjonen i dag</div>
+                    <p>AcryliCon er unike med daterte stålmerker i hvert gulv. Men garantiinformasjonen er på papir. Ved eierbytte eller skifte av driftsansvarlig kan dokumentasjon gå tapt.</p>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Hva AcryliCon oppnår</div>
+                    <ul>
+                        <li>Hvert prosjekt får en unik digital side med QR-kode</li>
+                        <li>Driftsansvarlig skanner gulvet → ser garanti, produkt, vedlikeholdsinstruks</li>
+                        <li>«Skann gulvet ditt» — en historie som skiller seg ut i bransjen</li>
+                        <li>Binder eiendomsforvalteren til AcryliCon for vedlikehold og utvidelser</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">40 – 60 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Kundelojalitet</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-summary">
+            <span class="phase-summary-label">Samlet investering fase 4</span>
+            <span class="phase-summary-value">90 – 130 000 kr</span>
+        </div>
+    </div>
+</section>
+
+<!-- PHASE 5 -->
+<section id="phase-5">
+    <div class="container">
+        <div class="phase-header">
+            <div class="phase-number">5</div>
+            <div class="phase-header-text">
+                <h2>Vekst</h2>
+                <span>2027</span>
+            </div>
+        </div>
+
+        <!-- Arkitekt-spek -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Konvertering</div>
+                <h3>Arkitekt-spesifikasjonsverktøy</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Muligheten</div>
+                    <p>Arkitekter skriver anbudsspesifikasjoner. Et verktøy som genererer ferdig spesifikasjonstekst — med tekniske data og sertifiseringer — gjør det enklest mulig å skrive AcryliCon inn i anbudet. Når vi først står i spesifikasjonen, er det vanskelig for konkurrenter å komme inn.</p>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering</div>
+                    <div class="footer-stat-value">80 – 100 000 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Type verdi</div>
+                    <div class="footer-stat-value" style="font-size: 16px;">Anbudskonvertering</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nye land -->
+        <div class="solution-card">
+            <div class="solution-card-header">
+                <div class="solution-tag">Skalering</div>
+                <h3>Nye land på plattformen</h3>
+            </div>
+            <div class="solution-card-body">
+                <div class="situation-block">
+                    <div class="situation-block-label">Muligheten</div>
+                    <p>Arkitekturen fra fase 1 gjør det enkelt å legge til nye land. Hvert land får sin egen side med lokalt innhold — kontorer, referanser, språk — mens design, struktur og alle verktøy deles automatisk.</p>
+                </div>
+            </div>
+            <div class="solution-card-footer">
+                <div class="footer-stat">
+                    <div class="footer-stat-label">Investering per land</div>
+                    <div class="footer-stat-value">30 – 37 500 kr</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-label">AcryliCon er i</div>
+                    <div class="footer-stat-value">21 land</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="overview-section" id="overview">
+    <div class="container">
+        <h2>Totalbildet</h2>
+        <p class="section-subtitle">Samlet investering fordelt over fem faser</p>
+
+        <table class="overview-table">
+            <thead>
+                <tr>
+                    <th>Fase</th>
+                    <th>Periode</th>
+                    <th style="text-align: right;">Investering</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="phase-name">Grunnmur</td>
+                    <td class="phase-period">Q1 2026</td>
+                    <td class="phase-amount">100 000 kr</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Selgerverktøy</td>
+                    <td class="phase-period">Q2 2026</td>
+                    <td class="phase-amount">160 – 200 000 kr</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Kundeverktøy</td>
+                    <td class="phase-period">Q3 2026</td>
+                    <td class="phase-amount">140 – 200 000 kr</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Profesjonalisering</td>
+                    <td class="phase-period">Q4 2026</td>
+                    <td class="phase-amount">90 – 130 000 kr</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Vekst</td>
+                    <td class="phase-period">2027</td>
+                    <td class="phase-amount">Løpende</td>
+                </tr>
+                <tr class="total-row">
+                    <td class="phase-name">Totalt 2026</td>
+                    <td></td>
+                    <td class="phase-amount">490 – 630 000 kr</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="perspective-cards">
+            <div class="perspective-card">
+                <div class="big-number">&lt;1%</div>
+                <p>av AcryliCon Norges årlige omsetning for hele den digitale plattformen</p>
+            </div>
+            <div class="perspective-card">
+                <div class="big-number">21</div>
+                <p>land som kan kobles på plattformen — hvert verktøy skalerer automatisk</p>
+            </div>
+        </div>
+
+        <div class="perspective-quote">
+            <p>Én arkitekt som spesifiserer AcryliCon fordi dokumentportalen gjorde det enkelt, eller én kunde som velger AcryliCon fordi TCO-kalkulatoren viste de reelle tallene — det er nok til å betale for flere av disse løsningene.</p>
+        </div>
+    </div>
+</section>
+
+<!-- RETAINER -->
+<section class="retainer-section">
+    <div class="container">
+        <div class="retainer-card">
+            <div class="retainer-card-header">
+                <h3>Løpende drifts- og utviklingsavtale</h3>
+                <p>Support, rådgivning og videreutvikling</p>
+            </div>
+            <div class="retainer-card-body">
+                <div class="retainer-price">
+                    <span class="amount">19 500</span>
+                    <span class="period"> kr / mnd</span>
+                </div>
+                <ul class="retainer-features">
+                    <li>15 timer per måned inkludert</li>
+                    <li>Tilgjengelighet for support og feilretting</li>
+                    <li>Jevnlige møter og statusoppdateringer</li>
+                    <li>Løpende videreutvikling og optimalisering</li>
+                    <li>Rådgivning innen SEO, ytelse og digital strategi</li>
+                    <li>Forvaltning av alle digitale verktøy og plattformen</li>
+                </ul>
+                <p class="retainer-note">
+                    Timer utover avtalen faktureres til 1 500 kr/t.<br>
+                    Større prosjekter avtales separat.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+    <h2>La oss bygge videre.</h2>
+    <p>Rekkefølge og innhold tilpasses etter AcryliCons prioriteringer. Dette veikartet er et utgangspunkt for samtalen om hva som gir mest verdi — og hvor vi starter.</p>
+</div>
+
+</body>
+</html>

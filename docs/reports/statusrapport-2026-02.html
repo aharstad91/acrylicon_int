@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital statusrapport — AcryliCon februar 2026</title>
+<style>
+  :root {
+    --red: #E2241C;
+    --dark-blue: #253761;
+    --beige: #F5F0EB;
+    --beige-light: #FAF8F5;
+    --gray: #6B7280;
+    --green: #16A34A;
+    --amber: #D97706;
+    --text: #1F2937;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  /* Header */
+  .report-header {
+    border-bottom: 3px solid var(--red);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .report-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 4px;
+  }
+  .report-header .subtitle {
+    color: var(--gray);
+    font-size: 14px;
+  }
+  .report-header .date {
+    color: var(--gray);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 40px;
+  }
+  section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 16px 0 8px;
+  }
+  p { margin-bottom: 10px; }
+
+  /* Key metrics grid */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    background: var(--beige-light);
+    border: 1px solid #E8E3DD;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metric .value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--dark-blue);
+  }
+  .metric .label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+  .metric.alert .value { color: var(--red); }
+  .metric.good .value { color: var(--green); }
+
+  /* Status table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    padding: 8px 12px;
+    background: var(--beige-light);
+    border-bottom: 2px solid #E5E7EB;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #F3F4F6;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-red { background: #FEE2E2; color: #991B1B; }
+  .badge-green { background: #DCFCE7; color: #166534; }
+  .badge-amber { background: #FEF3C7; color: #92400E; }
+  .badge-blue { background: #DBEAFE; color: #1E40AF; }
+
+  /* Comparison boxes */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .compare-box {
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .compare-box.bad {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+  }
+  .compare-box.good {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+  }
+  .compare-box .title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .compare-box .stat {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .compare-box .detail {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* Opportunity cards */
+  .opp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .opp-card {
+    background: var(--beige-light);
+    border: 1px solid #E8E3DD;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .opp-card .opp-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .opp-card .opp-desc {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .opp-card .opp-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark-blue);
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 14px;
+  }
+  .checklist li::before {
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+  }
+  .checklist li.done::before { content: "✓"; color: var(--green); font-weight: 700; }
+  .checklist li.progress::before { content: "◐"; color: var(--amber); }
+  .checklist li.todo::before { content: "○"; color: var(--gray); }
+
+  /* Callout */
+  .callout {
+    background: var(--beige);
+    border-left: 4px solid var(--dark-blue);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .callout strong { color: var(--dark-blue); }
+
+  .callout-red {
+    background: #FEF2F2;
+    border-left: 4px solid var(--red);
+  }
+
+  /* Footer */
+  .report-footer {
+    border-top: 1px solid #E5E7EB;
+    padding-top: 20px;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* Print styles */
+  @media print {
+    body { font-size: 13px; }
+    .page { padding: 20px; max-width: 100%; }
+    .metrics { gap: 8px; }
+    .opp-grid { gap: 8px; }
+    section { margin-bottom: 28px; }
+    .no-break { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 20px 16px; }
+    .metrics { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: 1fr; }
+    .opp-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="report-header">
+    <h1>Digital statusrapport</h1>
+    <div class="subtitle">AcryliCon Norge — nettsted og digital tilstedeværelse</div>
+    <div class="date">Februar 2026 · Utarbeidet av Andreas Harstad</div>
+  </header>
+
+  <!-- SECTION: Nøkkeltall -->
+  <section>
+    <h2>Nåsituasjon — nøkkeltall</h2>
+
+    <div class="metrics">
+      <div class="metric alert">
+        <div class="value">57–68</div>
+        <div class="label">PageSpeed (mål: 90+)</div>
+      </div>
+      <div class="metric alert">
+        <div class="value">66%</div>
+        <div class="label">Mobiltrafikk</div>
+      </div>
+      <div class="metric alert">
+        <div class="value">0 av 10 000+</div>
+        <div class="label">Generiske søk vi er synlige på</div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric good">
+        <div class="value">#1</div>
+        <div class="label">Google-posisjon «acrylicon»</div>
+      </div>
+      <div class="metric good">
+        <div class="value">62,5%</div>
+        <div class="label">Konvertering organisk trafikk</div>
+      </div>
+      <div class="metric">
+        <div class="value">~60 000</div>
+        <div class="label">Sesjoner siste 12 mnd</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Betalt vs organisk -->
+  <section>
+    <h2>Betalt vs. organisk trafikk (GA4, siste 12 mnd)</h2>
+
+    <p>Brist markedsbyrå ble avsluttet. Tallene viser hvorfor:</p>
+
+    <div class="comparison">
+      <div class="compare-box bad">
+        <div class="title">Betalt trafikk (Brist)</div>
+        <div class="stat" style="color: #991B1B;">18 sek</div>
+        <div class="detail">Gjennomsnittlig engasjement</div>
+        <div style="margin-top: 8px;">
+          <div class="stat" style="color: #991B1B; font-size: 18px;">37,5%</div>
+          <div class="detail">Konverteringsrate</div>
+        </div>
+        <div style="margin-top: 8px;">
+          <div class="detail">53% av all trafikk · ~200 000 kr/år</div>
+        </div>
+      </div>
+      <div class="compare-box good">
+        <div class="title">Organisk trafikk</div>
+        <div class="stat" style="color: #166534;">1 min 13 sek</div>
+        <div class="detail">Gjennomsnittlig engasjement</div>
+        <div style="margin-top: 8px;">
+          <div class="stat" style="color: #166534; font-size: 18px;">62,5%</div>
+          <div class="detail">Konverteringsrate</div>
+        </div>
+        <div style="margin-top: 8px;">
+          <div class="detail">17% av all trafikk · Gratis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Konklusjon:</strong> Organisk trafikk er 3–4x mer verdifull per besøk enn betalt. Investering i SEO og innhold gir bedre og varig avkastning enn løpende annonsekjøp.
+    </div>
+  </section>
+
+  <!-- SECTION: Referanser -->
+  <section>
+    <h2>Referanser — den største trafikk-driveren</h2>
+
+    <p>Fem godt utarbeidede referanser genererer <strong>7 279 sesjoner/år</strong> — 12% av all trafikk. 94% av besøkende er nye brukere som ikke kjente AcryliCon fra før.</p>
+
+    <table>
+      <tr>
+        <th>Faktor</th>
+        <th>Fungerer (4 462 sesjoner)</th>
+        <th>Fungerer ikke (0 sesjoner)</th>
+      </tr>
+      <tr>
+        <td>Tittel</td>
+        <td>Stedsnavn / kundenavn</td>
+        <td>«Gulv som tåler…»</td>
+      </tr>
+      <tr>
+        <td>Struktur</td>
+        <td>Utfordring → Løsning → Resultat</td>
+        <td>Flat, kort tekst</td>
+      </tr>
+      <tr>
+        <td>Lengde</td>
+        <td>400+ ord</td>
+        <td>Under 100 ord</td>
+      </tr>
+      <tr>
+        <td>Media</td>
+        <td>Video + bildekarusell</td>
+        <td>Bare ett bilde</td>
+      </tr>
+    </table>
+
+    <div class="callout">
+      <strong>Mulighet:</strong> 100+ referanser ligger i databasen med minimalt innhold. Med AI-assistert oppgradering kan disse bli 100+ SEO-optimaliserte landingssider som jobber 24/7 — potensielt 25 000–50 000 ekstra sesjoner per år.
+    </div>
+  </section>
+
+  <!-- SECTION: Hva vi gjør nå -->
+  <section>
+    <h2>Hva vi gjør akkurat nå</h2>
+
+    <ul class="checklist">
+      <li class="done">Ny visuell profil implementert i ny nettside</li>
+      <li class="done">WordPress multisite-arkitektur for internasjonalisering</li>
+      <li class="done">Servebolt-migrering (ny server, klar for produksjon)</li>
+      <li class="done">HTTPS aktivert med 301-redirect</li>
+      <li class="done">Riktig språkkode (nb_NO) på norsk side</li>
+      <li class="done">Analytics-tracking kun på produksjon (ikke forstyrrer data)</li>
+      <li class="progress">Internasjonal side (engelsk) — under arbeid</li>
+      <li class="progress">Multisite sync-plugin for innholdsdeling mellom land</li>
+      <li class="todo">Domeneflytting acrylicon.no → ny server</li>
+    </ul>
+  </section>
+
+  <!-- SECTION: Servebolt -->
+  <section>
+    <h2>Servebolt-effekten — hva serverbytte gir</h2>
+
+    <p>Nåværende server (gammel hosting) begrenser ytelse og sikkerhet. Servebolt er Norges raskeste WordPress-hosting og gir umiddelbare forbedringer:</p>
+
+    <table>
+      <tr>
+        <th>Område</th>
+        <th>Før (gammel server)</th>
+        <th>Etter (Servebolt)</th>
+      </tr>
+      <tr>
+        <td>Responstid (TTFB)</td>
+        <td><span class="badge badge-red">Treg</span></td>
+        <td><span class="badge badge-green">Under 200ms</span></td>
+      </tr>
+      <tr>
+        <td>PageSpeed-score</td>
+        <td><span class="badge badge-red">57–68</span></td>
+        <td><span class="badge badge-green">80–90+ (m/ optimalisering)</span></td>
+      </tr>
+      <tr>
+        <td>PHP-versjon</td>
+        <td>Eldre</td>
+        <td><span class="badge badge-green">PHP 8.4</span></td>
+      </tr>
+      <tr>
+        <td>SSL / HTTPS</td>
+        <td>Manuelt</td>
+        <td><span class="badge badge-green">Automatisk</span></td>
+      </tr>
+      <tr>
+        <td>Edge caching</td>
+        <td>Nei</td>
+        <td><span class="badge badge-green">Ja (CDN-nivå)</span></td>
+      </tr>
+      <tr>
+        <td>AI-søk (Google)</td>
+        <td><span class="badge badge-red">Usynlig</span></td>
+        <td><span class="badge badge-amber">Mulig med PSI 90+</span></td>
+      </tr>
+    </table>
+
+    <div class="callout">
+      <strong>Hvorfor dette er viktig:</strong> Google favoriserer raske nettsider — både i vanlige søkeresultater og i AI-genererte svar. Konkurrenter med PageSpeed 90+ dukker opp i AI Overviews. AcryliCon gjør det ikke i dag.
+    </div>
+  </section>
+
+  <!-- SECTION: Hva som gjenstår -->
+  <section>
+    <h2>Tekniske forbedringer som gjenstår</h2>
+
+    <table>
+      <tr>
+        <th>Oppgave</th>
+        <th>Påvirker</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>hreflang-tagger mellom NO og EN</td>
+        <td>Internasjonal SEO</td>
+        <td><span class="badge badge-amber">Venter på EN-site</span></td>
+      </tr>
+      <tr>
+        <td>Meta descriptions på alle sider</td>
+        <td>Klikkrate fra Google</td>
+        <td><span class="badge badge-red">~30% utfylt</span></td>
+      </tr>
+      <tr>
+        <td>Strukturert data (schema)</td>
+        <td>Visning i søkeresultater</td>
+        <td><span class="badge badge-red">Mangler</span></td>
+      </tr>
+      <tr>
+        <td>Google Business-profiler (4 kontorer)</td>
+        <td>Lokal synlighet</td>
+        <td><span class="badge badge-red">Ingen verifisert</span></td>
+      </tr>
+      <tr>
+        <td>Google Search Console</td>
+        <td>SEO-innsikt</td>
+        <td><span class="badge badge-red">Ikke satt opp</span></td>
+      </tr>
+      <tr>
+        <td>Cookie consent / GDPR</td>
+        <td>Lovkrav</td>
+        <td><span class="badge badge-red">Mangler</span></td>
+      </tr>
+      <tr>
+        <td>Bildeoptimalisering / CDN</td>
+        <td>Hastighet, PageSpeed</td>
+        <td><span class="badge badge-amber">Planlagt</span></td>
+      </tr>
+      <tr>
+        <td>Mobil UX-gjennomgang</td>
+        <td>66% av besøkende</td>
+        <td><span class="badge badge-amber">Ikke designet for mobil</span></td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- SECTION: Søkesynlighet -->
+  <section class="no-break">
+    <h2>Google-synlighet — hvor vi taper i dag</h2>
+
+    <p>AcryliCon rangerer #1 på eget navn, men er usynlig på søkeordene kundene faktisk bruker:</p>
+
+    <table>
+      <tr>
+        <th>Søkeord</th>
+        <th>Søk/mnd</th>
+        <th>AcryliCon</th>
+        <th>Hvem rangerer</th>
+      </tr>
+      <tr>
+        <td>epoxy</td>
+        <td>3 600</td>
+        <td><span class="badge badge-red">Usynlig</span></td>
+        <td>epoxy.no, epoxybelegg.no</td>
+      </tr>
+      <tr>
+        <td>epoksy gulv</td>
+        <td>2 900</td>
+        <td><span class="badge badge-red">Usynlig</span></td>
+        <td>epoxy.no, epoxybelegg.no</td>
+      </tr>
+      <tr>
+        <td>epoxy gulv garasje</td>
+        <td>260–390</td>
+        <td><span class="badge badge-red">Usynlig</span></td>
+        <td>epoxy.no, storbua.com</td>
+      </tr>
+      <tr>
+        <td>industrielt gulvbelegg</td>
+        <td>~200</td>
+        <td><span class="badge badge-red">Usynlig</span></td>
+        <td>nora.com, gerflor.no</td>
+      </tr>
+      <tr>
+        <td>industrigulv leverandør</td>
+        <td>~150</td>
+        <td><span class="badge badge-amber">~#8</span></td>
+        <td>industrigulvspesialisten.no</td>
+      </tr>
+      <tr>
+        <td>gulvbelegg matindustri</td>
+        <td>~80</td>
+        <td><span class="badge badge-amber">~#7</span></td>
+        <td>mapei.com, silikal</td>
+      </tr>
+    </table>
+
+    <div class="callout-red callout">
+      <strong>Over 10 000 søk per måned</strong> i Norge alene der AcryliCon er usynlig. Med 57 MNOK i omsetning og gjennomsnittlig prosjektverdi på hundretusener — betaler én kontrakt vunnet via organisk søk for hele SEO-satsingen.
+    </div>
+  </section>
+
+  <!-- SECTION: Kontorsider -->
+  <section>
+    <h2>Kontorsider — best konvertering på hele nettstedet</h2>
+
+    <table>
+      <tr>
+        <th>Side</th>
+        <th>Konverteringsrate</th>
+      </tr>
+      <tr>
+        <td>Rogaland-kontoret</td>
+        <td><strong style="color: var(--green);">67,5%</strong></td>
+      </tr>
+      <tr>
+        <td>Midt- & Vest-Norge-kontoret</td>
+        <td><strong style="color: var(--green);">69,3%</strong></td>
+      </tr>
+      <tr>
+        <td>Gjennomsnitt nettstedet</td>
+        <td>~45%</td>
+      </tr>
+    </table>
+
+    <p>Kontorsidene har best konvertering, men er tynne på innhold og mangler lokal SEO. Ingen av de 4 kontorene har verifisert Google Business-profil.</p>
+  </section>
+
+  <!-- SECTION: Muligheter -->
+  <section>
+    <h2>Arbeidsområder fremover</h2>
+
+    <p>Analysen avdekker en rekke områder som krever arbeid — fra tekniske grunnsteiner til synlighet, salgsverktøy og lovkrav. Dette er ikke enkeltstående prosjekter, men sammenhengende arbeid som bygger på hverandre over tid.</p>
+
+    <h3>Synlighet og trafikk</h3>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-title">SEO — teknisk og innhold</div>
+        <div class="opp-desc">AcryliCon er usynlig på 10 000+ søk i måneden i Norge. Teknisk fundament (meta, schema, hreflang) må på plass, deretter innholdsproduksjon: sammenligningsartikler, bruksområde-utvidelser og FAQ-er som fanger trafikk konkurrentene tar i dag.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Organisk trafikk konverterer 3–4x bedre enn betalt. Én kontrakt vunnet via Google betaler for satsingen mange ganger.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Referanse-oppgradering</div>
+        <div class="opp-desc">100+ referanser med minimalt innhold. De 5 som er godt utarbeidet genererer 12% av all trafikk og 94% nye brukere. Ved å oppgradere resten med struktur, tall og media kan nettstedet få 100+ landingssider som jobber døgnet rundt.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Referansene er unike — ingen konkurrent kan kopiere dem. Varig, gratis trafikk som vokser over tid.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Lokal SEO og Google Business</div>
+        <div class="opp-desc">Ingen av de 4 kontorene har verifisert Google Business-profil. Kontorsidene konverterer best (67–69%), men er tynne og usynlige i lokale søk. Trenger verifisering, anmeldelser, og utvidet innhold per region.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Når noen søker «industrigulv Stavanger» bør Rogaland-kontoret dukke opp. I dag gjør det ikke det.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Innholdsproduksjon</div>
+        <div class="opp-desc">Null artikler i dag. 11 identifiserte artikler som dekker sammenligninger (akryl vs epoxy), bransjeguider (matindustri, offshore) og prisguider — søkeord kundene bruker når de vurderer gulvløsninger.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Innhold fanger kunder tidlig i beslutningsprosessen — lenge før de ringer et kontor.</div>
+      </div>
+    </div>
+
+    <h3>Brukeropplevelse og konvertering</h3>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-title">Mobil UX-gjennomgang</div>
+        <div class="opp-desc">66% av all trafikk er mobil. Mobildesign ble ikke levert av designbyrået — mobilversjonen ble laget under tidspress som quick fixes. Navigasjon, CTA-plassering og kontaktflyt trenger dedikert gjennomgang.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> To av tre besøkende opplever en versjon som aldri ble designet for dem.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Kontaktskjema</div>
+        <div class="opp-desc">Dagens kontaktskjema er en iFrame fra SuperOffice — begrenset styling, dårlig mobilopplevelse, ingen sporing av hvilke sider som genererer henvendelser. Leads fordeles manuelt.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Uten sporing er det umulig å vite hva som fungerer. Med nytt skjema kan vi se at «referansesiden om Nationalteatret ga 3 leads denne måneden».</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Bildeoptimalisering</div>
+        <div class="opp-desc">11 GB med bilder uten optimalisering. Tunge bilder bremser lastetiden — spesielt på mobil. Trenger komprimering, moderne formater (WebP) og CDN-leveranse.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Direkte effekt på PageSpeed-score, som påvirker Google-rangering og brukeropplevelse.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Hastighetsoptimalisering</div>
+        <div class="opp-desc">PageSpeed 57–68 i dag. Servebolt gir et løft, men bildeoptimalisering, caching-strategi og kode-optimalisering trengs i tillegg for å nå 90+.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Nettsteder med PSI 90+ dukker opp i Googles AI-genererte svar. AcryliCon gjør det ikke i dag.</div>
+      </div>
+    </div>
+
+    <h3>Lovkrav og tilgjengelighet</h3>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-title">WCAG tilgjengelighet</div>
+        <div class="opp-desc">Offentlig sektor er en av AcryliCons viktigste målgrupper — sykehus, skoler, stasjoner. Norsk lov krever WCAG 2.1 AA. Manglende tilgjengelighet kan brukes som argument <em>mot</em> AcryliCon i anbudsrunder.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Fjerner et potensielt hinder i offentlige anbud. Viser profesjonalitet.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Cookie consent / GDPR</div>
+        <div class="opp-desc">Tre sporingsverktøy (GA4, Byggfakta, GTM) setter cookies uten dokumentert samtykke. Personvernerklæring finnes, men ikke et interaktivt samtykke-banner.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Lovkrav. En klage til Datatilsynet koster langt mer enn å fikse det.</div>
+      </div>
+    </div>
+
+    <h3>Salgsverktøy og automatisering</h3>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-title">Produktblad-generator</div>
+        <div class="opp-desc">Produktblader oppdateres manuelt av ekstern grafiker. Selgere risikerer utdaterte versjoner. Et system som genererer produktblader direkte fra nettsidens data eliminerer denne risikoen og skalerer til alle land.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Sparer grafiker-kostnader og intern koordinering. Alltid siste versjon.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">TCO-kalkulator</div>
+        <div class="opp-desc">AcryliCons sterkeste argument er totaløkonomi — gulvene varer 4–8x lenger enn alternativer. Men dette formidles muntlig. En interaktiv kalkulator lar kunden se tallene selv og generere en PDF til beslutningsgrunnlaget.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Forvandler «dere er dyre» til «dere er billigst over tid» — med kundens egne tall.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Produktvelger</div>
+        <div class="opp-desc">12 produktsystemer for 12 bruksområder. For en ny kunde er det uoversiktlig. En veiviser som stiller noen spørsmål og anbefaler riktig produkt — fungerer 24/7, på alle språk.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Kunder som tar kontakt vet allerede hva de vil ha. Kontorene bruker mindre tid på grunnleggende rådgivning.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Sertifiserings- og dokumentportal</div>
+        <div class="opp-desc">Arkitekter trenger sertifiseringer (BREEAM, M1, DNV) for å spesifisere AcryliCon i anbud. I dag sendes disse manuelt. En selvbetjeningsportal gir nedlasting med e-post — som også genererer leads.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Gjør det enklest mulig å velge AcryliCon. En arkitekt som laster ned er en varm lead.</div>
+      </div>
+    </div>
+
+    <h3>Internasjonalisering</h3>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-title">Internasjonal side (pågår)</div>
+        <div class="opp-desc">Engelskspråklig nettside under utvikling. Samme design, tilpasset internasjonalt publikum. Multisite-arkitekturen gjør at nye land kan legges til effektivt etterpå.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> Grunnmuren for internasjonal vekst. Alt vi bygger i Norge skalerer til alle markeder.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-title">Nye land</div>
+        <div class="opp-desc">Hvert land som legges til trenger lokal tilpasning: språk, kontorer, referanser, kontaktinfo, søkeordanalyse og lokal SEO. Men maler og infrastruktur er allerede bygd — hvert land koster mindre enn det forrige.</div>
+        <div class="opp-desc"><strong>Hvorfor:</strong> AcryliCon er i 21 land. Nettsiden er i 1. Hvert nytt marked er en ny kanal for leads.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Byggfakta -->
+  <section>
+    <h2>Byggfakta Analytics Pro — utnyttes dette?</h2>
+
+    <p>Byggfakta-tracking er aktiv på nettstedet og identifiserer hvilke bedrifter som besøker. For en B2B-virksomhet er dette en av de mest verdifulle datakildene som finnes:</p>
+
+    <ul style="margin: 10px 0 10px 20px; font-size: 14px;">
+      <li>«Veidekke besøkte Industry System-produktsiden 3 ganger denne uken»</li>
+      <li>«Statsbygg leste referansen om Nationalteatret stasjon»</li>
+      <li>«En bedrift i Stavanger ser på bruksområde Matindustri»</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Spørsmål:</strong> Logger kontorene inn på Byggfakta regelmessig? Får de varsler om besøk i sin region? Er dette koblet mot CRM? Hvis ikke — betaler vi for et verktøy ingen bruker, mens konkurrentene følger opp de samme kundene raskere.
+    </div>
+  </section>
+
+  <!-- SECTION: Hva vi vinner -->
+  <section>
+    <h2>Hva AcryliCon vinner på å gjøre dette</h2>
+
+    <table>
+      <tr>
+        <th style="width: 35%;">Område</th>
+        <th>Effekt</th>
+      </tr>
+      <tr>
+        <td><strong>Synlighet</strong></td>
+        <td>Fra usynlig til synlig på 10 000+ søk/mnd. Kunder som i dag finner konkurrentene finner AcryliCon i stedet.</td>
+      </tr>
+      <tr>
+        <td><strong>Bedre leads</strong></td>
+        <td>Organisk trafikk konverterer 62,5% vs. betalte annonser 37,5%. Besøkende bruker 1 min 13 sek vs. 18 sek. Kvaliteten på henvendelsene øker.</td>
+      </tr>
+      <tr>
+        <td><strong>Selgerverktøy</strong></td>
+        <td>Produktblader, TCO-kalkulator og referansepakker som selgerne bruker i hvert kundemøte. Verktøy som jobber 24/7.</td>
+      </tr>
+      <tr>
+        <td><strong>Internasjonal skalering</strong></td>
+        <td>Alt som bygges i Norge skalerer til alle land. Maler, infrastruktur og strategi gjenbrukes — hvert nytt marked koster mindre enn det forrige.</td>
+      </tr>
+      <tr>
+        <td><strong>Offentlige anbud</strong></td>
+        <td>WCAG-tilgjengelighet fjerner et potensielt hinder. Dokumentportal gjør det enklest mulig for arkitekter å spesifisere AcryliCon.</td>
+      </tr>
+      <tr>
+        <td><strong>Uavhengighet</strong></td>
+        <td>Organisk trafikk er gratis og varig. Ingen avhengighet av byråer, annonseplattformer eller løpende kampanjebudsjetter.</td>
+      </tr>
+    </table>
+
+    <div class="callout">
+      <strong>Perspektiv:</strong> Brist kostet ~200 000 kr/år for betalte annonser med 18 sekunders engasjement. Investering i eget nettsted, innhold og verktøy gir varig verdi som vokser over tid — uten løpende annonsekostnad.
+    </div>
+  </section>
+
+  <!-- SECTION: Langsiktig -->
+  <section>
+    <h2>Dette er langsiktig og kontinuerlig arbeid</h2>
+
+    <p>Digital synlighet er ikke et prosjekt med en start- og sluttdato. Det er en løpende investering som gir avkastning over tid — akkurat som fysisk vedlikehold av et bygg.</p>
+
+    <table>
+      <tr>
+        <th style="width: 35%;">Tidshorisont</th>
+        <th>Arbeid</th>
+      </tr>
+      <tr>
+        <td><strong>Kortsiktig</strong><br><span style="color: var(--gray); font-size: 12px;">Nå – Q2 2026</span></td>
+        <td>Teknisk fundament: Server-migrering, internasjonal side, hastighetsoptimalisering, GDPR, Google Search Console. Grunnmuren må være solid før vi bygger videre.</td>
+      </tr>
+      <tr>
+        <td><strong>Mellomlang</strong><br><span style="color: var(--gray); font-size: 12px;">Q2 – Q4 2026</span></td>
+        <td>Synlighet og verktøy: SEO-innhold, referanse-oppgradering, mobil UX, lokal SEO, kontaktskjema, produktblad-generator. Tiltak som begynner å generere trafikk og leads.</td>
+      </tr>
+      <tr>
+        <td><strong>Langsiktig</strong><br><span style="color: var(--gray); font-size: 12px;">2026 – 2027+</span></td>
+        <td>Skalering og profesjonalisering: Nye land, TCO-kalkulator, produktvelger, dokumentportal, garantibevis. AcryliCons nettsted blir en digital plattform — ikke bare en brosjyre.</td>
+      </tr>
+      <tr>
+        <td><strong>Løpende</strong><br><span style="color: var(--gray); font-size: 12px;">Alltid</span></td>
+        <td>Drift, oppdateringer, nye referanser, innholdsproduksjon, SEO-overvåking, analytics-rapportering, nye land. Nettstedet trenger kontinuerlig utvikling for å holde seg relevant og synlig.</td>
+      </tr>
+    </table>
+
+    <div class="callout">
+      <strong>Konkurrentene stopper ikke.</strong> epoxy.no, solberggulv.no og epoxybelegg.no publiserer innhold, samler anmeldelser og klatrer i søkeresultatene. Hvert kvartal uten innsats er et kvartal der de øker forspranget.
+    </div>
+  </section>
+
+  <!-- SECTION: Min rolle -->
+  <section>
+    <h2>Min rolle</h2>
+
+    <p>Jeg har jobbet med AcryliCon siden 2016. Jeg kjenner arkitekturen, forretningen og historikken — fra kode til strategi. Det betyr raskere leveranser, ingen opplæringstid, og én person å forholde seg til for alt digitalt.</p>
+
+    <table>
+      <tr>
+        <th style="width: 35%;">Område</th>
+        <th>Hva det betyr</th>
+      </tr>
+      <tr>
+        <td><strong>Drift og support</strong></td>
+        <td>Nettstedet fungerer. Oppdateringer, feilretting, overvåking, sikkerhet. Ting fikses før de blir et problem.</td>
+      </tr>
+      <tr>
+        <td><strong>Utvikling</strong></td>
+        <td>Nye funksjoner og verktøy bygd på eksisterende arkitektur. 26 custom blokker, multisite, sync-plugin — alt vedlikeholdt og videreutviklet av samme person.</td>
+      </tr>
+      <tr>
+        <td><strong>Internasjonalisering</strong></td>
+        <td>Multisite-arkitekturen er designet for skalering. Nye land legges til effektivt med lokal tilpasning, uten å bygge noe fra scratch.</td>
+      </tr>
+      <tr>
+        <td><strong>SEO og synlighet</strong></td>
+        <td>Teknisk SEO, innholdsstrategi, søkeordanalyse, konkurrentovervåking. Arbeid som gjør nettstedet synlig for kundene som leter.</td>
+      </tr>
+      <tr>
+        <td><strong>Analytics og innsikt</strong></td>
+        <td>GA4, Byggfakta, Search Console. Data som viser hva som fungerer, hva som ikke fungerer, og hva som bør prioriteres.</td>
+      </tr>
+      <tr>
+        <td><strong>Strategi og rådgivning</strong></td>
+        <td>Digital strategi, verktøyvalg, leverandørvurdering. Én rådgiver som forstår både teknologien og forretningen.</td>
+      </tr>
+    </table>
+
+    <div class="callout">
+      <strong>Én person — hele bildet.</strong> Ingen overleveringer mellom byrå, utvikler og konsulent. Ingen «bli kjent»-perioder. Ingen byråkratisk overhead. Raskere, rimeligere, og med bedre forståelse for AcryliCons behov enn noen ekstern aktør kan tilby.
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="report-footer">
+    <p>Statusrapport utarbeidet av Andreas Harstad · Februar 2026</p>
+    <p>Basert på GA4-data (feb 2025 – feb 2026), teknisk analyse av nettstedet, og offentlig tilgjengelig søkedata.</p>
+  </footer>
+
+</div>
+</body>
+</html>
