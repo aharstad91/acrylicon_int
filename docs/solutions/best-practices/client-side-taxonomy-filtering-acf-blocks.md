@@ -31,29 +31,31 @@ $cat_slugs = implode( ',', wp_list_pluck( $card['categories'], 'slug' ) );
   data-offices="<?php echo esc_attr( $office_slugs ); ?>">
 ```
 
-**PHP: Filter pills from actual data (not all terms)**
+**PHP: Native `<select>` dropdowns (not pills)**
 ```php
-// Only show terms that appear on displayed posts
-foreach ( $cards as $card ) {
-    foreach ( $card['categories'] as $t ) {
-        $filter_categories[ $t->slug ] = $t->name;
-    }
-}
+<select class="filter-select ...">
+    <option value="all">All industries</option>
+    <?php foreach ( $filter_categories as $slug => $name ) : ?>
+    <option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $name ); ?></option>
+    <?php endforeach; ?>
+</select>
 ```
 
-**JS: AND between groups, OR within**
+**JS: AND between dropdown groups**
 ```js
-for ( var taxonomy in activeFilters ) {
-    var selected = activeFilters[ taxonomy ];
-    if ( selected.has( 'all' ) ) continue;
-    var values = card.getAttribute( 'data-' + taxonomy ).split( ',' );
-    var match = false;
-    selected.forEach( function ( filter ) {
-        if ( values.indexOf( filter ) !== -1 ) match = true;
-    } );
-    if ( ! match ) { show = false; break; }
-}
+selects.forEach( function ( select ) {
+    var taxonomy = select.closest( '.filter-group' ).getAttribute( 'data-filter-taxonomy' );
+    filters[ taxonomy ] = select.value;
+} );
+// Each card: check if data-{taxonomy} contains selected value
 ```
+
+### Design Decision: Dropdowns over Pills
+Tried pills first (sidebar, then horizontal) — too much visual weight for 3 filter groups with 10+ options each. Native `<select>` dropdowns:
+- Compact horizontal bar, doesn't push content down
+- Familiar mobile UX (iOS spinner, Android dialog)
+- Accessible out of the box (keyboard, screen readers)
+- Can restyle later if needed
 
 ### Sorting: Case Studies First
 ```php
@@ -68,8 +70,9 @@ usort( $cards, function ( $a, $b ) {
 ## Gotchas
 - **`query_posts()` is deprecated** — always use `WP_Query` with `wp_reset_postdata()`
 - **Empty terms in filter UI** — use `hide_empty: true` AND only collect terms from displayed posts
-- **Tailwind `hover:` classes need toggling** — when adding active state, also remove hover classes to prevent visual conflicts
 - **`has_block()` for conditional enqueue** — only load filter JS when `acf/global-reference` block is on the page
+- **Pills don't scale** — with 10+ industry terms, pills dominated the page. Dropdowns solved this instantly
+- **Native `<select>` styling** — `appearance-none` + custom `pr-8` for dropdown arrow space. Can't style the option list, but that's fine for MVP
 
 ## Files
 - `blocks/global-reference/template.php` — Grid with data attributes and filter UI
