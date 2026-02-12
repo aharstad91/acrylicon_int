@@ -8,7 +8,7 @@ if ($terms && !is_wp_error($terms)) {
 	
 	if ($term_slug === 'dybdecase') {
 		get_template_part('single-referanser-dybdecase');
-	} else if ($term_slug === 'new-reference') {
+	} else if ($term_slug === 'new-reference' || $term_slug === 'case-study') {
 		get_template_part('single-referanser-referanse');
 	} else {
 		get_template_part('single-referanser-old');
