@@ -2,7 +2,7 @@
 /**
  * Theme Functions
  *
- * @package YourThemeName
+ * @package Acrylicon2024
  */
 
 // Theme Setup
@@ -53,19 +53,6 @@ function theme_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
 
-// Reference grid filter — only load when the block is on the page
-function acrylicon_enqueue_reference_filter() {
-	if ( has_block( 'acf/global-reference' ) ) {
-		wp_enqueue_script(
-			'reference-filter',
-			get_template_directory_uri() . '/assets/js/reference-filter.js',
-			array(),
-			filemtime( get_template_directory() . '/assets/js/reference-filter.js' ),
-			true
-		);
-	}
-}
-add_action( 'wp_enqueue_scripts', 'acrylicon_enqueue_reference_filter' );
 
 function enqueue_custom_block_editor_assets() {
 	wp_enqueue_script(
@@ -130,7 +117,33 @@ add_action('enqueue_block_editor_assets', 'enqueue_gutenberg_styles');
 
 
 // Custom Post Types and Taxonomies
+
+/**
+ * Get CPT/taxonomy rewrite slugs based on current blog.
+ * Blog 1 (international) uses English slugs, blog 3 (Norway) uses Norwegian.
+ */
+function acrylicon_get_cpt_slugs() {
+	$is_english = ( get_current_blog_id() === 1 );
+
+	return [
+		'industrier'          => $is_english ? 'industries'        : 'industrier',
+		'kontor'              => $is_english ? 'offices'           : 'kontor',
+		'produkter'           => $is_english ? 'products'          : 'produkter',
+		'bruksomrader'        => $is_english ? 'applications'      : 'bruksomrader',
+		'godegrunner'         => $is_english ? 'good-reasons'      : 'gode-grunner',
+		'levetidskostnader'   => $is_english ? 'lifecycle-costs'   : 'levetids-kostnader',
+		'baerekreaftig'       => $is_english ? 'sustainability'    : 'baerekraft',
+		'referanser'          => $is_english ? 'references'        : 'referanser',
+		'tax_kategorier'      => $is_english ? 'reference-category' : 'referanse-kategori',
+		'tax_kontor'          => $is_english ? 'reference-office'   : 'referanse-kontor',
+		'tax_produkter'       => $is_english ? 'reference-products' : 'referanse-produkter',
+		'tax_type'            => $is_english ? 'reference-type'     : 'referanser-type',
+	];
+}
+
 function register_custom_post_types_and_taxonomies() {
+	$slugs = acrylicon_get_cpt_slugs();
+
 	$args = array(
 		'public'        => true,
 		'has_archive'   => true,
@@ -145,75 +158,72 @@ function register_custom_post_types_and_taxonomies() {
 		'show_in_rest' => true,
 		'supports'		=> array('title', 'editor', 'thumbnail', 'revisions', 'excerpt'),
 	);
-	register_post_type('industrier', wp_parse_args('label=Industrier&menu_icon=dashicons-lightbulb', $args));
-	register_post_type('kontor', wp_parse_args('label=Kontor&menu_icon=dashicons-lightbulb', $args_nopage));
-	register_post_type('produkter', wp_parse_args('label=Produkter&menu_icon=dashicons-lightbulb', $args_nopage));
-	register_post_type('bruksomrader', wp_parse_args('label=Bruksområder&menu_icon=dashicons-lightbulb', $args_nopage));
 
-	register_post_type('godegrunner', 
-		wp_parse_args(
-			array(
-				'label' => 'Gode Grunner',
-				'menu_icon' => 'dashicons-lightbulb',
-				'rewrite' => array(
-					'slug' => 'gode-grunner',
-					'with_front' => true
-				)
-			), 
-			$args_nopage
-		)
-	);
-	
-	register_post_type('levetidskostnader', 
-		wp_parse_args(
-			array(
-				'label' => 'Levetidskost',
-				'menu_icon' => 'dashicons-lightbulb',
-				'rewrite' => array(
-					'slug' => 'levetids-kostnader',
-					'with_front' => true
-				)
-			), 
-			$args_nopage
-		)
-	);
-	
-	register_post_type('baerekreaftig', 
-		wp_parse_args(
-			array(
-				'label' => 'Bærekraftig',
-				'menu_icon' => 'dashicons-lightbulb',
-				'rewrite' => array(
-					'slug' => 'baerekraft',
-					'with_front' => true
-				)
-			), 
-			$args_nopage
-		)
-	);
+	register_post_type('industrier', wp_parse_args(array(
+		'label'     => 'Industrier',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['industrier'], 'with_front' => false),
+	), $args));
+
+	register_post_type('kontor', wp_parse_args(array(
+		'label'     => 'Kontor',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['kontor'], 'with_front' => false),
+	), $args_nopage));
+
+	register_post_type('produkter', wp_parse_args(array(
+		'label'     => 'Produkter',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['produkter'], 'with_front' => false),
+	), $args_nopage));
+
+	register_post_type('bruksomrader', wp_parse_args(array(
+		'label'     => 'Bruksområder',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['bruksomrader'], 'with_front' => false),
+	), $args_nopage));
+
+	register_post_type('godegrunner', wp_parse_args(array(
+		'label'     => 'Gode Grunner',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['godegrunner'], 'with_front' => false),
+	), $args_nopage));
+
+	register_post_type('levetidskostnader', wp_parse_args(array(
+		'label'     => 'Levetidskost',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['levetidskostnader'], 'with_front' => false),
+	), $args_nopage));
+
+	register_post_type('baerekreaftig', wp_parse_args(array(
+		'label'     => 'Bærekraftig',
+		'menu_icon' => 'dashicons-lightbulb',
+		'rewrite'   => array('slug' => $slugs['baerekreaftig'], 'with_front' => false),
+	), $args_nopage));
 
 	register_taxonomy('referanser-type', 'referanser', array(
 		'label'             => 'Referansetype',
 		'hierarchical'      => true,
 		'show_admin_column' => true,
+		'rewrite'           => array('slug' => $slugs['tax_type']),
 	));
 	register_taxonomy('referanser-kategorier', 'referanser', array(
 		'label'             => 'Produktområder',
 		'hierarchical'      => true,
 		'show_admin_column' => true,
-		'rewrite'           => array('slug' => 'referanse-kategori')
+		'rewrite'           => array('slug' => $slugs['tax_kategorier']),
 	));
 	register_taxonomy('referanser-kontor', 'referanser', array(
 		'label'             => 'Kontor',
 		'hierarchical'      => true,
 		'show_admin_column' => true,
-		'rewrite'           => array('slug' => 'referanse-kontor')
+		'rewrite'           => array('slug' => $slugs['tax_kontor']),
 	));
 	register_taxonomy('referanser-produkter', 'referanser', array(
 		'label'             => 'Produkter',
 		'hierarchical'      => true,
 		'show_admin_column' => true,
-		'rewrite'           => array('slug' => 'referanse-produkter')
+		'rewrite'           => array('slug' => $slugs['tax_produkter']),
 	));
 }
 add_action('init', 'register_custom_post_types_and_taxonomies');
@@ -221,12 +231,14 @@ add_action('init', 'register_custom_post_types_and_taxonomies');
 
 
 function register_custom_post_type_with_template() {
+	$slugs = acrylicon_get_cpt_slugs();
 	$args = array(
 		'public' => true,
 		'label'  => 'Referanser',
 		'has_archive'	=> false,
 		'show_in_rest' => true,
 		'supports' => array('editor', 'title', 'custom-fields', 'thumbnail'),
+		'rewrite' => array('slug' => $slugs['referanser'], 'with_front' => false),
 		'template' => array(
 			array('core/heading', array(
 				'level' => 2,
@@ -376,6 +388,7 @@ add_filter('edit_post_link', function($link, $post_id, $text) {
 
 require_once get_template_directory() . '/assets/components/register.php';
 require_once get_template_directory() . '/assets/components/titles.php';
+require_once get_template_directory() . '/inc/language-switcher.php';
 
 
 
@@ -414,9 +427,13 @@ function svg_icon($filename, $options = []) {
 	
 	$svg = file_get_contents($svg_path);
 	
-	// Basic sanitization
+	// Sanitization — strip dangerous elements and attributes
 	$svg = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $svg);
 	$svg = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $svg);
+	$svg = preg_replace('#<foreignObject(.*?)>(.*?)</foreignObject>#is', '', $svg);
+	$svg = preg_replace('#<use[^>]*/?>#is', '', $svg);
+	$svg = preg_replace('#\s+on\w+\s*=\s*"[^"]*"#i', '', $svg);
+	$svg = preg_replace('#\s+on\w+\s*=\s*\'[^\']*\'#i', '', $svg);
 	$svg = preg_replace('#data:[^,]*,#is', '', $svg);
 	
 	// Add size attributes to SVG tag
@@ -535,3 +552,54 @@ function remove_font_size_attributes($block_content, $block) {
 add_filter('render_block', 'remove_font_size_attributes', 10, 2);
 
 remove_theme_support( 'core-block-patterns' );
+
+/**
+ * 301 Redirect old Norwegian slugs to English on blog 1 (international).
+ * Only redirects top-level page/archive slugs, not individual posts.
+ */
+function acrylicon_redirect_old_norwegian_slugs() {
+	if ( get_current_blog_id() !== 1 || is_admin() ) {
+		return;
+	}
+
+	$redirects = [
+		'referanser'         => 'references',
+		'produkter'          => 'products',
+		'industrier'         => 'industries',
+		'bruksomrader'       => 'applications',
+		'kontor'             => 'offices',
+		'gode-grunner'       => 'good-reasons',
+		'levetids-kostnader' => 'lifecycle-costs',
+		'baerekraft'         => 'sustainability',
+		'fordeler'           => 'benefits',
+		'om-acrylicon'       => 'about-acrylicon',
+		'nedlastinger'       => 'downloads',
+		'informasjonskapsler' => 'cookie-policy',
+		'contact-us'          => 'locations',
+		'kontakt-oss'         => 'locations',
+	];
+
+	$request_uri = $_SERVER['REQUEST_URI'];
+	$path = trim( wp_parse_url( $request_uri, PHP_URL_PATH ), '/' );
+
+	// Strip local dev base path (e.g. /acrylicon/)
+	$site_path = wp_parse_url( home_url(), PHP_URL_PATH );
+	if ( $site_path && $site_path !== '/' ) {
+		$base = trim( $site_path, '/' ) . '/';
+		if ( strpos( $path, $base ) === 0 ) {
+			$path = substr( $path, strlen( $base ) );
+		}
+	}
+
+	// Get the first path segment
+	$segments = explode( '/', $path );
+	$first    = $segments[0] ?? '';
+
+	if ( isset( $redirects[ $first ] ) ) {
+		$segments[0] = $redirects[ $first ];
+		$new_path    = implode( '/', $segments );
+		wp_redirect( home_url( '/' . $new_path . '/' ), 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'acrylicon_redirect_old_norwegian_slugs' );

@@ -55,6 +55,7 @@
 				'container_class' => 'flex items-center hidden lg:flex',
 			));
 			?>
+			<?php acrylicon_render_language_switcher( 'header' ); ?>
 		</div>
 	</div>
 </header>
@@ -86,5 +87,6 @@
 			'container_class' => 'flex h-full',
 		));
 		?>
+		<?php acrylicon_render_language_switcher( 'mobile' ); ?>
 	</div>
 </header>

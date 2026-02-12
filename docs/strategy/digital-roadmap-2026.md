@@ -181,7 +181,27 @@ Driftsansvarlig kan skanne gulvet og se alt — uansett når gulvet ble lagt.
 
 ---
 
-**Samlet fase 4:** 90 000 – 130 000 kr
+### Digital HMS-portal for gulvleggere
+
+**Situasjonen i dag:**
+Gulvleggere må fremvise gyldige sertifiseringer og ID-dokumenter ved ankomst på byggeplass — HMS-kort, varmearbeider-sertifikat, førerkort, kursbevis. I dag betyr det fysiske papirer i lommeboken, bilder på mobilen, og ingen sentral oversikt for kontorene. Dokumenter kan være utdatert uten at noen oppdager det før en HMS-kontroll.
+
+**Løsningen:**
+Hver gulvlegger får sin egen skjulte side på acrylicon.no — beskyttet med en enkel PIN-kode (f.eks. fødselsdato). Siden viser alle gyldige sertifiseringer med bilde og utløpsdato. Ved ankomst på byggeplass viser gulvleggeren bare en URL til HMS-ansvarlig.
+
+Kontorene får en sentral oversikt over alle sertifiseringer, med automatisk varsling når fornyelse nærmer seg.
+
+**Hva AcryliCon oppnår:**
+- Profesjonelt og digitalt inntrykk på byggeplass — skiller seg tydelig fra konkurrenter
+- Sentral oversikt per kontor: hvem har hva, og når utløper det?
+- Automatisk varsel før sertifiseringer går ut → ingen jobber med utgåtte papirer
+- Skalerer automatisk til alle land via multisite
+
+**Investering:** 50 000 – 70 000 kr
+
+---
+
+**Samlet fase 4:** 140 000 – 200 000 kr
 
 ---
 
@@ -214,7 +234,7 @@ Når den internasjonale siden er på plass, kan nye land legges til effektivt. H
 | Fase 1: Grunnmur | Q1 2026 | 100 000 kr |
 | Fase 2: Selgerverktøy | Q2 2026 | 160 000 – 200 000 kr |
 | Fase 3: Kundeverktøy | Q3 2026 | 140 000 – 200 000 kr |
-| Fase 4: Profesjonalisering | Q4 2026 | 90 000 – 130 000 kr |
+| Fase 4: Profesjonalisering | Q4 2026 | 140 000 – 200 000 kr |
 | Fase 5: Vekst | 2027 | Løpende |
 
 ### Hva AcryliCon får

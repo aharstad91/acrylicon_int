@@ -96,6 +96,7 @@ Under 1,5% av omsetningen for hele digital tilstedeværelse, internasjonaliserin
 | WCAG tilgjengelighet | 40 000 – 60 000 kr | Idé |
 | Kontaktskjema (Gravity Forms) | 30 000 – 50 000 kr | Idé |
 | Cookie consent / GDPR | 10 000 – 15 000 kr | Idé |
+| HMS-portal for gulvleggere | 50 000 – 70 000 kr | Idé |
 
 ---
 
@@ -380,7 +381,48 @@ Løsninger som automatiserer forretningsprosesser og erstatter manuelt arbeid. P
 
 ---
 
-### 11. [Neste idé — legges til løpende]
+### 11. Digital HMS-/sertifiseringsportal for gulvleggere ✦ Operasjonell forenkling
+
+**Dagens problem:**
+- Gulvleggere må ha med seg gyldige sertifiseringer og dokumentasjon på hver arbeidsplass (varmearbeid, HMS-kort, førerkort, kursbevis, produktsertifiseringer m.m.)
+- I dag håndteres dette med fysiske papirer/kort eller bilder på mobilen
+- Byggherrer og HMS-ansvarlige krever fremvisning ved ankomst på byggeplass
+- Dokumenter kan glemmes, gå tapt, eller være utdaterte
+- Kontorene mangler sentral oversikt over hvilke sertifiseringer hver gulvlegger har, og når de utløper
+- Ved kontroll/revisjon er det vanskelig å raskt dokumentere at alle på prosjektet er sertifisert
+
+**Løsning — Personlig digital sertifiseringsside per gulvlegger:**
+- Hver gulvlegger får sin egen skjulte side (f.eks. `acrylicon.no/mitt-id/ola-nordmann`)
+- Tilgang via enkel PIN-kode (f.eks. fødselsdato: `220391`) — ikke synlig i noen meny
+- Siden viser alle gyldige sertifiseringer med bilde/scan:
+  - HMS-kort
+  - Varmearbeider-sertifikat
+  - Førerkort (klasser relevant for firmabil/varebil)
+  - Produktopplæring og kursbevis
+  - Eventuelt byggekort / ID06
+- Utløpsdato per sertifisering med automatisk varsling til kontor når fornyelse nærmer seg
+- Kontoradmin kan laste opp/oppdatere dokumenter via WordPress-backend
+- Gulvleggeren viser bare URL + PIN til HMS-ansvarlig på byggeplassen
+
+**Hva AcryliCon oppnår:**
+- Profesjonelt inntrykk på byggeplass — "skann eller gå til denne lenken" i stedet for roting i lommeboken
+- Sentral oversikt for hvert kontor over sertifiseringsstatus for alle gulvleggere
+- Automatisk varsling før sertifiseringer utløper → unngår at noen jobber med utgåtte papirer
+- Differensierer AcryliCon fra konkurrenter: digitalt, ryddig, profesjonelt
+- Enkel skalering til alle land via multisite
+- Potensielt utvidbart til QR-kode på arbeidstøy/ID-kort
+
+**Sikkerhetsnivå:**
+- Lav terskel (fødselsdato som PIN) — tilstrekkelig fordi innholdet ikke er sensitivt i seg selv (sertifiseringer er offentlig dokumentasjon), men holdes skjult fra søk og navigasjon
+- Sidene er `noindex` og ikke lenket fra noen meny
+- Kan oppgraderes til innlogging senere hvis behov
+
+**Foreslått pris:** 50 000 – 70 000 kr
+**ROI:** Sparer administrativ tid, reduserer risiko for bøter ved HMS-kontroll, styrker profesjonelt omdømme
+
+---
+
+### 12. [Neste idé — legges til løpende]
 
 **Dagens problem:**
 _Beskriv hva de gjør manuelt i dag_

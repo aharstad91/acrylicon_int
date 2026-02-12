@@ -47,9 +47,10 @@
 				'container_class' => 'font-normal',
 			));
 			?>
-			<!-- Logo -->
-			<div class="mt-14 flex md:justify-end">
+			<!-- Logo and Language Switcher -->
+			<div class="mt-14 flex flex-col md:items-end gap-4">
 				<img class="w-full max-w-420" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-light.svg" alt="Acrylicon logo">
+				<?php acrylicon_render_language_switcher( 'footer' ); ?>
 			</div>
 		</div>
 	</div>
@@ -108,6 +109,35 @@ const mobileMenu = () => {
 };
 
 document.addEventListener('DOMContentLoaded', mobileMenu);
+
+// Language switcher dropdown
+const langSwitcher = () => {
+  const toggle = document.getElementById('langToggle');
+  const dropdown = document.getElementById('langDropdown');
+  if (!toggle || !dropdown) return;
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = dropdown.classList.contains('opacity-100');
+    if (isOpen) {
+      dropdown.classList.remove('opacity-100', 'visible');
+      dropdown.classList.add('opacity-0', 'invisible');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      dropdown.classList.remove('opacity-0', 'invisible');
+      dropdown.classList.add('opacity-100', 'visible');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  document.addEventListener('click', () => {
+    dropdown.classList.remove('opacity-100', 'visible');
+    dropdown.classList.add('opacity-0', 'invisible');
+    toggle.setAttribute('aria-expanded', 'false');
+  });
+};
+
+document.addEventListener('DOMContentLoaded', langSwitcher);
 </script>
 
 
