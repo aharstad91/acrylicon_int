@@ -47,6 +47,9 @@ module.exports = {
       spacing: {
         '108': '26rem',
         '124': '31rem', // 496px - custom height for reference images
+        '500': '500px',
+        '600': '600px',
+        '900': '900px',
       },
     },
   },

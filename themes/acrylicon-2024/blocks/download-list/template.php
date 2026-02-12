@@ -41,11 +41,11 @@ if (!empty($block['align'])) {
 					<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/download-file.svg" alt="Last ned fil">
 					<div class="gap-4 w-full md:flex">
 						<?php if ($name) : ?>
-							<div class="text-black md:w-1-2 text-base font-normal font-sohne-mono mb-1"><?php echo esc_html($name); ?></div>
+							<div class="text-black md:w-1/2 text-base font-normal font-sohne-mono mb-1"><?php echo esc_html($name); ?></div>
 						<?php endif; ?>
 						<?php if ($link) : ?>
-							<a href="<?php echo esc_html($link); ?>" class="md:w-1-2 md:flex justify-end text-black">
-								<span class="underline">Last ned</span>
+							<a href="<?php echo esc_html($link); ?>" class="md:w-1/2 md:flex justify-end text-black">
+								<span class="underline"><?php echo (get_current_blog_id() === 3) ? 'Last ned' : 'Download'; ?></span>
 							</a>
 						<?php endif; ?>
 					</div>

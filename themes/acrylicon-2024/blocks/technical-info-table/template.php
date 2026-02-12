@@ -39,10 +39,10 @@ if (!empty($block['align'])) {
 			<div class="items-center py-4 flex gap-4 border-solid border-gray border-t">
 				<dl class="md:flex w-full font-sohne-mono">
 					<?php if ($name) : ?>
-						<dt class="text-black md:w-1-2 text-base font-normal font-sohne-mono mb-1"><?php echo esc_html($name); ?></dt>
+						<dt class="text-black md:w-1/2 text-base font-normal font-sohne-mono mb-1"><?php echo esc_html($name); ?></dt>
 					<?php endif; ?>
 					<?php if ($desc) : ?>
-						<dd class="text-acryl-gray-1 md:w-1-2"><?php echo wp_kses_post($desc); ?></dd>
+						<dd class="text-acryl-gray-1 md:w-1/2"><?php echo wp_kses_post($desc); ?></dd>
 					<?php endif; ?>
 				</dl>
 			</div>

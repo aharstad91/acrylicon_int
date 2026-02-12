@@ -83,7 +83,7 @@ $wp_query = new WP_Query($query_args);
 							<a href="<?php echo esc_url(get_permalink()); ?>" class="block">
 								<?php 
 								the_post_thumbnail('large', array(
-									'class' => 'h-500 w-full object-cover rounded-lg',
+									'class' => 'h-[440px] w-full object-cover rounded-lg',
 									'alt'   => get_the_title()
 								)); 
 								?>

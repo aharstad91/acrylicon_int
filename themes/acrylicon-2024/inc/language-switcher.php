@@ -247,7 +247,8 @@ function acrylicon_render_header_switcher( $languages, $current_blog_id ) {
         </button>
         <div
             id="langDropdown"
-            class="absolute right-0 top-full mt-2 bg-acryl-beige-lightest rounded shadow-lg py-2 min-w-[160px] opacity-0 invisible transition-all duration-200 z-50"
+            class="absolute top-full mt-2 bg-acryl-beige-lightest rounded shadow-lg py-2 min-w-[160px] opacity-0 invisible transition-all duration-200 z-50"
+            style="right: -16px;"
             role="menu"
         >
             <?php foreach ( $languages as $blog_id => $lang ) :

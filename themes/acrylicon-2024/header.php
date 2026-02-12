@@ -41,21 +41,23 @@
 	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
 	
-<header class="py-4 hidden lg:block lg:flex">
-	<div class="max-w w-full mx-auto px-4">
+<header class="py-4 hidden lg:flex">
+	<div class="max-w-max w-full mx-auto px-4">
 		<div class="flex items-center justify-between">
-			<a href="<?php echo home_url(); ?>" class="flex items-center hidden lg:flex">
+			<a href="<?php echo home_url(); ?>" class="flex items-center">
 				<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
 			</a>
-			<?php
-			wp_nav_menu(array(
-				'theme_location'  => 'primary-menu',
-				'menu_class'      => 'flex items-center gap-6 list-none text-lg font-normal no-underline my-reset',
-				'container'       => 'nav',
-				'container_class' => 'flex items-center hidden lg:flex',
-			));
-			?>
-			<?php acrylicon_render_language_switcher( 'header' ); ?>
+			<div class="flex items-center gap-6">
+				<?php
+				wp_nav_menu(array(
+					'theme_location'  => 'primary-menu',
+					'menu_class'      => 'flex items-center gap-6 list-none text-lg font-normal no-underline my-reset',
+					'container'       => 'nav',
+					'container_class' => 'flex items-center',
+				));
+				?>
+				<?php acrylicon_render_language_switcher( 'header' ); ?>
+			</div>
 		</div>
 	</div>
 </header>
