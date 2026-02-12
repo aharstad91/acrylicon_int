@@ -440,7 +440,39 @@ add_filter('edit_post_link', function($link, $post_id, $text) {
 require_once get_template_directory() . '/assets/components/register.php';
 require_once get_template_directory() . '/assets/components/titles.php';
 require_once get_template_directory() . '/inc/language-switcher.php';
+require_once get_template_directory() . '/inc/product-sheet-helpers.php';
 // Removed: meta-descriptions.php — replaced by mu-plugins/acrylicon-seo
+
+// Product Sheet: Register query var and template routing
+function acrylicon_product_sheet_query_var( $vars ) {
+	$vars[] = 'view';
+	return $vars;
+}
+add_filter( 'query_vars', 'acrylicon_product_sheet_query_var' );
+
+function acrylicon_product_sheet_template( $template ) {
+	if ( is_singular( 'produkter' ) && get_query_var( 'view' ) === 'sheet' ) {
+		$sheet_template = locate_template( 'single-produkter-sheet.php' );
+		if ( $sheet_template ) {
+			return $sheet_template;
+		}
+	}
+	return $template;
+}
+add_filter( 'template_include', 'acrylicon_product_sheet_template' );
+
+// Product Sheet: Enqueue print CSS on sheet pages
+function acrylicon_product_sheet_styles() {
+	if ( is_singular( 'produkter' ) && get_query_var( 'view' ) === 'sheet' ) {
+		wp_enqueue_style(
+			'product-sheet-print',
+			get_template_directory_uri() . '/assets/css/product-sheet-print.css',
+			array(),
+			filemtime( get_template_directory() . '/assets/css/product-sheet-print.css' )
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'acrylicon_product_sheet_styles' );
 
 
 

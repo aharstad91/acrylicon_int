@@ -1,0 +1,116 @@
+/* Product Sheet Print Styles */
+
+/* Elements to hide when printing */
+@media print {
+	/* Hide site header, footer, nav, print button, download section */
+	body > header,
+	body > footer,
+	.print-hide,
+	#menuPanel,
+	#wpadminbar {
+		display: none !important;
+	}
+
+	/* Remove page padding that accounts for fixed header */
+	.product-sheet {
+		padding-top: 0 !important;
+		margin: 0 !important;
+		max-width: none !important;
+	}
+
+	/* Reset body background for print */
+	body {
+		background: white !important;
+		font-size: 11pt !important;
+	}
+
+	/* A4 page setup */
+	@page {
+		size: A4 portrait;
+		margin: 10mm;
+	}
+
+	/* Force colors to print */
+	.product-sheet-content {
+		print-color-adjust: exact !important;
+		-webkit-print-color-adjust: exact !important;
+	}
+
+	/* Dark blue header/footer backgrounds */
+	.product-sheet-header,
+	.product-sheet-footer {
+		print-color-adjust: exact !important;
+		-webkit-print-color-adjust: exact !important;
+	}
+
+	/* Beige card backgrounds */
+	.bg-acryl-beige-lighter {
+		print-color-adjust: exact !important;
+		-webkit-print-color-adjust: exact !important;
+	}
+
+	/* Remove rounded corners and shadows for cleaner print */
+	.product-sheet-content {
+		border-radius: 0 !important;
+		box-shadow: none !important;
+	}
+
+	/* Hero image sizing for print */
+	.product-sheet-hero img {
+		height: 200px !important;
+		object-fit: cover;
+	}
+
+	/* Prevent page breaks inside sections */
+	.print-section {
+		break-inside: avoid;
+	}
+
+	/* Ensure page breaks work between sections */
+	.product-sheet-content > div {
+		break-inside: avoid;
+	}
+
+	/* Feature cards — tighter for print */
+	.product-sheet .grid.lg\:grid-cols-2 {
+		grid-template-columns: repeat(2, 1fr) !important;
+		gap: 8px !important;
+	}
+
+	/* Technical info table — force 2-column layout */
+	.product-sheet dl.md\:flex {
+		display: flex !important;
+	}
+
+	/* Logo sizing for print */
+	.print-logo {
+		width: 180px !important;
+	}
+
+	/* Links — show URL on print */
+	.product-sheet-content a[href]:not(.print-hide a)::after {
+		content: none; /* Don't show URLs, keeps it clean like the PDF */
+	}
+
+	/* Reduce spacing for print */
+	.product-sheet-content .mb-12 {
+		margin-bottom: 1.5rem !important;
+	}
+
+	.product-sheet-content .py-8 {
+		padding-top: 1rem !important;
+		padding-bottom: 1rem !important;
+	}
+
+	.product-sheet-content .lg\:py-12 {
+		padding-top: 1.5rem !important;
+		padding-bottom: 1.5rem !important;
+	}
+}
+
+/* Screen-only: sheet looks like a page even on screen */
+@media screen {
+	.product-sheet-content {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+	}
+}
