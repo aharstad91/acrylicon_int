@@ -94,63 +94,56 @@ $total = count( $cards );
 ?>
 
 <?php if ( $show_taxonomy ) : ?>
-<div class="reference-filters mb-10 space-y-6" data-total="<?php echo $total; ?>">
+<div class="reference-filters mb-10" data-total="<?php echo $total; ?>">
+	<div class="flex flex-wrap items-end gap-4">
 
-	<?php if ( $filter_categories ) : ?>
-	<div class="filter-group" data-filter-taxonomy="categories">
-		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Industry' : 'Industri'; ?></h4>
-		<div class="flex flex-wrap gap-2">
-			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
-				<?php echo $is_english ? 'All' : 'Alle'; ?>
-			</button>
-			<?php foreach ( $filter_categories as $slug => $name ) : ?>
-			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
-				<?php echo esc_html( $name ); ?>
-			</button>
-			<?php endforeach; ?>
+		<?php if ( $filter_categories ) : ?>
+		<div class="filter-group" data-filter-taxonomy="categories">
+			<label class="block font-sohne-mono text-xs text-acryl-gray-1 mb-1"><?php echo $is_english ? 'Industry' : 'Industri'; ?></label>
+			<select class="filter-select border border-solid border-acryl-neutral-1 rounded-lg px-4 py-2 text-sm font-sohne-mono bg-white appearance-none pr-8 cursor-pointer">
+				<option value="all"><?php echo $is_english ? 'All industries' : 'Alle industrier'; ?></option>
+				<?php foreach ( $filter_categories as $slug => $name ) : ?>
+				<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
-	</div>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<?php if ( $filter_products ) : ?>
-	<div class="filter-group" data-filter-taxonomy="products">
-		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Product system' : 'Produktsystem'; ?></h4>
-		<div class="flex flex-wrap gap-2">
-			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
-				<?php echo $is_english ? 'All' : 'Alle'; ?>
-			</button>
-			<?php foreach ( $filter_products as $slug => $name ) : ?>
-			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
-				<?php echo esc_html( $name ); ?>
-			</button>
-			<?php endforeach; ?>
+		<?php if ( $filter_products ) : ?>
+		<div class="filter-group" data-filter-taxonomy="products">
+			<label class="block font-sohne-mono text-xs text-acryl-gray-1 mb-1"><?php echo $is_english ? 'Product system' : 'Produktsystem'; ?></label>
+			<select class="filter-select border border-solid border-acryl-neutral-1 rounded-lg px-4 py-2 text-sm font-sohne-mono bg-white appearance-none pr-8 cursor-pointer">
+				<option value="all"><?php echo $is_english ? 'All systems' : 'Alle systemer'; ?></option>
+				<?php foreach ( $filter_products as $slug => $name ) : ?>
+				<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
-	</div>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<?php if ( $filter_offices ) : ?>
-	<div class="filter-group" data-filter-taxonomy="offices">
-		<h4 class="font-sohne-mono text-base mb-3"><?php echo $is_english ? 'Office' : 'Kontor'; ?></h4>
-		<div class="flex flex-wrap gap-2">
-			<button type="button" class="filter-pill active rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono bg-acryl-dark-blue text-white transition-colors" data-filter-value="all">
-				<?php echo $is_english ? 'All' : 'Alle'; ?>
-			</button>
-			<?php foreach ( $filter_offices as $slug => $name ) : ?>
-			<button type="button" class="filter-pill rounded-full px-4 py-2 border border-solid border-acryl-neutral-1 text-sm font-sohne-mono hover:bg-gray-100 transition-colors" data-filter-value="<?php echo esc_attr( $slug ); ?>">
-				<?php echo esc_html( $name ); ?>
-			</button>
-			<?php endforeach; ?>
+		<?php if ( $filter_offices ) : ?>
+		<div class="filter-group" data-filter-taxonomy="offices">
+			<label class="block font-sohne-mono text-xs text-acryl-gray-1 mb-1"><?php echo $is_english ? 'Office' : 'Kontor'; ?></label>
+			<select class="filter-select border border-solid border-acryl-neutral-1 rounded-lg px-4 py-2 text-sm font-sohne-mono bg-white appearance-none pr-8 cursor-pointer">
+				<option value="all"><?php echo $is_english ? 'All offices' : 'Alle kontorer'; ?></option>
+				<?php foreach ( $filter_offices as $slug => $name ) : ?>
+				<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
-	</div>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<p class="reference-count font-sohne-mono text-sm text-acryl-gray-1">
-		<?php echo $is_english ? 'Showing' : 'Viser'; ?>
-		<span class="reference-count-visible"><?php echo $total; ?></span>
-		<?php echo $is_english ? 'of' : 'av'; ?>
-		<?php echo $total; ?>
-		<?php echo $is_english ? 'references' : 'referanser'; ?>
-	</p>
+		<button type="button" class="filter-reset hidden font-sohne-mono text-sm text-acryl-gray-1 hover:text-black transition-colors pb-2 cursor-pointer">
+			&times; <?php echo $is_english ? 'Reset' : 'Nullstill'; ?>
+		</button>
+
+		<p class="reference-count font-sohne-mono text-sm text-acryl-gray-1 pb-2 mb-0 ml-auto">
+			<span class="reference-count-visible"><?php echo $total; ?></span>
+			<?php echo $is_english ? 'of' : 'av'; ?>
+			<?php echo $total; ?>
+			<?php echo $is_english ? 'references' : 'referanser'; ?>
+		</p>
+	</div>
 </div>
 <?php endif; ?>
 
@@ -163,7 +156,7 @@ $total = count( $cards );
 		$product_slugs = implode( ',', wp_list_pluck( $card['products'], 'slug' ) );
 		$office_slugs  = implode( ',', wp_list_pluck( $card['offices'], 'slug' ) );
 	?>
-	<div class="reference-card flex flex-col<?php echo $is_case_study ? ' lg:col-span-2' : ''; ?>"
+	<div class="reference-card flex flex-col"
 		data-categories="<?php echo esc_attr( $cat_slugs ); ?>"
 		data-products="<?php echo esc_attr( $product_slugs ); ?>"
 		data-offices="<?php echo esc_attr( $office_slugs ); ?>"
@@ -194,7 +187,7 @@ $total = count( $cards );
 		</div>
 		<?php endif; ?>
 
-		<h3 class="<?php echo $is_case_study ? 'text-4xl' : 'text-3xl'; ?> font-normal my-0 mb-2">
+		<h3 class="text-3xl font-normal my-0 mb-2">
 			<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="no-underline">
 				<?php echo get_the_title( $post_id ); ?>
 			</a>
