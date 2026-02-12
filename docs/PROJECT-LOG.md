@@ -4,6 +4,30 @@
 
 ---
 
+## 2026-02-12 – Referanseside: client-side filtrering
+
+### Beslutninger
+- **Client-side filter over AJAX**: 15 referanser er lite nok til å laste alle og filtrere med JS. Ingen REST API-overhead.
+- **Tre filter-grupper**: Industri, produktsystem, kontor — alle eksisterte som taksonomier men kun industri var filtrerbar.
+- **AND mellom grupper, OR innenfor**: Velg "Fiskeindustri" + "Flake System" = kun referanser som matcher begge.
+- **Case studies sortert først**: `usort()` etter query, case studies får `lg:col-span-2` for visuell vekt.
+- **Erstattet `query_posts()`**: Taxonomy-template brukte deprecated funksjon, nå `WP_Query`.
+- **Kun terms med innhold**: Filter-pills bygges fra faktisk data, ikke alle registrerte terms.
+
+### Parkert / Åpne spørsmål
+- URL-state for filtre (query params) — ikke i MVP, kan legges til med `history.pushState`
+- Animasjoner ved filter — enkel hide/show nå, kan legge til fade transition
+
+### Retning
+Referansesiden er nå mye mer brukbar for kunder som vil finne relevante case studies. Neste steg kan være å legge til filtrering i andre listevisninger (produkter, bruksområder).
+
+### Observasjoner
+- Vanilla JS IIFE-mønsteret fungerer bra for denne type isolert funksjonalitet
+- ACF-blokkens `show_taxonomy` toggle bestemmer om filtre vises — eksisterende oppførsel bevart
+- Duplisert kortmal-kode i blokken er eliminert — fra 220 linjer med 3 nesten-identiske loops til én loop
+
+---
+
 ## 2026-02-12 – DB-sync fra prod + index.php-fix + git cleanup
 
 ### Beslutninger
