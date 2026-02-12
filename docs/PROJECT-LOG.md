@@ -4,6 +4,32 @@
 
 ---
 
+## 2026-02-12 – DB-sync fra prod + index.php-fix + git cleanup
+
+### Beslutninger
+- **Prod DB pull til localhost:** Lokal DB var utdatert — manglet alle engelske oversettelser fra 2026-02-11. Pullet full prod DB (37MB), kjørte search-replace for URLs, fikset wp_blogs/wp_site domain+path.
+- **`index.php` have_posts() guard:** Tema-filen kalte `the_post()` uten å sjekke `have_posts()` først. Ga PHP warning på URLer som ikke matchet noen side. Fikset og deployet til prod.
+- **CLAUDE.md korrigert:** Blog 3 bruker `/no/` på *begge* miljøer, ikke `/norway/` som dokumentert. Rettet.
+- **Git cleanup:** 5 commits med alt uncommittet arbeid fra forrige sesjoner (language switcher, i18n templates, factory/locations pages, docs).
+
+### Parkert / Åpne spørsmål
+- **Lokal DB-sync bør automatiseres:** Manuell prosess med SSH export → import → search-replace → wp_blogs fix. Bør lage et script.
+- **SEO docs oppdatert:** `docs/strategy/seo.md` har nå detaljert konkurrentanalyse og faseplan, men ingenting er implementert ennå.
+- **7 åpne P1 todos** i `wp-content/todos/` — fortsatt ubehandlet (R2 CDN, credential exposure, multisite sync issues).
+
+### Retning
+Localhost er nå i sync med prod. Lokal utvikling kan stoles på igjen. Neste naturlige steg er enten:
+1. Takle P1 todosene (R2 CDN, credential-sikkerhet)
+2. SEO fase A (hreflang, meta descriptions)
+3. Innholdsarbeid (referansesider, bruksområde-utvidelser)
+
+### Observasjoner
+- **DB-sync er den vanligste "gotcha":** Tredje gang vi har sett issues relatert til lokal/prod DB-forskjeller. Et `db-pull.sh`-script ville spart mye debugging-tid.
+- **Uncommittet arbeid over flere sesjoner er risikabelt.** Denne sesjonen committet 5 stykker arbeid som har ligget i working tree. Bør committe oftere.
+- **Branch-hygienen trenger rydding:** Vi er på `feature/reference-page-filters` men committene inkluderer language switcher, factory pages, og docs som ikke er relatert til referansesider.
+
+---
+
 ## 2026-02-11 – Internasjonal side oversatt til engelsk
 
 ### Beslutninger
