@@ -27,9 +27,9 @@ $className .= " {$columns_count}";
 <div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($className); ?>">
 	<ul class="grid <?php 
 		if ($columns_count === 'two-columns') {
-			echo 'md-grid-cols-2';
+			echo 'md:grid-cols-2';
 		} elseif ($columns_count === 'three-columns') {
-			echo 'md-grid-cols-3';
+			echo 'md:grid-cols-3';
 		} else {
 			echo 'grid-cols-1';
 		}

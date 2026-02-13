@@ -1,5 +1,5 @@
 <footer class="bg-acryl-red text-white py-10 font-normal">
-	<div class="max-w-screen-2xl mx-auto px-4">
+	<div class="max-w-screen-2xl mx-auto px-20">
 		<div class="grid lg:grid-cols-3  gap-12">
 			<!-- Left Column -->
 			<div class="space-y-8">
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="space-y-4">
-				<h2 class="text-base font-normal mb-4"><?php echo ( get_current_blog_id() === 1 ) ? 'Offices' : 'Kontorer'; ?></h2>
+				<h2 class="text-base font-normal mb-4"><?php echo ( get_current_blog_id() === 1 ) ? 'Locations' : 'Kontorer'; ?></h2>
 				<?php
 				wp_nav_menu(array(
 					'theme_location'  => 'footer-four',

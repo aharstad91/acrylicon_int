@@ -42,7 +42,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 	
 <header class="py-4 hidden lg:flex">
-	<div class="max-w-max w-full mx-auto px-4">
+	<div class="max-w-max w-full mx-auto px-20">
 		<div class="flex items-center justify-between">
 			<a href="<?php echo home_url(); ?>" class="flex items-center">
 				<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
@@ -62,7 +62,7 @@
 	</div>
 </header>
 <header class="lg:hidden sticky relative top-0 z-50 w-full bg-acryl-beige-lightest" style="height: 76px;">
-	<div class="flex items-center justify-between py-4 px-4 py-2">
+	<div class="flex items-center justify-between py-4 px-20 py-2">
 		<a href="<?php echo home_url(); ?>" class="flex items-center">
 			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
 		</a>

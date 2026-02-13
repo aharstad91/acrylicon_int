@@ -9,10 +9,11 @@
 
 /* Base Layer - WordPress & Theme Specific Styles */
 @layer base {
-  html.sr .ani-h {
-    visibility: hidden;
+  /* Hide main+footer until GSAP fades them in - prevents flash of content */
+  main, footer {
+    opacity: 0;
   }
-  
+
   body, html, main, .iframe-container {
     min-height: 100vh;
     margin: 0;
@@ -39,6 +40,19 @@
 
   #wpadminbar {
     top: -32px;
+  }
+
+  /* WordPress editor content - restore typography stripped by Preflight */
+  .editor p,
+  .editor h1,
+  .editor h2,
+  .editor h3,
+  .editor h4,
+  .editor h5,
+  .editor h6,
+  .editor ul {
+    margin-bottom: 1rem;
+    font-weight: 500;
   }
 }
 

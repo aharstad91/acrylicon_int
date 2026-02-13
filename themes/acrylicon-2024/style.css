@@ -2,9 +2,6 @@
 Theme Enable AS - 2023
 Author: Konsulent Harstad v/Andreas Harstad // Orgnr. 921 029 438
 */
-html.sr .ani-h {
-	visibility: hidden;
-}
 body, html, main, .iframe-container{
 	min-height: 100vh;
 	margin: 0;

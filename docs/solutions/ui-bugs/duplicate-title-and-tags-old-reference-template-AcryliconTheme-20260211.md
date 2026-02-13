@@ -88,3 +88,4 @@ curl -s "$URL" | grep -c 'flex-shrink no-wrap bg-red'  # Should be 0
 ## Related Issues
 
 - See also: [tailwind-purges-layer-utilities-database-classes-AcryliconTheme-20260211.md](../build-errors/tailwind-purges-layer-utilities-database-classes-AcryliconTheme-20260211.md) — related Tailwind migration issue discovered in same session
+- See also: [incomplete-template-routing-referanser-AcryliconTheme-20260212.md](./incomplete-template-routing-referanser-AcryliconTheme-20260212.md) — follow-up fix for router-level routing of case-study posts and missing fallback for untyped posts
