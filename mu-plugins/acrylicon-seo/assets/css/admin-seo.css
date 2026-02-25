@@ -69,7 +69,7 @@
 }
 
 .acrylicon-seo-field label {
-	display: block;
+	display: inline;
 	font-weight: 600;
 	margin-bottom: 4px;
 	font-size: 13px;
@@ -77,11 +77,19 @@
 
 .acrylicon-seo-field input[type="text"],
 .acrylicon-seo-field textarea {
+	display: block;
 	width: 100%;
 	max-width: 600px;
-	font-size: 12px;
+	font-size: 14px;
 	color: #000000 !important;
 	padding: 8px 10px;
+	margin-top: 4px;
+}
+
+.acrylicon-seo-field input[type="text"]::placeholder,
+.acrylicon-seo-field textarea::placeholder {
+	color: #000000 !important;
+	opacity: 1;
 }
 
 .acrylicon-seo-field textarea {
@@ -90,11 +98,10 @@
 
 /* Character counter */
 .acrylicon-seo-counter {
-	font-size: 12px;
+	font-size: 13px;
 	color: #0a7e07;
-	position: absolute;
-	right: 0;
-	top: 0;
+	margin-left: 8px;
+	font-weight: 600;
 }
 
 .acrylicon-seo-counter.warning {

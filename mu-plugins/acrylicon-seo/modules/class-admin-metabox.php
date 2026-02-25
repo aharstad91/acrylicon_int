@@ -91,23 +91,23 @@ class Acrylicon_SEO_Admin_Metabox {
 			<div class="acrylicon-seo-fields">
 				<div class="acrylicon-seo-field">
 					<label for="acrylicon_seo_title">SEO Title:</label>
+					<span class="acrylicon-seo-counter" id="acrylicon-seo-title-counter">
+						<?php echo mb_strlen( $title ?: $auto_title ); ?>/60
+					</span>
 					<input type="text" id="acrylicon_seo_title" name="acrylicon_seo_title"
 						value="<?php echo esc_attr( $title ); ?>"
 						placeholder="<?php echo esc_attr( $auto_title ); ?>"
 						maxlength="70" />
-					<span class="acrylicon-seo-counter" id="acrylicon-seo-title-counter">
-						<?php echo mb_strlen( $title ?: $auto_title ); ?>/60
-					</span>
 				</div>
 
 				<div class="acrylicon-seo-field">
 					<label for="acrylicon_seo_description">Description:</label>
-					<textarea id="acrylicon_seo_description" name="acrylicon_seo_description"
-						placeholder="<?php echo esc_attr( $auto_desc ); ?>"
-						maxlength="200" rows="2"><?php echo esc_textarea( $description ); ?></textarea>
 					<span class="acrylicon-seo-counter" id="acrylicon-seo-desc-counter">
 						<?php echo mb_strlen( $description ?: $auto_desc ); ?>/155
 					</span>
+					<textarea id="acrylicon_seo_description" name="acrylicon_seo_description"
+						placeholder="<?php echo esc_attr( $auto_desc ); ?>"
+						maxlength="200" rows="2"><?php echo esc_textarea( $description ); ?></textarea>
 				</div>
 
 				<div class="acrylicon-seo-field">
