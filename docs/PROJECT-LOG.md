@@ -4,6 +4,33 @@
 
 ---
 
+## 2026-02-25 – Meta description fallback + Ralph SEO-oppsett
+
+### Beslutninger
+- **Yoast `wpseo_metadesc` filter:** Valgte å bruke Yoasts dokumenterte public API fremfor custom wp_head-output. Tryggere ved Yoast-oppdateringer, og unngår dupliserte meta-tagger.
+- **`$presentation->model` over `get_post()`:** Yoasts Indexable-objekt har allerede post_type og ID — ingen ekstra DB-query.
+- **Taxonomy-ID er fast, ikke dynamisk:** `referanser-produkter` er taxonomy-ID på begge blogger. `acrylicon_get_cpt_slugs()` returnerer URL-rewrite-slug, ikke taxonomy-ID. Viktig distinksjon som forårsaket en bug.
+- **`mb_substr()` for trunkering:** Norsk tekst med æøå krever multibyte-safe funksjoner.
+- **Ralph autonomous agent satt opp:** `wp-content/ralph/` med 8 SEO user stories i `prd.json`. Ikke testkjørt ennå — Ralph er ikke tilgjengelig som marketplace-plugin, satt opp manuelt.
+
+### Parkert / Åpne spørsmål
+- **Ralph testkjøring:** Skal vi faktisk kjøre `ralph.sh` for de gjenværende SEO-storiene (JSON-LD schemas), eller bygge dem manuelt med /full?
+- **Referanse-taxonomy termer:** Mange referanser (~42 av ~100) har ingen `referanser-produkter`-termer. Bør disse tagges manuelt?
+- **Taxonomy term-navn er engelske:** "Flake System – Floor" vises i norske meta descriptions. Bør vi ha norske term-navn på blog 3?
+- **Deploy:** Meta description-koden er på `ralph/technical-seo`-branch. Merge til main + deploy til prod når verifisert.
+
+### Retning
+SEO-arbeidet er i gang. Meta descriptions var det lavest hengende fruktet — én fil, umiddelbar effekt på alle ~145 sider. Neste logiske steg er JSON-LD structured data (Organization → LocalBusiness → Product schemas) som er planlagt i de 7 gjenværende Ralph-storiene.
+
+Salgsdokumentet ("Digital veikart 2026-2027") og Ralph-oppsettet gir en god ramme for å systematisere dette arbeidet. Men spørsmålet er om Ralph-loopen faktisk er verdt overhead for WordPress/PHP-prosjekter der testinfrastrukturen er svakere enn i TypeScript-prosjekter.
+
+### Observasjoner
+- **Yoast har ingen fallback** — dette var overraskende. Uten vår filter ville ~142 sider hatt null meta description.
+- **ACF-data dekker mye:** product_excerpt (83%), office_adress (100%), taxonomy-termer (58%) gir godt grunnlag for auto-generering.
+- **"Deepening"-fasen ga reell verdi:** Yoast filter-signaturen, edge cases for non-singular contexts, og `wp_strip_all_tags` vs `strip_tags` var alle funn som forbedret implementeringen. Verdt å kjøre deepen på alle tekniske planer.
+
+---
+
 ## 2026-02-12 – Referanseside: client-side filtrering
 
 ### Beslutninger
