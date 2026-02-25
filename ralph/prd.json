@@ -1,0 +1,135 @@
+{
+  "project": "Acrylicon Technical SEO",
+  "branchName": "ralph/technical-seo",
+  "description": "Implement structured data (JSON-LD) and meta description fallbacks for Acrylicon WordPress multisite. Goal: Make Acrylicon visible in Google search results and AI Overviews for Norwegian industry flooring keywords.",
+  "userStories": [
+    {
+      "id": "SEO-001",
+      "title": "Organization schema (sitewide)",
+      "description": "As a search engine, I want to understand Acrylicon as a business entity so I can display it in Knowledge Graph and AI Overviews.",
+      "acceptanceCriteria": [
+        "JSON-LD Organization schema outputs in <head> on all pages via wp_head hook",
+        "Schema includes: name (AcryliCon), url, logo, description, foundingDate (1978), contactPoint, address (hovedkontor), sameAs (social profiles if any)",
+        "Uses production URL (https://acryli-28355.jana-osl.servebolt.cloud) as @id and url",
+        "Multisite-aware: outputs Norwegian content on blog 3, English on blog 1",
+        "Valid JSON-LD verified by extracting from page source and parsing with jq",
+        "PHP syntax check passes on all modified files",
+        "Implementation in new file: themes/acrylicon-2024/inc/schema-markup.php, required from functions.php"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Create inc/schema-markup.php as dedicated file for all schema functions. This is the foundation — later stories add to this file."
+    },
+    {
+      "id": "SEO-002",
+      "title": "LocalBusiness schema for office pages",
+      "description": "As a user searching for 'industrigulv Bergen' or 'gulvløsninger Tromsø', I want Google to show the nearest Acrylicon office with address and contact info.",
+      "acceptanceCriteria": [
+        "JSON-LD LocalBusiness schema outputs on each office (kontor) single page",
+        "Schema includes: name, address (streetAddress, addressLocality, postalCode, addressCountry), telephone, url, parentOrganization (references SEO-001 Organization @id)",
+        "Data sourced from ACF fields on kontor post type (read existing field names from the posts)",
+        "Outputs on both blog 1 (EN) and blog 3 (NO) with correct language content",
+        "4 offices should each have their own LocalBusiness schema",
+        "Valid JSON-LD, PHP syntax passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Check ACF field names on kontor CPT first. Fields likely include address-related fields. Use get_field() to source data."
+    },
+    {
+      "id": "SEO-003",
+      "title": "Product schema for product pages",
+      "description": "As a user searching for 'epoxy gulv' or 'akryl belegg', I want Google to show Acrylicon products with rich results.",
+      "acceptanceCriteria": [
+        "JSON-LD Product schema outputs on each produkter single page",
+        "Schema includes: name, description (from product_excerpt ACF field, stripped of HTML), brand (AcryliCon), manufacturer, category",
+        "Includes offers with priceCurrency NOK and availability (InStock)",
+        "Data sourced from ACF fields on produkter post type",
+        "Works on both blog 1 (EN) and blog 3 (NO)",
+        "12 product systems should each have schema",
+        "Valid JSON-LD, PHP syntax passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "product_excerpt exists on 10 of 12 products. For the 2 without (Multi-Grip ID, TankCoating), fall back to post excerpt or title."
+    },
+    {
+      "id": "SEO-004",
+      "title": "BreadcrumbList schema for all pages",
+      "description": "As a search engine, I want to display navigation breadcrumbs in search results so users understand the site structure.",
+      "acceptanceCriteria": [
+        "JSON-LD BreadcrumbList schema outputs on all pages (not just frontpage)",
+        "Breadcrumb trail: Home > [Post Type Archive if applicable] > [Current Page]",
+        "For CPTs: Home > Produkter > {Product Name}",
+        "For pages: Home > {Page Name} (or Home > {Parent} > {Page Name} for hierarchical)",
+        "Uses correct URLs for each breadcrumb item",
+        "Multisite-aware: Norwegian labels on blog 3, English on blog 1",
+        "Valid JSON-LD, PHP syntax passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Check if Yoast already outputs breadcrumbs — if so, disable Yoast's and use custom to ensure multisite correctness. Use conditional blog_id checks for labels."
+    },
+    {
+      "id": "SEO-005",
+      "title": "Article/CaseStudy schema for references",
+      "description": "As a user searching for flooring case studies, I want Google to show Acrylicon's 100+ project references as rich results.",
+      "acceptanceCriteria": [
+        "JSON-LD Article schema (or CaseStudy if supported) outputs on each referanser single page",
+        "Schema includes: headline (title), datePublished, author (AcryliCon), description, image (featured image if available)",
+        "Includes about property linking to relevant product system",
+        "Works on both blog 1 and blog 3",
+        "Valid JSON-LD, PHP syntax passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "referance_productsystem ACF field links references to products. Use this for the 'about' property."
+    },
+    {
+      "id": "SEO-006",
+      "title": "Service schema for application area pages",
+      "description": "As a user searching for 'gulvløsning næringsmiddel' or 'industrigulv sykehus', I want Google to show relevant Acrylicon application areas.",
+      "acceptanceCriteria": [
+        "JSON-LD Service schema outputs on each bruksomrader single page",
+        "Schema includes: name, description, provider (references Organization @id), areaServed, serviceType",
+        "Works on both blog 1 and blog 3",
+        "Valid JSON-LD, PHP syntax passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "bruksomrader (application areas) describe specific use cases like food industry, hospitals, etc."
+    },
+    {
+      "id": "SEO-007",
+      "title": "Meta description PHP fallback via Yoast filter",
+      "description": "As a search engine displaying results, I want every Acrylicon page to have a meaningful meta description instead of auto-generated garbage.",
+      "acceptanceCriteria": [
+        "Filter on wpseo_metadesc that generates meta description when Yoast field is empty",
+        "Fallback templates per CPT: produkter uses product_excerpt (converted to prose), referanser uses title + product system, bruksomrader uses title + context, kontor uses address + region, industrier uses title, pages use excerpt or first 155 chars",
+        "Meta descriptions are 150-160 characters, Norwegian on blog 3, English on blog 1",
+        "Does NOT override manually written Yoast descriptions",
+        "Includes primary keyword naturally in each description",
+        "PHP syntax passes on all modified files"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "See brainstorm doc for exact templates per CPT. product_excerpt is HTML bullet list — must be converted to readable prose. 2 products lack excerpt — fall back to title."
+    },
+    {
+      "id": "SEO-008",
+      "title": "Verify and fix Yoast Open Graph output per blog",
+      "description": "As a user sharing Acrylicon links on social media, I want correct og:title, og:description, og:image and og:locale for each page.",
+      "acceptanceCriteria": [
+        "Verify Yoast Open Graph is enabled on both blog 1 and blog 3",
+        "og:locale outputs 'nb_NO' on blog 3 and 'en_US' on blog 1",
+        "og:site_name outputs 'AcryliCon' on both blogs",
+        "og:image falls back to a default image when no featured image is set",
+        "If Yoast OG is disabled or misconfigured, enable it or add custom OG tags via wp_head",
+        "Verify by checking page source for og: meta tags"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "This may just require Yoast settings verification via WP-CLI. If code changes needed, add to schema-markup.php or create inc/social-meta.php."
+    }
+  ]
+}

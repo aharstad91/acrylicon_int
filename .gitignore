@@ -22,6 +22,9 @@
 # === DOCS ===
 !/docs/
 
+# === RALPH (autonomous agent) ===
+!/ralph/
+
 # === CREDENTIALS ===
 docs/security/credentials.md
 

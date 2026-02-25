@@ -1,0 +1,17 @@
+# Ralph Progress Log
+Started: 2026-02-25
+Project: Acrylicon Technical SEO
+
+## Codebase Patterns
+- Theme path: wp-content/themes/acrylicon-2024/
+- All schema/SEO code goes in: themes/acrylicon-2024/inc/schema-markup.php
+- Require new inc files from functions.php (see existing pattern for language-switcher.php)
+- Use get_current_blog_id() to detect language: 1 = EN, 3 = NO
+- ACF data: use get_field('field_name') for post-level data
+- Production URL for schema @id: https://acryli-28355.jana-osl.servebolt.cloud
+- Yoast meta description filter: wpseo_metadesc
+- CPT slugs differ per blog — see acrylicon_get_cpt_slugs() in functions.php
+- hreflang already implemented in inc/language-switcher.php — do not duplicate
+- PageSpeed is 99/100 mobile — do not add heavy scripts or blocking resources
+- WP-CLI local command prefix: PATH="/Applications/MAMP/Library/bin/mysql80/bin:/opt/homebrew/bin:/usr/bin:/usr/local/bin:$PATH" php /usr/local/bin/wp --skip-plugins=wp-fastest-cache
+---
