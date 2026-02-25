@@ -62,7 +62,7 @@
 	</div>
 </header>
 <header class="lg:hidden sticky relative top-0 z-50 w-full bg-acryl-beige-lightest" style="height: 76px;">
-	<div class="flex items-center justify-between py-4 px-20 py-2">
+	<div class="flex items-center justify-between py-4 px-5 py-2">
 		<a href="<?php echo home_url(); ?>" class="flex items-center">
 			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
 		</a>

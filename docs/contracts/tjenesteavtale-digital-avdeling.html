@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tjenesteavtale — Din digitale avdeling</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --dark-blue: #253761;
+            --red: #E2241C;
+            --light-blue: #D5EDF7;
+            --light-blue-soft: #EBF5FA;
+            --neutral-1: #f8f9fa;
+            --neutral-2: #e9ecef;
+            --neutral-3: #dee2e6;
+            --gray-1: #6c757d;
+            --gray-2: #495057;
+            --gray-3: #343a40;
+            --white: #ffffff;
+            --green: #16a34a;
+            --green-soft: #f0fdf4;
+            --amber: #d97706;
+            --amber-soft: #fffbeb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-3);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* ---- HERO ---- */
+        .hero {
+            background: var(--dark-blue);
+            color: var(--white);
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 600px; height: 600px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--light-blue);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero h1 span { color: var(--light-blue); }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+            max-width: 520px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-meta {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ---- NAV ---- */
+        .phase-nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neutral-2);
+            z-index: 100;
+            padding: 0 40px;
+        }
+
+        .phase-nav-inner {
+            max-width: 840px;
+            margin: 0 auto;
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            align-items: center;
+        }
+
+        .phase-nav a {
+            display: block;
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-1);
+            text-decoration: none;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .phase-nav a:hover {
+            color: var(--dark-blue);
+            border-bottom-color: var(--neutral-3);
+        }
+
+        /* ---- LAYOUT ---- */
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section { padding: 80px 0; }
+        section + section { border-top: 1px solid var(--neutral-2); }
+
+        .section-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 12px;
+        }
+
+        .section-label.red {
+            color: var(--red);
+            background: rgba(226, 36, 28, 0.08);
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--gray-1);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* ---- PARTIES ---- */
+        .parties-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .party-card {
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 28px;
+            background: var(--white);
+        }
+
+        .party-card.highlight {
+            border-color: var(--dark-blue);
+            border-width: 2px;
+        }
+
+        .party-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 12px;
+        }
+
+        .party-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 12px;
+        }
+
+        .party-detail {
+            font-size: 14px;
+            color: var(--gray-1);
+            line-height: 1.8;
+        }
+
+        .party-detail .placeholder {
+            background: var(--light-blue-soft);
+            border: 1px dashed var(--dark-blue);
+            border-radius: 4px;
+            padding: 1px 8px;
+            font-size: 13px;
+            color: var(--dark-blue);
+            font-weight: 500;
+        }
+
+        /* ---- SERVICE LIST ---- */
+        .service-category {
+            margin-bottom: 32px;
+        }
+
+        .service-category:last-child { margin-bottom: 0; }
+
+        .service-category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-blue-soft);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .service-icon.red-bg { background: rgba(226, 36, 28, 0.08); }
+
+        .service-category-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .service-list {
+            list-style: none;
+            padding: 0;
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .service-list li {
+            padding: 14px 20px 14px 48px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray-2);
+            border-bottom: 1px solid var(--neutral-2);
+            line-height: 1.5;
+        }
+
+        .service-list li:last-child { border-bottom: none; }
+
+        .service-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 20px;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .service-list.excluded li::before {
+            content: '✗';
+            color: var(--red);
+        }
+
+        /* ---- TIMEBANK ---- */
+        .timebank-card {
+            background: var(--dark-blue);
+            border-radius: 12px;
+            padding: 36px 32px;
+            color: var(--white);
+            margin-bottom: 32px;
+        }
+
+        .timebank-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .timebank-card .sub {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+        }
+
+        .timebank-display {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .timebank-display .number {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--light-blue);
+            line-height: 1;
+        }
+
+        .timebank-display .unit {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .timebank-rules {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timebank-rules li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .timebank-rules li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--light-blue);
+            font-weight: 700;
+        }
+
+        /* ---- PRICING ---- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .price-card {
+            background: var(--neutral-1);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .price-card.featured {
+            background: var(--white);
+            border: 2px solid var(--dark-blue);
+        }
+
+        .price-card .price-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 12px;
+        }
+
+        .price-card .price-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .price-card .price-period {
+            font-size: 14px;
+            color: var(--gray-1);
+            margin-bottom: 12px;
+        }
+
+        .price-card .price-detail {
+            font-size: 13px;
+            color: var(--gray-1);
+            line-height: 1.5;
+        }
+
+        /* ---- SLA TABLE ---- */
+        .sla-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--neutral-2);
+            margin-bottom: 32px;
+        }
+
+        .sla-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            padding: 14px 24px;
+            background: var(--neutral-1);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .sla-table td {
+            padding: 16px 24px;
+            font-size: 15px;
+            color: var(--gray-2);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .sla-table tr:last-child td { border-bottom: none; }
+
+        .sla-table .severity {
+            font-weight: 600;
+        }
+
+        .sla-table .severity.critical { color: var(--red); }
+        .sla-table .severity.important { color: var(--amber); }
+        .sla-table .severity.normal { color: var(--dark-blue); }
+
+        /* ---- CONTRACT TERMS ---- */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .term-card {
+            background: var(--neutral-1);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .term-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .term-card p {
+            font-size: 14px;
+            color: var(--gray-2);
+            line-height: 1.6;
+        }
+
+        .term-card .highlight-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+
+        /* ---- LEGAL SECTIONS ---- */
+        .legal-block {
+            margin-bottom: 40px;
+        }
+
+        .legal-block:last-child { margin-bottom: 0; }
+
+        .legal-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--dark-blue);
+            color: var(--white);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .legal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .legal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .legal-text {
+            font-size: 15px;
+            color: var(--gray-2);
+            line-height: 1.8;
+            padding-left: 44px;
+        }
+
+        .legal-text p + p { margin-top: 12px; }
+
+        .legal-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 12px;
+        }
+
+        .legal-list li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray-2);
+        }
+
+        .legal-list li::before {
+            content: '·';
+            position: absolute;
+            left: 8px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            font-size: 18px;
+        }
+
+        /* ---- INFO BLOCK ---- */
+        .insight-block {
+            background: var(--light-blue-soft);
+            border-left: 3px solid var(--dark-blue);
+            padding: 24px 28px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 32px;
+        }
+
+        .insight-block p {
+            font-size: 16px;
+            color: var(--gray-2);
+            line-height: 1.7;
+        }
+
+        .insight-block strong { color: var(--dark-blue); }
+
+        /* ---- SIGNATURE ---- */
+        .signature-section {
+            background: var(--neutral-1);
+        }
+
+        .signature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .signature-box {
+            background: var(--white);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .signature-box h4 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 24px;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid var(--neutral-3);
+            margin-bottom: 20px;
+            padding-bottom: 48px;
+        }
+
+        .signature-field {
+            margin-bottom: 16px;
+        }
+
+        .signature-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-1);
+            margin-bottom: 6px;
+        }
+
+        .signature-field .field-line {
+            border-bottom: 1px solid var(--neutral-3);
+            padding-bottom: 8px;
+            min-height: 24px;
+            font-size: 15px;
+            color: var(--gray-2);
+        }
+
+        /* ---- FOOTER ---- */
+        .doc-footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 13px;
+            color: var(--gray-1);
+            border-top: 1px solid var(--neutral-2);
+        }
+
+        /* ---- PRINT ---- */
+        @media print {
+            .phase-nav { display: none; }
+            .hero { padding: 40px; }
+            section { padding: 40px 0; }
+            .timebank-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .legal-number { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 700px) {
+            .hero { padding: 60px 24px; }
+            .hero h1 { font-size: 32px; }
+            .container { padding: 0 24px; }
+            .parties-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .terms-grid { grid-template-columns: 1fr; }
+            .signature-grid { grid-template-columns: 1fr; }
+            .sla-table th, .sla-table td { padding: 12px 16px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="phase-nav">
+    <div class="phase-nav-inner">
+        <a href="#parter">Parter</a>
+        <a href="#tjenester">Tjenester</a>
+        <a href="#timebank">Timebank</a>
+        <a href="#pris">Pris</a>
+        <a href="#responstid">Responstid</a>
+        <a href="#vilkar">Vilkår</a>
+        <a href="#signatur">Signatur</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <span class="hero-label">Tjenesteavtale</span>
+    <h1>Din digitale<br><span>avdeling</span></h1>
+    <p class="hero-subtitle">Løpende avtale for webdrift, videreutvikling og digital rådgivning for AcryliCon AS.</p>
+    <p class="hero-meta">Utarbeidet februar 2026</p>
+</header>
+
+
+<!-- 1. PARTER -->
+<section id="parter">
+    <div class="container">
+        <span class="section-label">§ 1</span>
+        <h2 class="section-title">Avtalens parter</h2>
+        <p class="section-subtitle">Denne avtalen er inngått mellom følgende parter.</p>
+
+        <div class="parties-grid">
+            <div class="party-card">
+                <div class="party-label">Leverandør</div>
+                <div class="party-name"><span class="placeholder">Firmanavn</span></div>
+                <div class="party-detail">
+                    Org.nr: <span class="placeholder">000 000 000</span><br>
+                    Kontakt: <span class="placeholder">Navn</span><br>
+                    E-post: <span class="placeholder">e-post</span>
+                </div>
+            </div>
+            <div class="party-card highlight">
+                <div class="party-label">Kunde</div>
+                <div class="party-name">AcryliCon AS</div>
+                <div class="party-detail">
+                    Org.nr: <span class="placeholder">000 000 000</span><br>
+                    Kontakt: <span class="placeholder">Navn</span><br>
+                    E-post: <span class="placeholder">e-post</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-block">
+            <p>Leverandøren skal fungere som AcryliCons digitale avdeling og levere løpende tjenester innen <strong>webdrift, videreutvikling og digital rådgivning</strong>. Større utviklingsprosjekter avtales separat i henhold til § 6.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- 2–3. TJENESTER -->
+<section id="tjenester">
+    <div class="container">
+        <span class="section-label">§ 2–3</span>
+        <h2 class="section-title">Faste tjenester</h2>
+        <p class="section-subtitle">Inkludert i den månedlige leveransen — inntil 16 timer per måned.</p>
+
+        <div class="service-category">
+            <div class="service-category-header">
+                <div class="service-icon">⚙</div>
+                <h3>Drift og vedlikehold</h3>
+            </div>
+            <ul class="service-list">
+                <li>Oppdatering av WordPress kjerne, tema og plugins</li>
+                <li>Sikkerhetsovervåking og feilretting</li>
+                <li>Ytelsesoptimalisering og cache-håndtering</li>
+                <li>Backup-verifisering og gjenopprettingstesting</li>
+                <li>Oppetidsovervåking med varsling</li>
+            </ul>
+        </div>
+
+        <div class="service-category">
+            <div class="service-category-header">
+                <div class="service-icon">🔧</div>
+                <h3>Videreutvikling</h3>
+            </div>
+            <ul class="service-list">
+                <li>Mindre justeringer og forbedringer av nettsiden</li>
+                <li>Innholdsoppdateringer som krever teknisk kompetanse</li>
+                <li>Nye undersider og maler etter behov</li>
+                <li>Feilretting og bugfikser</li>
+            </ul>
+        </div>
+
+        <div class="service-category">
+            <div class="service-category-header">
+                <div class="service-icon">📊</div>
+                <h3>Strategisk rådgivning</h3>
+            </div>
+            <ul class="service-list">
+                <li>Månedlig gjennomgang av analytikk og synlighetsdata</li>
+                <li>SEO-anbefalinger og oppfølging</li>
+                <li>Prioritering av digitale tiltak</li>
+                <li>Kvartalsvis statusmøte (30–60 min)</li>
+            </ul>
+        </div>
+
+        <div class="service-category">
+            <div class="service-category-header">
+                <div class="service-icon red-bg">✗</div>
+                <h3>Ikke inkludert</h3>
+            </div>
+            <ul class="service-list excluded">
+                <li>Større utviklingsprosjekter (nye verktøy, kalkulatorer, portaler)</li>
+                <li>Produksjon av tekst, foto eller video</li>
+                <li>Betalt annonsering (Google Ads, sosiale medier)</li>
+                <li>Hosting og domeneregistrering</li>
+                <li>Tredjepartstjenester og lisenser</li>
+                <li>Opplæring utover løpende veiledning</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<!-- 4. TIMEBANK -->
+<section id="timebank">
+    <div class="container">
+        <span class="section-label">§ 4</span>
+        <h2 class="section-title">Timebank og overføring</h2>
+        <p class="section-subtitle">Tydelige regler for disponering av månedlige timer.</p>
+
+        <div class="timebank-card">
+            <h3>Månedlig timebank</h3>
+            <p class="sub">Fast kapasitet reservert for AcryliCon</p>
+            <div class="timebank-display">
+                <span class="number">16</span>
+                <span class="unit">timer / måned</span>
+            </div>
+            <ul class="timebank-rules">
+                <li>Ubenyttede timer forfaller ved månedens slutt og overføres ikke</li>
+                <li>Kunden varsles før merarbeid utover timebanken påbegynnes</li>
+                <li>Merarbeid faktureres etter timepris i § 5</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<!-- 5. PRIS -->
+<section id="pris">
+    <div class="container">
+        <span class="section-label">§ 5</span>
+        <h2 class="section-title">Pris og betaling</h2>
+        <p class="section-subtitle">Alle priser er oppgitt eksklusiv merverdiavgift.</p>
+
+        <div class="pricing-grid">
+            <div class="price-card featured">
+                <div class="price-label">Fast månedspris</div>
+                <div class="price-amount">21 000,-</div>
+                <div class="price-period">per måned</div>
+                <div class="price-detail">Dekker 16 timer/mnd med drift, utvikling og rådgivning</div>
+            </div>
+            <div class="price-card">
+                <div class="price-label">Tilleggsarbeid</div>
+                <div class="price-amount">1 500,-</div>
+                <div class="price-period">per time</div>
+                <div class="price-detail">Arbeid utover fast timebank, fakturert med spesifisert timeliste</div>
+            </div>
+            <div class="price-card">
+                <div class="price-label">Prosjektarbeid</div>
+                <div class="price-amount">Tilbud</div>
+                <div class="price-period">per prosjekt</div>
+                <div class="price-detail">Fastpris eller medgått tid — separat tilbud for prosjekter over 8 timer</div>
+            </div>
+        </div>
+
+        <div class="insight-block">
+            <p><strong>Fakturering:</strong> Fast månedspris faktureres forskuddsvis den 1. hver måned. Tilleggsarbeid faktureres etterskuddsvis med spesifisert timeliste. Betalingsfrist er 14 dager fra fakturadato. Ved forsinket betaling påløper forsinkelsesrente iht. forsinkelsesrenteloven.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- 6. BESTILLING -->
+<section>
+    <div class="container">
+        <span class="section-label">§ 6</span>
+        <h2 class="section-title">Bestilling av tilleggsarbeid</h2>
+        <p class="section-subtitle">Slik håndteres forespørsler utover den faste leveransen.</p>
+
+        <div class="terms-grid">
+            <div class="term-card">
+                <h4>Løpende forespørsler</h4>
+                <p>Kunden sender forespørsler via e-post eller avtalt prosjektstyringsverktøy. Leverandøren vurderer om forespørselen dekkes av fast leveranse eller krever tilleggsarbeid, og informerer kunden før arbeidet påbegynnes.</p>
+            </div>
+            <div class="term-card">
+                <h4>Større prosjekter</h4>
+                <p>For arbeid estimert til mer enn 8 timer utarbeider Leverandøren et separat tilbud med omfangsbeskrivelse, estimert tidsbruk eller fastpris, forventet leveransetid og eventuelle forutsetninger. Prosjekter igangsettes først etter skriftlig aksept.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 7. SLA -->
+<section id="responstid">
+    <div class="container">
+        <span class="section-label">§ 7</span>
+        <h2 class="section-title">Responstid</h2>
+        <p class="section-subtitle">Arbeidstid: mandag–fredag kl. 09:00–17:00, ekskl. helligdager.</p>
+
+        <table class="sla-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Responstid</th>
+                    <th>Løsningstid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="severity critical">Kritisk feil</span><br><span style="font-size:13px;color:var(--gray-1)">Nettside nede</span></td>
+                    <td>4 timer</td>
+                    <td>Samme virkedag</td>
+                </tr>
+                <tr>
+                    <td><span class="severity important">Viktig feil</span><br><span style="font-size:13px;color:var(--gray-1)">Funksjonsfeil</span></td>
+                    <td>1 virkedag</td>
+                    <td>3 virkedager</td>
+                </tr>
+                <tr>
+                    <td><span class="severity normal">Normal forespørsel</span><br><span style="font-size:13px;color:var(--gray-1)">Endringer og forbedringer</span></td>
+                    <td>2 virkedager</td>
+                    <td>Etter avtale</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="insight-block">
+            <p><strong>Utenfor arbeidstid:</strong> Ved kritisk feil utenfor arbeidstid gjør Leverandøren rimelige forsøk på å respondere, men er ikke forpliktet til respons utenfor arbeidstid.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- 8–14. VILKÅR -->
+<section id="vilkar">
+    <div class="container">
+        <span class="section-label">§ 8–14</span>
+        <h2 class="section-title">Vilkår</h2>
+        <p class="section-subtitle">Juridiske rammer for avtaleforholdet.</p>
+
+        <!-- 8. Varighet -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">8</span>
+                <h3>Varighet og oppsigelse</h3>
+            </div>
+            <div class="legal-text">
+                <div class="terms-grid" style="padding: 0; margin-bottom: 0;">
+                    <div class="term-card">
+                        <div class="highlight-value">Løpende</div>
+                        <h4>Ingen bindingstid</h4>
+                        <p>Avtalen løper fra oppstartsdato uten fastsatt utløpsdato.</p>
+                    </div>
+                    <div class="term-card">
+                        <div class="highlight-value">3 mnd</div>
+                        <h4>Oppsigelsestid</h4>
+                        <p>Skriftlig varsel, regnet fra første dag i påfølgende måned. Begge parter kan si opp.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 16px;">Ved oppsigelse bistår Leverandøren med overlevering til ny leverandør innenfor gjenværende avtaleperiode.</p>
+            </div>
+        </div>
+
+        <!-- 9. Rettigheter -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">9</span>
+                <h3>Rettigheter</h3>
+            </div>
+            <div class="legal-text">
+                <p><strong>Kundens eierskap:</strong> Kunden eier alt arbeid som produseres under denne avtalen — kildekode, design, innhold, domener, hosting-kontoer, data og databaser.</p>
+                <p><strong>Leverandørens verktøy:</strong> Leverandøren beholder rettigheter til egne verktøy, rammeverk og metoder som ikke er utviklet spesifikt for kunden.</p>
+                <p><strong>Tilgang:</strong> Kunden skal til enhver tid ha full administratortilgang til alle systemer. Ved avtalens opphør overleverer Leverandøren all tilgangsinformasjon og dokumentasjon innen 14 dager.</p>
+            </div>
+        </div>
+
+        <!-- 10. Konfidensialitet -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">10</span>
+                <h3>Konfidensialitet</h3>
+            </div>
+            <div class="legal-text">
+                <p>Begge parter forplikter seg til å behandle all informasjon mottatt fra den andre parten som konfidensiell. Dette omfatter:</p>
+                <ul class="legal-list">
+                    <li>Forretningsinformasjon og strategier</li>
+                    <li>Tekniske løsninger og kildekode</li>
+                    <li>Kundeinformasjon og brukerdata</li>
+                    <li>Prisvilkår i denne avtalen</li>
+                </ul>
+                <p>Taushetsplikten gjelder i avtaleperioden og i 2 år etter avtalens opphør.</p>
+            </div>
+        </div>
+
+        <!-- 11. Personvern -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">11</span>
+                <h3>Personvern og databehandling</h3>
+            </div>
+            <div class="legal-text">
+                <p>Leverandøren behandler personopplysninger på vegne av kunden i henhold til gjeldende personvernlovgivning (GDPR / personopplysningsloven). Dersom behandlingens art og omfang tilsier det, skal partene inngå en separat databehandleravtale.</p>
+            </div>
+        </div>
+
+        <!-- 12. Ansvar -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">12</span>
+                <h3>Ansvarsbegrensning</h3>
+            </div>
+            <div class="legal-text">
+                <ul class="legal-list">
+                    <li>Leverandørens samlede erstatningsansvar er begrenset til <strong>3 måneders honorar (kr 63 000,-)</strong></li>
+                    <li>Leverandøren er ikke ansvarlig for indirekte tap, følgeskader eller tapt fortjeneste</li>
+                    <li>Ansvarsbegrensningen gjelder ikke ved grov uaktsomhet eller forsett</li>
+                    <li>Leverandøren er ikke ansvarlig for feil forårsaket av tredjepartstjenester (hosting, plugins, etc.)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 13. Force majeure -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">13</span>
+                <h3>Force majeure</h3>
+            </div>
+            <div class="legal-text">
+                <p>Ingen av partene er ansvarlige for manglende oppfyllelse av avtalen dersom dette skyldes forhold utenfor partens rimelige kontroll, herunder naturkatastrofer, krig, pandemi, strømbrudd, eller svikt i internett-infrastruktur.</p>
+            </div>
+        </div>
+
+        <!-- 14. Tvister -->
+        <div class="legal-block">
+            <div class="legal-header">
+                <span class="legal-number">14</span>
+                <h3>Tvister</h3>
+            </div>
+            <div class="legal-text">
+                <p>Eventuelle tvister som oppstår i forbindelse med denne avtalen skal forsøkes løst gjennom forhandlinger. Dersom partene ikke kommer til enighet, avgjøres tvisten ved de ordinære domstoler med <span class="placeholder" style="display:inline">leverandørens verneting</span> som verneting.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 15. SIGNATUR -->
+<section class="signature-section" id="signatur">
+    <div class="container">
+        <span class="section-label">§ 15</span>
+        <h2 class="section-title">Signatur</h2>
+        <p class="section-subtitle">Denne avtalen er utferdiget i to eksemplarer, ett til hver av partene.</p>
+
+        <div class="signature-grid">
+            <div class="signature-box">
+                <h4>Leverandør</h4>
+                <div class="signature-line"></div>
+                <div class="signature-field">
+                    <label>Sted / dato</label>
+                    <div class="field-line"></div>
+                </div>
+                <div class="signature-field">
+                    <label>Navn</label>
+                    <div class="field-line"></div>
+                </div>
+            </div>
+            <div class="signature-box">
+                <h4>Kunde — AcryliCon AS</h4>
+                <div class="signature-line"></div>
+                <div class="signature-field">
+                    <label>Sted / dato</label>
+                    <div class="field-line"></div>
+                </div>
+                <div class="signature-field">
+                    <label>Navn</label>
+                    <div class="field-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="doc-footer">
+    Denne avtalen erstatter alle tidligere avtaler og forståelser mellom partene vedrørende de tjenester som er beskrevet heri.
+</footer>
+
+</body>
+</html>

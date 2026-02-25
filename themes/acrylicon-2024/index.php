@@ -4,10 +4,10 @@
 ?>
 
 
-<main class="max-w-screen-2xl mx-auto px-20 pt-20 lg:pt-44 pb-8">
-	<section class="content">
+<main class="max-w-screen-2xl mx-auto px-5 md:px-20 pt-12 md:pt-20 lg:pt-44 pb-8">
+	<div class="editor">
 		<?php the_content();?>
-	</section>
+	</div>
 </main>
 
 

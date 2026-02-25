@@ -62,8 +62,8 @@ Alle nøkkeltall trender oppover. Solid økonomi, ingen grunn til bekymring om b
 | Internasjonal side | 100 000 kr | 0,2% |
 | Produktblad-løsning | 100-120 000 kr | 0,2% |
 | **Minimum 2026** | **~450 000 kr** | **0,8%** |
-| AI-referanser + SEO + mobil + WCAG + skjema + GDPR | 240 000 – 355 000 kr | 0,4–0,6% |
-| **Potensielt samlet 2026** | **~700 000 – 800 000 kr** | **1,2–1,4%** |
+| AI-referanser + SEO + mobil + WCAG + skjema + GDPR + karriere | 305 000 – 450 000 kr | 0,5–0,8% |
+| **Potensielt samlet 2026** | **~750 000 – 900 000 kr** | **1,3–1,6%** |
 
 Under 1,5% av omsetningen for hele digital tilstedeværelse, internasjonalisering, SEO, tilgjengelighet, og automatisering. Til sammenligning brukte de ~200k/år på Brist alene for betalte annonser med dårlig engasjement.
 
@@ -97,6 +97,7 @@ Under 1,5% av omsetningen for hele digital tilstedeværelse, internasjonaliserin
 | Kontaktskjema (Gravity Forms) | 30 000 – 50 000 kr | Idé |
 | Cookie consent / GDPR | 10 000 – 15 000 kr | Idé |
 | HMS-portal for gulvleggere | 50 000 – 70 000 kr | Idé |
+| Karrieresider + søknadshåndtering | 65 000 – 95 000 kr | Idé |
 
 ---
 
@@ -422,7 +423,52 @@ Løsninger som automatiserer forretningsprosesser og erstatter manuelt arbeid. P
 
 ---
 
-### 12. [Neste idé — legges til løpende]
+### 12. Karrieresider med søknadshåndtering ✦ Rekruttering i alle markeder
+
+**Dagens problem:**
+- Karrieresiden (acrylicon.no/karriere/) har godt innhold — rollebeskrivelse, fordeler, ansatt-sitater
+- Men søknad skjer kun via mailto:jobb@acrylicon.no — ingen struktur, ingen oversikt, ingen sporing
+- Umulig å vite hvor mange som har søkt, fra hvilken region, eller via hvilken kanal
+- Ingen internasjonal karriereside — utenlandske kontorer har ingen rekrutteringsverktøy
+- Acrylicon vokser internasjonalt men har ingen digital rekrutteringsinfrastruktur
+- Manuell håndtering av CV-er i innboksen — lett å miste oversikt
+
+**Løsning — Fase 1: Gravity Forms søknadsskjema:**
+- Profesjonelt søknadsskjema integrert på karrieresiden
+- Felt: Navn, e-post, telefon, foretrukket region/kontor, CV-opplasting (PDF), motivasjonstekst
+- Søknader lagres i WP-admin med full oversikt — hvem søkte, når, til hvilket kontor
+- Automatisk bekreftelsesmail til søker
+- E-postvarsling til riktig kontor basert på valgt region
+- Zapier → SuperOffice for søknadshåndtering i CRM
+- Konverteringssporing i GA4 (hvilken kilde/kampanje genererte søknaden?)
+
+**Løsning — Fase 2: Stillinger som CPT (tillegg):**
+- Custom post type for individuelle stillingsannonser
+- Felt: Tittel, beskrivelse, kontor/region, land, type (heltid/deltid), frist
+- Arkivside viser alle åpne stillinger — filtrerbart per land og region
+- Internasjonal karriereside (`/careers/`) viser stillinger worldwide
+- Nasjonale karrieresider (`/no/karriere/`) viser kun lokale stillinger
+- Synkes mellom språk/land via multisite-sync
+- Hver stilling har eget søknadsskjema
+
+**Hva AcryliCon oppnår:**
+- Profesjonell rekrutteringsprosess som matcher resten av den digitale satsningen
+- Oversikt over alle søknader — ikke flere glemte CV-er i innboksen
+- Sporing av rekrutteringskilder (kom søkeren via karrieresiden, en jobbannonse, eller Google?)
+- Skalerer automatisk til alle internasjonale markeder
+- Differensierer AcryliCon som arbeidsgiver — viktig i et marked der gode gulvleggere er mangelvare
+- Karrieresiden blir et salgsargument i seg selv: "Se hvordan vi tar vare på våre folk"
+
+**Foreslått pris:**
+- Fase 1 (søknadsskjema): 25 000 – 35 000 kr
+- Fase 2 (stillinger CPT): 40 000 – 60 000 kr
+- Totalt: 65 000 – 95 000 kr
+
+**ROI:** En feilansettelse koster 300-500k (rekruttering, opplæring, tapt produktivitet). Bedre søknadsprosess → bedre kandidatutvalg → færre feilansettelser. Én unngått feilansettelse betaler for løsningen flere ganger.
+
+---
+
+### 13. [Neste idé — legges til løpende]
 
 **Dagens problem:**
 _Beskriv hva de gjør manuelt i dag_

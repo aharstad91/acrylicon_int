@@ -27,7 +27,7 @@ if (!empty($block['align'])) {
 $columns_count = get_field('columns_count');
 
 // Convert to Tailwind classes
-$grid_classes = 'grid gap-8';
+$grid_classes = 'grid gap-3 md:gap-8';
 switch($columns_count) {
     case 'single-column':
         $grid_classes .= ' grid-cols-1';
@@ -68,9 +68,9 @@ if (have_rows('feature_card_repeater')): ?>
 			$text_class = 'info-card-description ';
 			$text_class .= ($text_size === 'large') ? 'text-2xl lg:text-3xl' : 'text-lg';
 		?>
-			<div class="flex flex-col py-8 px-8 bg-acryl-light-blue p-5 rounded-lg">
+			<div class="flex flex-col py-5 px-5 md:py-8 md:px-8 bg-acryl-light-blue rounded-lg">
 				<div>
-					<div class="icon-wrapper mb-10">
+					<div class="icon-wrapper mb-5 md:mb-10">
 						<?php echo wp_get_attachment_image($icon, 'thumbnail', false, array('class' => $icon_class)); ?>
 					</div>
 					

@@ -64,9 +64,14 @@ figure.rounded.wp-block-post-featured-image img {
     height: 400px;
 }
 @media (min-width: 960px) {
-  /* Featured image block max height */ 
+  /* Featured image block max height */
   figure.rounded.wp-block-post-featured-image img {
       height: 700px;
+  }
+}
+@media (max-width: 639px) {
+  figure.rounded.wp-block-post-featured-image img {
+      height: 260px;
   }
 }
 .wp-block-separator{border-top: 1px solid!important;}

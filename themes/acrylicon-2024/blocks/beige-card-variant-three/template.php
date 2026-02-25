@@ -27,7 +27,7 @@ if (!empty($block['align'])) {
 $columns_count = get_field('columns_count');
 
 // Convert to Tailwind classes
-$grid_classes = 'grid gap-6';
+$grid_classes = 'grid gap-3 md:gap-6';
 switch($columns_count) {
     case 'two-columns':
         $grid_classes .= ' grid-cols-1 md:grid-cols-2';
@@ -96,7 +96,7 @@ if (have_rows('beige-card-variant-three-repeater')): ?>
 							<?php endif; ?>
 						</div>
 					<?php else: ?>
-						<div class="px-8 py-8 text-dark">
+						<div class="px-5 py-5 md:px-8 md:py-8 text-dark">
 							<?php if ($subtitle): ?>
 								<p class="my-reset subtitle text-base font-sohne-mono mb-1"><?php echo esc_html($subtitle); ?></p>
 							<?php endif; ?>
@@ -108,7 +108,7 @@ if (have_rows('beige-card-variant-three-repeater')): ?>
 							<?php endif; ?>
 							
 							<?php if ($processed_text): ?>
-								<div class="[&_ul]:list-inside mt-8">
+								<div class="[&_ul]:list-inside mt-4 md:mt-8">
 									<?php if (strpos($processed_text, '<ul>') !== false): ?>
 										<?php echo wp_kses_post($text); ?>
 									<?php else: ?>

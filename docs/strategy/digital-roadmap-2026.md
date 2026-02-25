@@ -21,6 +21,42 @@ Svaret ligger i å bruke nettstedet som mer enn en brosjyre. Dataene om produkte
 
 ---
 
+## Dynamisk synlighet — Hvorfor dette haster
+
+AcryliCon er i dag **usynlig** der kundene søker. En gjennomgang av Google Analytics (feb 2025 – feb 2026) avdekker et tydelig bilde:
+
+### Betalt trafikk vs. organisk trafikk
+
+Tallene under er hentet fra Google Analytics 4 og sammenligner perioden da AcryliCon kjørte betalte Google Ads-kampanjer via Brist markedsbyrå i Oslo, med den organiske trafikken som kom av seg selv.
+
+| | Betalt søk (Brist / Google Ads) | Organisk søk |
+|---|---|---|
+| Andel av trafikk | 53% | 17% |
+| Engasjement | 18 sekunder | 1 min 13 sek |
+| Konverteringsrate | 37,5% | 62,5% |
+
+**Over halvparten av trafikken kom fra betalte annonser — men de som fant AcryliCon selv, var 3-4 ganger mer verdifulle.** De leste lenger, klikket mer, og tok oftere kontakt.
+
+### Problemet: AcryliCon finnes ikke i organisk søk
+
+- **10 000+ månedlige søk** i Norge på relevante termer («epoxy gulv», «industrigulv», «gulvbelegg»). AcryliCon dukker ikke opp.
+- **Google AI-oversikter** — den nye måten folk finner leverandører på — viser kun nettsteder med høy hastighet. AcryliCon har en PageSpeed-score på 57–68. Konkurrenter med 90+ vises. AcryliCon gjør det ikke.
+- **Ingen Google Business-profiler** for de 4 norske kontorene. Når noen søker «gulvlegger Stavanger» eller «industrigulv Bergen», finnes ikke AcryliCon på kartet.
+
+### Hva dette betyr i kroner
+
+AcryliCon bruker i dag annonsekroner på å kjøpe besøkende som er på nettsiden i 18 sekunder. Samtidig ligger det et enormt uutnyttet potensial i organisk synlighet — besøkende som engasjerer seg i over ett minutt og konverterer nesten dobbelt så ofte.
+
+Referansesidene illustrerer dette: De 5 referansene med dybdeinnhold genererer **7 279 sesjoner i året** — 12% av all trafikk — og 94% av disse besøkende kjente ikke AcryliCon fra før. Det er gratis trafikk som jobber 24/7, uten løpende annonsekostnad.
+
+**Det finnes 100+ referanser i databasen som ikke utnyttes.** Potensialet er 25 000–50 000 ekstra sesjoner årlig — organisk, varig, og med langt høyere kvalitet enn betalt trafikk.
+
+> Synlighet er ikke en «nice to have». Det er forskjellen mellom å betale for oppmerksomhet og å eie den.
+
+Flere av løsningene i dette veikartet — fra referanseoppgradering til sertifiseringsportalen — bygger AcryliCons synlighet steg for steg. Hver ny side, hvert nytt verktøy, og hvert nytt land som legges til, forsterker AcryliCons digitale tilstedeværelse permanent.
+
+---
+
 ## Fase 1: Grunnmuren (Q1 2026)
 
 ### Internasjonal nettside — *Pågår*
@@ -214,6 +250,26 @@ Et verktøy der arkitekter kan generere ferdig spesifikasjonstekst for sine anbu
 Når AcryliCon først er skrevet inn i et anbud, er det vanskelig for konkurrenter å komme inn. Dette er det viktigste konverteringspunktet i B2B-gulvbransjen.
 
 **Investering:** 80 000 – 100 000 kr
+
+---
+
+### Karrieresider med søknadshåndtering
+
+**Situasjonen i dag:**
+Karrieresiden på acrylicon.no/karriere/ har godt innhold — rollebeskrivelse, fordeler og ansatt-sitater. Men søknadsprosessen er bare en e-postlenke til jobb@acrylicon.no. Ingen strukturert innsamling, ingen oversikt, ingen internasjonal løsning.
+
+**Løsningen:**
+1. **Søknadsskjema (Gravity Forms)** — strukturert innsamling med CV-opplasting, foretrukket region, og automatisk varsling til riktig kontor
+2. **Internasjonal karriereside** — EN-siten (`/careers/`) viser åpne stillinger worldwide
+3. **Stillinger som CPT** (senere) — egne stillingsannonser per land/kontor, synket via multisite
+
+**Hva AcryliCon oppnår:**
+- Profesjonell rekrutteringsprosess som skalerer til alle markeder
+- Oversikt over søknader i WP-admin (eller SuperOffice via Zapier)
+- Internasjonale kandidater finner og søker på stillinger i sitt marked
+- Lokal tilpasning (språk, kontor, e-postvarsling) per land
+
+**Investering:** 20 000 – 30 000 kr (fase 1), 40 000 – 60 000 kr (CPT-løsning)
 
 ---
 

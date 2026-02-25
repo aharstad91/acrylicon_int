@@ -63,7 +63,7 @@ $class_name .= " icon-{$img_size} text-{$text_size}"; ?>
 		<?php if ($image) : ?>
 		<div class="<?php echo esc_attr($icon_class); ?>">
 			<?php if ($link) : ?>
-			<a href="<?php echo esc_url($link); ?>" class="block h-full">
+			<a href="<?php echo esc_url(home_url($link)); ?>" class="block h-full">
 			<?php endif; ?>
 			
 			<?php 
@@ -81,7 +81,7 @@ $class_name .= " icon-{$img_size} text-{$text_size}"; ?>
 		</div>
 		<?php endif; ?>
 
-		<div class="px-6 lg:px-16 <?php echo ($text_size === 'large') ? 'py-10 lg:py-24' : 'py-8'; ?> flex flex-col justify-center flex-grow max-w-screen-sm">
+		<div class="px-6 lg:px-16 <?php echo ($text_size === 'large') ? 'py-10 lg:py-24' : 'py-8'; ?> flex flex-col justify-center flex-grow max-w-3xl">
 			<?php if ($title) : ?>
 			<h3 class="<?php echo esc_attr($title_class); ?>">
 				<?php echo esc_html($title); ?>

@@ -427,3 +427,36 @@
     height: 450px !important;
   }
 }
+
+/* Mobile Spacing Reduction
+ * Reduces excessive whitespace on mobile viewports.
+ * Flexible Spacer plugin uses inline styles per device breakpoint,
+ * so max-height with !important is needed to cap them.
+ */
+@media (max-width: 639px) {
+  /* Cap flexible spacer heights on mobile (most are 36px, some 64px) */
+  .fsb-flexible-spacer__device--sm {
+    max-height: 20px !important;
+  }
+
+  /* Reduce margin-top block styles on mobile */
+  .is-style-margin-top-large {
+    margin-top: 1.5rem;
+  }
+
+  .is-style-margin-top-medium {
+    margin-top: 1rem;
+  }
+
+  /* Reduce editor element bottom margins on mobile */
+  .editor p,
+  .editor h2,
+  .editor h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Reduce gap in stacked wp-block-columns on mobile */
+  .wp-block-columns {
+    gap: 0.75rem !important;
+  }
+}

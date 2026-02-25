@@ -19,23 +19,74 @@
             --gray-2: #495057;
             --gray-3: #343a40;
             --white: #ffffff;
+            --green: #16a34a;
+            --green-soft: #f0fdf4;
+            --amber: #d97706;
+            --amber-soft: #fffbeb;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--gray-3);
             line-height: 1.6;
             background: var(--white);
+        }
+
+        /* ---- LANGUAGE TOGGLE ---- */
+        .lang-en { display: none !important; }
+        body.en .lang-nb { display: none !important; }
+        body.en .lang-en { display: block !important; }
+
+        /* Ensure inline elements stay inline when toggling */
+        body.en span.lang-en,
+        body.en a.lang-en { display: inline !important; }
+        span.lang-nb, a.lang-nb { display: inline !important; }
+        body.en span.lang-nb,
+        body.en a.lang-nb { display: none !important; }
+
+        /* Lang toggle buttons always visible */
+        .lang-toggle,
+        .lang-toggle button { display: flex !important; }
+
+        .lang-toggle {
+            display: flex !important;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle button {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            background: none;
+            padding: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 6px;
+            opacity: 0.4;
+        }
+
+        .lang-toggle button img {
+            width: 28px;
+            height: 20px;
+            border-radius: 3px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lang-toggle button.active {
+            opacity: 1;
+            border-color: var(--dark-blue);
+        }
+
+        .lang-toggle button:hover:not(.active) {
+            opacity: 0.8;
         }
 
         /* ---- HERO ---- */
@@ -51,22 +102,9 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
+            top: -50%; right: -20%;
+            width: 600px; height: 600px;
             background: rgba(255,255,255,0.03);
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: rgba(255,255,255,0.02);
             border-radius: 50%;
         }
 
@@ -88,15 +126,13 @@
             position: relative;
         }
 
-        .hero h1 span {
-            color: var(--light-blue);
-        }
+        .hero h1 span { color: var(--light-blue); }
 
         .hero-subtitle {
             font-size: 20px;
             font-weight: 300;
             color: rgba(255,255,255,0.7);
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto 40px;
         }
 
@@ -112,501 +148,38 @@
             padding: 0 40px;
         }
 
-        section {
-            padding: 80px 0;
-        }
+        section { padding: 80px 0; }
+        section + section { border-top: 1px solid var(--neutral-2); }
 
-        section + section {
-            border-top: 1px solid var(--neutral-2);
-        }
-
-        /* ---- INTRO ---- */
-        .intro {
-            background: var(--neutral-1);
-            border-bottom: 1px solid var(--neutral-2);
-        }
-
-        .intro p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--gray-2);
-        }
-
-        .intro p + p {
-            margin-top: 16px;
-        }
-
-        .value-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .value-item {
-            background: var(--white);
-            border: 1px solid var(--neutral-2);
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .value-item-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--light-blue);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .value-item h3 {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--dark-blue);
-            margin-bottom: 4px;
-        }
-
-        .value-item p {
-            font-size: 14px !important;
-            line-height: 1.5 !important;
-            color: var(--gray-1) !important;
-        }
-
-        /* ---- PHASE HEADER ---- */
-        .phase-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 48px;
-        }
-
-        .phase-number {
-            width: 56px;
-            height: 56px;
-            background: var(--dark-blue);
-            color: var(--white);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .phase-number.active {
-            background: var(--red);
-        }
-
-        .phase-header-text h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark-blue);
-            line-height: 1.2;
-        }
-
-        .phase-header-text span {
-            font-size: 14px;
-            color: var(--gray-1);
-            font-weight: 500;
-        }
-
-        /* ---- SOLUTION CARD ---- */
-        .solution-card {
-            background: var(--white);
-            border: 1px solid var(--neutral-2);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 32px;
-        }
-
-        .solution-card:last-child {
-            margin-bottom: 0;
-        }
-
-        .solution-card-header {
-            padding: 32px 32px 0;
-        }
-
-        .solution-card-header h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--dark-blue);
-            margin-bottom: 4px;
-        }
-
-        .solution-tag {
+        .section-label {
             display: inline-block;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--red);
-            background: rgba(226, 36, 28, 0.08);
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-        }
-
-        .solution-card-body {
-            padding: 24px 32px 32px;
-        }
-
-        .situation-block {
-            background: var(--neutral-1);
-            border-radius: 10px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-        }
-
-        .situation-block-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--gray-1);
-            margin-bottom: 8px;
-        }
-
-        .situation-block p {
-            font-size: 15px;
-            color: var(--gray-2);
-            line-height: 1.7;
-        }
-
-        .result-block {
-            background: var(--light-blue-soft);
-            border-radius: 10px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-        }
-
-        .result-block-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--dark-blue);
-            margin-bottom: 8px;
-        }
-
-        .result-block ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .result-block li {
-            font-size: 15px;
-            color: var(--gray-2);
-            padding: 4px 0;
-            padding-left: 20px;
-            position: relative;
-            line-height: 1.6;
-        }
-
-        .result-block li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--dark-blue);
-            font-weight: 600;
-        }
-
-        .solution-card-footer {
-            display: flex;
-            border-top: 1px solid var(--neutral-2);
-        }
-
-        .footer-stat {
-            flex: 1;
-            padding: 20px 32px;
-            text-align: center;
-        }
-
-        .footer-stat + .footer-stat {
-            border-left: 1px solid var(--neutral-2);
-        }
-
-        .footer-stat-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--gray-1);
-            margin-bottom: 4px;
-        }
-
-        .footer-stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--dark-blue);
-        }
-
-        .footer-stat-value.saving {
-            color: #16a34a;
-        }
-
-        .footer-stat-note {
-            font-size: 12px;
-            color: var(--gray-1);
-            margin-top: 2px;
-        }
-
-        /* ---- PHASE SUMMARY ---- */
-        .phase-summary {
-            background: var(--neutral-1);
-            border: 1px solid var(--neutral-2);
-            border-radius: 12px;
-            padding: 24px 32px;
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .phase-summary-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-1);
-        }
-
-        .phase-summary-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark-blue);
-        }
-
-        /* ---- OVERVIEW TABLE ---- */
-        .overview-section {
-            background: var(--dark-blue);
-            color: var(--white);
-            border-top: none;
-        }
-
-        .overview-section h2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .overview-section .section-subtitle {
-            color: rgba(255,255,255,0.6);
-            font-size: 17px;
-            margin-bottom: 48px;
-        }
-
-        .overview-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: rgba(255,255,255,0.06);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 48px;
-        }
-
-        .overview-table th {
-            text-align: left;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            padding: 16px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .overview-table td {
-            padding: 16px 24px;
-            font-size: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .overview-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .overview-table .phase-name {
-            font-weight: 600;
-            color: var(--white);
-        }
-
-        .overview-table .phase-period {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .overview-table .phase-amount {
-            font-weight: 700;
-            color: var(--light-blue);
-            text-align: right;
-        }
-
-        .overview-table .total-row td {
-            border-top: 1px solid rgba(255,255,255,0.15);
-            font-weight: 700;
-            font-size: 17px;
-            padding-top: 20px;
-        }
-
-        .overview-table .total-row .phase-amount {
-            color: var(--white);
-        }
-
-        /* ---- PERSPECTIVE ---- */
-        .perspective-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 48px;
-        }
-
-        .perspective-card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 28px;
-            text-align: center;
-        }
-
-        .perspective-card .big-number {
-            font-size: 42px;
-            font-weight: 800;
-            color: var(--light-blue);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .perspective-card p {
-            font-size: 14px;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.5;
-        }
-
-        .perspective-quote {
-            background: rgba(255,255,255,0.04);
-            border-left: 3px solid var(--light-blue);
-            padding: 24px 28px;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 48px;
-        }
-
-        .perspective-quote p {
-            font-size: 17px;
-            font-style: italic;
-            color: rgba(255,255,255,0.8);
-            line-height: 1.7;
-        }
-
-        /* ---- RETAINER ---- */
-        .retainer-section {
-            background: var(--neutral-1);
-            border-top: none;
-        }
-
-        .retainer-card {
-            background: var(--white);
-            border: 2px solid var(--dark-blue);
-            border-radius: 16px;
-            overflow: hidden;
-            max-width: 560px;
-            margin: 0 auto;
-        }
-
-        .retainer-card-header {
-            background: var(--dark-blue);
-            color: var(--white);
-            padding: 28px 32px;
-            text-align: center;
-        }
-
-        .retainer-card-header h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .retainer-card-header p {
-            font-size: 14px;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .retainer-card-body {
-            padding: 32px;
-        }
-
-        .retainer-price {
-            text-align: center;
-            padding-bottom: 24px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--neutral-2);
-        }
-
-        .retainer-price .amount {
-            font-size: 42px;
-            font-weight: 800;
-            color: var(--dark-blue);
-        }
-
-        .retainer-price .period {
-            font-size: 16px;
-            color: var(--gray-1);
-            font-weight: 400;
-        }
-
-        .retainer-features {
-            list-style: none;
-            padding: 0;
-        }
-
-        .retainer-features li {
-            padding: 8px 0;
-            padding-left: 28px;
-            position: relative;
-            font-size: 15px;
-            color: var(--gray-2);
-        }
-
-        .retainer-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #16a34a;
-            font-weight: 700;
-        }
-
-        .retainer-note {
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid var(--neutral-2);
-            font-size: 13px;
-            color: var(--gray-1);
-            text-align: center;
-            line-height: 1.7;
-        }
-
-        /* ---- CLOSING ---- */
-        .closing {
-            text-align: center;
-            padding: 80px 40px;
-            background: var(--white);
-        }
-
-        .closing h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark-blue);
             margin-bottom: 12px;
         }
 
-        .closing p {
-            font-size: 16px;
+        .section-label.red {
+            color: var(--red);
+            background: rgba(226, 36, 28, 0.08);
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
             color: var(--gray-1);
-            max-width: 480px;
-            margin: 0 auto;
-            line-height: 1.7;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
         /* ---- NAV ---- */
@@ -626,6 +199,7 @@
             display: flex;
             gap: 4px;
             overflow-x: auto;
+            align-items: center;
         }
 
         .phase-nav a {
@@ -645,12 +219,598 @@
             border-bottom-color: var(--neutral-3);
         }
 
+        /* ---- TRACK RECORD ---- */
+        .track-record {
+            background: var(--neutral-1);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .track-record p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--gray-2);
+        }
+
+        .track-record p + p { margin-top: 16px; }
+
+        .delivered-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .delivered-list li {
+            padding: 16px 20px;
+            padding-left: 44px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray-2);
+            background: var(--white);
+            border: 1px solid var(--neutral-2);
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .delivered-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 18px;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* ---- VISIBILITY ---- */
+        .visibility-section {
+            background: var(--white);
+        }
+
+        .competitor-landscape {
+            margin-bottom: 40px;
+        }
+
+        .competitor-landscape h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 16px;
+        }
+
+        .search-result-mock {
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .search-result-header {
+            background: var(--neutral-1);
+            padding: 12px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-1);
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .search-result-header span {
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+
+        .search-result-header .volume {
+            float: right;
+            color: var(--gray-1);
+            font-weight: 500;
+        }
+
+        .search-result-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--neutral-2);
+            gap: 12px;
+        }
+
+        .search-result-row:last-child { border-bottom: none; }
+
+        .search-rank {
+            width: 28px;
+            height: 28px;
+            background: var(--neutral-1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-2);
+            flex-shrink: 0;
+        }
+
+        .search-rank.top { background: var(--green-soft); color: var(--green); }
+        .search-rank.missing { background: rgba(226,36,28,0.08); color: var(--red); }
+
+        .search-result-info { flex: 1; }
+
+        .search-result-info .site-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-3);
+        }
+
+        .search-result-info .site-name.competitor { color: var(--gray-2); }
+        .search-result-info .site-name.acrylicon { color: var(--red); }
+
+        .search-result-info .site-desc {
+            font-size: 12px;
+            color: var(--gray-1);
+        }
+
+        .friction-block {
+            background: rgba(226, 36, 28, 0.04);
+            border-left: 3px solid var(--red);
+            padding: 24px 28px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 32px;
+        }
+
+        .friction-block p {
+            font-size: 16px;
+            color: var(--gray-2);
+            line-height: 1.7;
+        }
+
+        .friction-block strong { color: var(--red); }
+
+        .competitor-comparison {
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .competitor-comparison-header {
+            background: var(--neutral-1);
+            padding: 14px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-1);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .competitor-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .competitor-row:last-child { border-bottom: none; }
+
+        .competitor-cell {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: var(--gray-2);
+            border-right: 1px solid var(--neutral-2);
+        }
+
+        .competitor-cell:last-child { border-right: none; }
+        .competitor-cell.label { font-weight: 600; color: var(--gray-3); background: var(--neutral-1); }
+        .competitor-cell.good { color: var(--green); font-weight: 600; }
+        .competitor-cell.bad { color: var(--red); font-weight: 600; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--neutral-2);
+            margin-bottom: 32px;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            padding: 14px 24px;
+            background: var(--neutral-1);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .comparison-table th:not(:first-child) { text-align: center; }
+
+        .comparison-table td {
+            padding: 16px 24px;
+            font-size: 15px;
+            color: var(--gray-2);
+            border-bottom: 1px solid var(--neutral-2);
+        }
+
+        .comparison-table td:not(:first-child) { text-align: center; font-weight: 600; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table .col-paid { color: var(--red); }
+        .comparison-table .col-organic { color: var(--green); }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--neutral-1);
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            font-size: 13px;
+            color: var(--gray-1);
+            line-height: 1.4;
+        }
+
+        .insight-block {
+            background: var(--light-blue-soft);
+            border-left: 3px solid var(--dark-blue);
+            padding: 24px 28px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 32px;
+        }
+
+        .insight-block p {
+            font-size: 16px;
+            color: var(--gray-2);
+            line-height: 1.7;
+        }
+
+        .insight-block p + p { margin-top: 12px; }
+        .insight-block strong { color: var(--dark-blue); }
+
+        .quote-block {
+            text-align: center;
+            padding: 32px;
+            background: var(--dark-blue);
+            border-radius: 12px;
+        }
+
+        .quote-block p {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--white);
+            font-style: italic;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ---- ROADMAP ---- */
+        .phase-block {
+            margin-bottom: 48px;
+        }
+
+        .phase-block:last-child { margin-bottom: 0; }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .phase-number {
+            width: 44px;
+            height: 44px;
+            background: var(--dark-blue);
+            color: var(--white);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .phase-number.active { background: var(--red); }
+        .phase-number.done { background: var(--green); }
+
+        .phase-header-text h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            line-height: 1.2;
+        }
+
+        .phase-header-text span {
+            font-size: 13px;
+            color: var(--gray-1);
+            font-weight: 500;
+        }
+
+        .roadmap-list {
+            list-style: none;
+            padding: 0;
+            border: 1px solid var(--neutral-2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .roadmap-item {
+            display: flex;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--neutral-2);
+            align-items: flex-start;
+        }
+
+        .roadmap-item:last-child { border-bottom: none; }
+
+        .roadmap-check {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--neutral-3);
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .roadmap-check.done {
+            background: var(--green);
+            border-color: var(--green);
+            position: relative;
+        }
+
+        .roadmap-check.done::after {
+            content: '✓';
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .roadmap-content { flex: 1; }
+
+        .roadmap-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .roadmap-content p {
+            font-size: 14px;
+            color: var(--gray-1);
+            line-height: 1.5;
+        }
+
+        .roadmap-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 5px;
+        }
+
+        .tag-saving { color: var(--green); background: var(--green-soft); }
+        .tag-sales { color: var(--dark-blue); background: var(--light-blue-soft); }
+        .tag-leads { color: var(--amber); background: var(--amber-soft); }
+        .tag-brand { color: #7c3aed; background: #f5f3ff; }
+        .tag-scale { color: var(--gray-2); background: var(--neutral-1); border: 1px solid var(--neutral-2); }
+        .tag-ops { color: #0369a1; background: #f0f9ff; }
+
+        .saving-note {
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .hours-estimate {
+            font-size: 12px;
+            color: var(--gray-1);
+            margin-top: 8px;
+        }
+
+        .hours-estimate span {
+            font-weight: 600;
+            color: var(--gray-2);
+        }
+
+        /* ---- MODULES ---- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .module-card {
+            padding: 20px;
+            border: 1px solid var(--neutral-2);
+            border-radius: 10px;
+            background: var(--white);
+        }
+
+        .module-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+
+        .module-card p {
+            font-size: 13px;
+            color: var(--gray-1);
+            line-height: 1.5;
+        }
+
+        .module-card .tag { margin-top: 8px; }
+
+        /* ---- PARTNERSHIP ---- */
+        .partnership-section {
+            background: var(--neutral-1);
+            border-top: none;
+        }
+
+        .partnership-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            max-width: none;
+            margin: 0;
+        }
+
+        .partnership-card-header {
+            background: var(--dark-blue);
+            color: var(--white);
+            padding: 36px 32px;
+            text-align: left;
+            border-radius: 12px;
+            margin-top: 32px;
+        }
+
+        .partnership-card-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .partnership-card-header p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .partnership-hours {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .partnership-hours .hours-number {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--light-blue);
+            line-height: 1;
+        }
+
+        .partnership-hours .hours-label {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .partnership-price {
+            margin-top: 20px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .partnership-price .price-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .partnership-price .price-period {
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .partnership-price-detail {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 6px;
+        }
+
+        .partnership-price-detail .strikethrough {
+            text-decoration: line-through;
+        }
+
+        .partnership-card-body { padding: 0; }
+
+        .partnership-category { margin-bottom: 24px; }
+        .partnership-category:last-of-type { margin-bottom: 0; }
+
+        .partnership-category-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-1);
+            margin-bottom: 8px;
+        }
+
+        .partnership-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .partnership-features li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray-2);
+        }
+
+        .partnership-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .partnership-comparison {
+            margin-top: 28px;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            font-size: 14px;
+            color: var(--gray-2);
+            line-height: 1.7;
+        }
+
+        .partnership-comparison strong { color: var(--gray-3); }
+
         /* ---- PRINT ---- */
         @media print {
             .phase-nav { display: none; }
             .hero { padding: 40px; }
             section { padding: 40px 0; }
-            .solution-card { break-inside: avoid; }
         }
 
         /* ---- RESPONSIVE ---- */
@@ -658,13 +818,13 @@
             .hero { padding: 60px 24px; }
             .hero h1 { font-size: 32px; }
             .container { padding: 0 24px; }
-            .value-grid { grid-template-columns: 1fr; }
+            .delivered-list { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
             .perspective-cards { grid-template-columns: 1fr; }
-            .solution-card-header { padding: 24px 24px 0; }
-            .solution-card-body { padding: 20px 24px 24px; }
-            .solution-card-footer { flex-direction: column; }
-            .footer-stat + .footer-stat { border-left: none; border-top: 1px solid var(--neutral-2); }
-            .phase-summary { flex-direction: column; gap: 8px; text-align: center; }
+            .benefits-list { grid-template-columns: 1fr; }
+            .comparison-table th, .comparison-table td { padding: 12px 16px; font-size: 13px; }
+            .lang-toggle { margin-left: 8px; }
         }
     </style>
 </head>
@@ -673,509 +833,1019 @@
 <!-- NAVIGATION -->
 <nav class="phase-nav">
     <div class="phase-nav-inner">
-        <a href="#intro">Bakgrunn</a>
-        <a href="#phase-1">Fase 1 – Grunnmur</a>
-        <a href="#phase-2">Fase 2 – Selgerverktøy</a>
-        <a href="#phase-3">Fase 3 – Kundeverktøy</a>
-        <a href="#phase-4">Fase 4 – Profesjonalisering</a>
-        <a href="#phase-5">Fase 5 – Vekst</a>
-        <a href="#overview">Totalbilde</a>
+        <a href="#track-record" class="lang-nb">Status</a>
+        <a href="#track-record" class="lang-en">Status</a>
+        <a href="#visibility" class="lang-nb">Synlighet</a>
+        <a href="#visibility" class="lang-en">Visibility</a>
+        <a href="#roadmap" class="lang-nb">Pågår nå</a>
+        <a href="#roadmap" class="lang-en">In progress</a>
+        <a href="#recommended" class="lang-nb">Anbefalt</a>
+        <a href="#recommended" class="lang-en">Recommended</a>
+        <a href="#backoffice">Back Office</a>
+        <a href="#modules" class="lang-nb">Muligheter</a>
+        <a href="#modules" class="lang-en">Opportunities</a>
+        <a href="#partnership" class="lang-nb">Partnerskap</a>
+        <a href="#partnership" class="lang-en">Partnership</a>
+        <div class="lang-toggle" title="Bytt språk / Switch language">
+            <button id="btn-nb" class="active" onclick="setLang('nb')" aria-label="Norsk"><img src="https://flagcdn.com/w40/no.png" alt="Norsk"></button>
+            <button id="btn-en" onclick="setLang('en')" aria-label="English"><img src="https://flagcdn.com/w40/gb.png" alt="English"></button>
+        </div>
     </div>
 </nav>
 
 <!-- HERO -->
 <header class="hero">
-    <span class="hero-label">Strategisk veikart</span>
-    <h1>Fra nettside til<br><span>digital plattform</span></h1>
-    <p class="hero-subtitle">Hvordan AcryliCon kan spare tid, styrke salget og skalere internasjonalt med smarte digitale verktøy.</p>
-    <p class="hero-meta">Utarbeidet av Andreas Harstad &middot; Februar 2026</p>
+    <div class="lang-nb">
+        <span class="hero-label">Strategisk anbefaling</span>
+        <h1>Fra nettside til<br><span>digital plattform</span></h1>
+        <p class="hero-subtitle">Hvordan AcryliCon kan bygge digitale konkurransefortrinn som varer — steg for steg, med det som allerede finnes.</p>
+    </div>
+    <div class="lang-en">
+        <span class="hero-label">Strategic recommendation</span>
+        <h1>From website to<br><span>digital platform</span></h1>
+        <p class="hero-subtitle">How AcryliCon can build lasting digital competitive advantages — step by step, building on what already exists.</p>
+    </div>
+    <p class="hero-meta lang-nb">Utarbeidet av Andreas Harstad &middot; Februar 2026</p>
+    <p class="hero-meta lang-en">Prepared by Andreas Harstad &middot; February 2026</p>
 </header>
 
-<!-- INTRO -->
-<section class="intro" id="intro">
+<!-- TRACK RECORD -->
+<section class="track-record" id="track-record">
     <div class="container">
-        <p>AcryliCon har investert i ny visuell profil, moderne nettsted og internasjonal lansering. Grunnmuren er på plass.</p>
-        <p>Neste steg er å bruke nettstedet som mer enn en digital brosjyre. All informasjon om produkter, referanser, sertifiseringer og kontorer finnes allerede i systemet. Ved å bygge verktøy på toppen av disse dataene kan vi skape reell forretningsverdi:</p>
-
-        <div class="value-grid">
-            <div class="value-item">
-                <div class="value-item-icon">⏱</div>
-                <h3>Spare tid og penger</h3>
-                <p>Erstatte manuelt arbeid med automatiserte løsninger</p>
-            </div>
-            <div class="value-item">
-                <div class="value-item-icon">📊</div>
-                <h3>Styrke salget</h3>
-                <p>Gi selgerne konkrete verktøy til kundemøter</p>
-            </div>
-            <div class="value-item">
-                <div class="value-item-icon">🏗</div>
-                <h3>Enklere for fagfolk</h3>
-                <p>Gjøre det lettest mulig å spesifisere AcryliCon</p>
-            </div>
-            <div class="value-item">
-                <div class="value-item-icon">🌍</div>
-                <h3>Skalere globalt</h3>
-                <p>Alt fungerer automatisk for alle land</p>
-            </div>
+        <div class="lang-nb">
+            <span class="section-label">Hvor vi er i dag</span>
+            <h2 class="section-title">Grunnmuren er på plass</h2>
+            <p>AcryliCon har investert i ny visuell profil, moderne nettsted, ny hostingplattform og internasjonal arkitektur. Alle produkter, referanser, sertifiseringer og kontorer er allerede strukturert i databasen med relasjoner som gjør at alt kan krysslenkes. Det betyr at verktøy som produktblad-generator, referanseark eller spesifikasjonstekster kan bygges på data som allerede finnes.</p>
+            <p>Grunnmuren er solid. Spørsmålet nå er: <strong>Hvordan får vi mer ut av investeringen?</strong></p>
+            <ul class="delivered-list">
+                <li>Loopia til Servebolt — stor teknisk oppgradering, lynraskt i hele verden</li>
+                <li>WordPress multisite — arkitektur klar for flerspråklig</li>
+                <li>Innholdssynkronisering — automatisert på tvers av alle språk</li>
+                <li>HTTPS og sikkerhet — på plass og verifisert</li>
+            </ul>
+        </div>
+        <div class="lang-en">
+            <span class="section-label">Where we are today</span>
+            <h2 class="section-title">The foundation is in place</h2>
+            <p>AcryliCon has invested in a new visual identity, modern website, new hosting platform and international architecture. All products, references, certifications and offices are already structured in the database with relationships that allow everything to be cross-linked. This means tools like product sheet generators, reference sheets or specification texts can be built on data that already exists.</p>
+            <p>The foundation is solid. The question now is: <strong>How do we get more out of this investment?</strong></p>
+            <ul class="delivered-list">
+                <li>Loopia to Servebolt — major technical upgrade, lightning fast worldwide</li>
+                <li>WordPress multisite — architecture ready for multilingual</li>
+                <li>Content synchronisation — automated across all languages</li>
+                <li>HTTPS and security — in place and verified</li>
+            </ul>
         </div>
     </div>
 </section>
 
-<!-- PHASE 1 -->
-<section id="phase-1">
+<!-- VISIBILITY -->
+<section class="visibility-section" id="visibility">
     <div class="container">
-        <div class="phase-header">
-            <div class="phase-number active">1</div>
-            <div class="phase-header-text">
-                <h2>Grunnmuren</h2>
-                <span>Q1 2026 &middot; Pågår</span>
-            </div>
+        <div class="lang-nb">
+            <span class="section-label red">Hvorfor dette haster</span>
+            <h2 class="section-title">AcryliCon er usynlig der kundene søker</h2>
+            <p class="section-subtitle">Når noen i Norge søker etter gulvløsninger, finner de konkurrentene — ikke AcryliCon. Her er hva Google faktisk viser:</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 6px;">Kjernesøkeord — der AcryliCon MÅ være synlig</h3>
+            <p style="font-size: 15px; color: var(--gray-1); margin-bottom: 20px;">Dette er søkeord som beskriver nøyaktig det AcryliCon gjør. Arkitekter, innkjøpere og driftsansvarlige bruker disse termene når de leter etter leverandør.</p>
+        </div>
+        <div class="lang-en">
+            <span class="section-label red">Why this is urgent</span>
+            <h2 class="section-title">AcryliCon is invisible where customers search</h2>
+            <p class="section-subtitle">When someone in Norway searches for flooring solutions, they find the competitors — not AcryliCon. Here is what Google actually shows:</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 6px;">Core keywords — where AcryliCon MUST be visible</h3>
+            <p style="font-size: 15px; color: var(--gray-1); margin-bottom: 20px;">These are the exact terms that describe what AcryliCon does. Architects, procurement officers and facility managers use these terms when looking for a supplier.</p>
         </div>
 
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Under arbeid</div>
-                <h3>Internasjonal nettside</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Løsningen</div>
-                    <p>Engelskspråklig nettside bygd som en del av WordPress multisite — samme design og kvalitet som den norske. Arkitekturen er bygd slik at nye land enkelt kan kobles på senere med lokal tilpasning av innhold, kontorer og referanser.</p>
+        <div class="competitor-landscape">
+            <!-- INDUSTRIGULV -->
+            <div class="search-result-mock">
+                <div class="search-result-header">
+                    <span class="lang-nb">Søk: </span><span class="lang-en">Search: </span><span>&laquo;industrigulv&raquo;</span>
+                    <span class="volume lang-nb">Kjernesøkeord</span>
+                    <span class="volume lang-en">Core keyword</span>
+                </div>
+                <div class="search-result-row">
+                    <div class="search-rank top">1</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">epoxygrossisten.no</div>
+                        <div class="site-desc lang-nb">Guide: «Epoxy, akryl, polyuretan eller polyaspartic?»</div>
+                        <div class="site-desc lang-en">Guide: "Epoxy, acrylic, polyurethane or polyaspartic?"</div>
+                    </div>
+                </div>
+                <div class="search-result-row">
+                    <div class="search-rank">2</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">silikal-industribelegg.no</div>
+                        <div class="site-desc">«Expect more from your floor» — MMA/acrylic flooring</div>
+                    </div>
+                </div>
+                <div class="search-result-row">
+                    <div class="search-rank">3</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">solberggulv.no</div>
+                        <div class="site-desc lang-nb">«Industrigulvbelegg av høy kvalitet»</div>
+                        <div class="site-desc lang-en">"High quality industrial floor coatings"</div>
+                    </div>
+                </div>
+                <div class="search-result-row">
+                    <div class="search-rank">4</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">nor.sika.com (Sika Norge)</div>
+                        <div class="site-desc lang-nb">Internasjonal gigant — «Sikafloor epoksy industrigulv»</div>
+                        <div class="site-desc lang-en">International giant — "Sikafloor epoxy industrial flooring"</div>
+                    </div>
+                </div>
+                <div class="search-result-row">
+                    <div class="search-rank missing">&mdash;</div>
+                    <div class="search-result-info">
+                        <div class="site-name acrylicon">acrylicon.no</div>
+                        <div class="site-desc lang-nb">Finnes ikke på første side</div>
+                        <div class="site-desc lang-en">Not on the first page</div>
+                    </div>
                 </div>
             </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">100 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Status</div>
-                    <div class="footer-stat-value" style="color: var(--red)">Pågår</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- PHASE 2 -->
-<section id="phase-2">
-    <div class="container">
-        <div class="phase-header">
-            <div class="phase-number">2</div>
-            <div class="phase-header-text">
-                <h2>Selgerverktøy</h2>
-                <span>Q2 2026</span>
-            </div>
-        </div>
-
-        <!-- Produktblad -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Kostnadsbesparelse</div>
-                <h3>Produktblad-generator</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>Produktblader oppdateres manuelt av ekstern grafiker. Hver endring koster tid og penger. Selgere risikerer å bruke utdaterte versjoner som ligger lokalt — noe som kan skape uheldige situasjoner i kundemøter.</p>
+            <!-- GULVBELEGG NÆRINGSMIDDEL -->
+            <div class="search-result-mock">
+                <div class="search-result-header">
+                    <span class="lang-nb">Søk: </span><span class="lang-en">Search: </span><span>&laquo;gulvbelegg næringsmiddel&raquo;</span>
+                    <span class="volume lang-nb">Bransjesøkeord</span>
+                    <span class="volume lang-en">Industry keyword</span>
                 </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Produktblader genereres automatisk fra nettsidens data — alltid oppdatert</li>
-                        <li>Profesjonelt design, klar for print og digital deling</li>
-                        <li>Eliminerer kostnaden til ekstern grafiker for løpende oppdateringer</li>
-                        <li>Fjerner risikoen for utdaterte dokumenter hos selgerne</li>
-                        <li>Fungerer automatisk for alle språk og land</li>
-                    </ul>
+                <div class="search-result-row">
+                    <div class="search-rank top">1</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">nor.sika.com (Sika Norge)</div>
+                        <div class="site-desc lang-nb">«Sika Ucrete — verdens mest robuste industrigulv»</div>
+                        <div class="site-desc lang-en">"Sika Ucrete — the world's most robust industrial floor"</div>
+                    </div>
                 </div>
-            </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">100 – 120 000 kr</div>
+                <div class="search-result-row">
+                    <div class="search-rank">2</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">silikal-industribelegg.no</div>
+                        <div class="site-desc lang-nb">MMA-gulv for næringsmiddel — 65+ år i markedet</div>
+                        <div class="site-desc lang-en">MMA flooring for food industry — 65+ years in the market</div>
+                    </div>
                 </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Estimert årlig besparelse</div>
-                    <div class="footer-stat-value saving">100 – 150 000 kr</div>
+                <div class="search-result-row">
+                    <div class="search-rank">3</div>
+                    <div class="search-result-info">
+                        <div class="site-name competitor">gulvdesign.no</div>
+                        <div class="site-desc lang-nb">Bergen — «Slitesterke gulvløsninger for industri og næring»</div>
+                        <div class="site-desc lang-en">Bergen — "Durable flooring solutions for industry"</div>
+                    </div>
                 </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Tilbakebetaling</div>
-                    <div class="footer-stat-value">Under 12 mnd</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Referanseark -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Salgsverktøy</div>
-                <h3>Referanseark-generator</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>AcryliCon har et stort antall prosjektreferanser — fra fiskeindustri til sykehus, fra 1978 til i dag. Men selgerne har ingen enkel måte å sette sammen en relevant referansepakke til et spesifikt kundemøte.</p>
-                </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Filtrer referanser etter bruksområde, produkt og region</li>
-                        <li>Generer en profesjonell referansepakke med 3-5 prosjekter — på sekunder</li>
-                        <li>Skreddersydd til hvert kundemøte: «Her er fem sykehus vi har levert til»</li>
-                        <li>Utnytter referanseporteføljen som allerede finnes i systemet</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">60 – 80 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Sterkere salgspitch</div>
+                <div class="search-result-row">
+                    <div class="search-rank missing">&mdash;</div>
+                    <div class="search-result-info">
+                        <div class="site-name acrylicon">acrylicon.no</div>
+                        <div class="site-desc lang-nb">Finnes ikke på første side</div>
+                        <div class="site-desc lang-en">Not on the first page</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="phase-summary">
-            <span class="phase-summary-label">Samlet investering fase 2</span>
-            <span class="phase-summary-value">160 – 200 000 kr</span>
+        <div class="friction-block lang-nb">
+            <p><strong>Silikal Industribelegg — selskapet AcryliCon gikk til rettssak mot for å beskytte sin egen formel — ranker foran AcryliCon på «industrigulv» og «gulvbelegg næringsmiddel».</strong> De bruker samme MMA/akryl-teknologi. De markedsfører seg på nøyaktig de samme bruksområdene. Og de er mer synlige digitalt.</p>
+            <p>Sika, Solberg Gulv og GulvDesign er der også — alle foran AcryliCon. <strong>Ingen av dem har AcryliCons 50 år med erfaring, kjemisk binding som aldri delaminerer, eller 10-års garanti med stålmerke støpt i gulvet.</strong> Men de dukker opp. AcryliCon gjør det ikke.</p>
+            <p><strong>Kundene som søker etter disse termene — arkitekter, innkjøpere, driftsansvarlige — finner konkurrentene først. Og den som blir funnet først, får samtalen.</strong></p>
         </div>
-    </div>
-</section>
-
-<!-- PHASE 3 -->
-<section id="phase-3">
-    <div class="container">
-        <div class="phase-header">
-            <div class="phase-number">3</div>
-            <div class="phase-header-text">
-                <h2>Kundeverktøy</h2>
-                <span>Q3 2026</span>
-            </div>
+        <div class="friction-block lang-en">
+            <p><strong>Silikal Industribelegg — the company AcryliCon took to court to protect its own formula — ranks ahead of AcryliCon on "industrigulv" and "gulvbelegg næringsmiddel".</strong> They use the same MMA/acrylic technology. They market themselves for exactly the same applications. And they are more visible digitally.</p>
+            <p>Sika, Solberg Gulv and GulvDesign are there too — all ahead of AcryliCon. <strong>None of them have AcryliCon's nearly 50 years of experience, chemical bonding that never delaminates, or 10-year warranty with a steel stamp cast into the floor.</strong> But they show up. AcryliCon does not.</p>
+            <p><strong>The customers searching for these terms — architects, procurement officers, facility managers — find the competitors first. And whoever is found first, gets the conversation.</strong></p>
         </div>
 
-        <!-- TCO -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Salgsverktøy</div>
-                <h3>TCO-kalkulator — Totaløkonomi</h3>
+        <!-- KEYWORD VOLUME SUMMARY -->
+        <div class="competitor-comparison" style="margin-bottom: 24px;">
+            <div class="competitor-comparison-header lang-nb">Søkeord der AcryliCon MÅ være synlig — samlet volum</div>
+            <div class="competitor-comparison-header lang-en">Keywords where AcryliCon MUST be visible — total volume</div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell label lang-nb">Søkeord</div>
+                <div class="competitor-cell label lang-en">Keyword</div>
+                <div class="competitor-cell label" style="text-align: right;"><span class="lang-nb">Volum/mnd</span><span class="lang-en">Vol/mo</span></div>
+                <div class="competitor-cell label" style="text-align: center;">AcryliCon?</div>
             </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>AcryliCons sterkeste argument er totaløkonomi: gulvene varer 4–8 ganger lenger enn epoxy og polyuretan. Men dette formidles muntlig. Kunden må stole på påstanden uten å se tallene selv.</p>
-                </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Interaktiv kalkulator: velg areal og bruksområde, sammenlign over 10–30 år</li>
-                        <li>Forvandler «dere er dyre» til «dere er billigst over tid» — med kundens egne tall</li>
-                        <li>PDF-rapport med prosjektnavn som følger beslutningsgrunnlaget internt hos kunden</li>
-                        <li>Hvis dette tipper én ekstra kontrakt i året, har det betalt seg mange ganger</li>
-                    </ul>
-                </div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell" style="font-weight: 600;">industrigulv</div>
+                <div class="competitor-cell" style="text-align: right; font-weight: 600;">~200</div>
+                <div class="competitor-cell bad" style="text-align: center;"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
             </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">80 – 120 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Konverteringsverktøy</div>
-                </div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell" style="font-weight: 600;">akryl gulv / MMA gulv</div>
+                <div class="competitor-cell" style="text-align: right; font-weight: 600;">40–70</div>
+                <div class="competitor-cell bad" style="text-align: center;"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
             </div>
-        </div>
-
-        <!-- Produktvelger -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Lead-kvalifisering</div>
-                <h3>Produktvelger</h3>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell" style="font-weight: 600;">fugefritt gulv / sklisikkert gulv</div>
+                <div class="competitor-cell" style="text-align: right; font-weight: 600;">~100</div>
+                <div class="competitor-cell bad" style="text-align: center;"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
             </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>AcryliCon har 12 produktsystemer for 12 bruksområder. For nye kunder er det uoversiktlig — de må lese seg gjennom alt eller ringe for veiledning.</p>
-                </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Enkel veiviser: «Hva slags lokale? Hvilke krav?» → anbefalt produkt</li>
-                        <li>Kunder som tar kontakt vet allerede hva de trenger</li>
-                        <li>Kontorene bruker mindre tid på grunnleggende rådgivning</li>
-                        <li>Fungerer som salgsverktøy 24/7, på alle språk</li>
-                    </ul>
-                </div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell" style="font-weight: 600;"><span class="lang-nb">gulvbelegg næringsmiddel / sykehus / industri</span><span class="lang-en">flooring food industry / hospital / industrial</span></div>
+                <div class="competitor-cell" style="text-align: right; font-weight: 600;">~150</div>
+                <div class="competitor-cell bad" style="text-align: center;"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
             </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">60 – 80 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Kvalifiserte leads</div>
-                </div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto;">
+                <div class="competitor-cell" style="font-weight: 600;"><span class="lang-nb">industrigulv leverandør / industribelegg</span><span class="lang-en">industrial flooring supplier / coating</span></div>
+                <div class="competitor-cell" style="text-align: right; font-weight: 600;">~80</div>
+                <div class="competitor-cell bad" style="text-align: center;"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
+            </div>
+            <div class="competitor-row" style="grid-template-columns: 1fr auto auto; background: var(--neutral-1);">
+                <div class="competitor-cell label" style="font-weight: 800;"><span class="lang-nb">Totalt</span><span class="lang-en">Total</span></div>
+                <div class="competitor-cell label" style="text-align: right; font-weight: 800; color: var(--red);">~600+/<span class="lang-nb">mnd</span><span class="lang-en">mo</span></div>
+                <div class="competitor-cell bad" style="text-align: center; font-weight: 800;"><span class="lang-nb">Usynlig</span><span class="lang-en">Invisible</span></div>
             </div>
         </div>
+        <p style="font-size: 13px; color: var(--gray-1); margin-bottom: 20px;" class="lang-nb">Volumdata fra Google Keyword Planner. Tallene ser lave ut — men dette er ikke privatpersoner som googler maling. Hver eneste person bak disse søkene er en arkitekt, innkjøper eller driftsansvarlig som skal velge leverandør for et prosjekt verdt hundretusenvis av kroner.</p>
+        <p style="font-size: 13px; color: var(--gray-1); margin-bottom: 20px;" class="lang-en">Volume data from Google Keyword Planner. The numbers may look low — but these are not consumers googling paint. Every single person behind these searches is an architect, procurement officer or facility manager choosing a supplier for a project worth hundreds of thousands of kroner.</p>
 
-        <div class="phase-summary">
-            <span class="phase-summary-label">Samlet investering fase 3</span>
-            <span class="phase-summary-value">140 – 200 000 kr</span>
-        </div>
-    </div>
-</section>
-
-<!-- PHASE 4 -->
-<section id="phase-4">
-    <div class="container">
-        <div class="phase-header">
-            <div class="phase-number">4</div>
-            <div class="phase-header-text">
-                <h2>Profesjonalisering</h2>
-                <span>Q4 2026</span>
-            </div>
+        <div class="insight-block" style="margin-bottom: 32px;">
+            <p class="lang-nb"><strong>En viktig presisering:</strong> AcryliCon er ikke epoxy — det er MMA/akryl, en overlegen teknologi. Over 7 000 mennesker søker etter «epoxy» hver måned, men dette er i hovedsak privatpersoner som vil male garasjegulvet. Det er ikke AcryliCons målgruppe. Søkeordene over er de som faktisk bringer inn riktige kunder — og der er AcryliCon helt usynlig.</p>
+            <p class="lang-en"><strong>An important clarification:</strong> AcryliCon is not epoxy — it is MMA/acrylic, a superior technology. Over 7,000 people search for "epoxy" each month, but these are mainly consumers wanting to paint their garage floor. That is not AcryliCon's target audience. The keywords above are the ones that actually bring in the right customers — and AcryliCon is completely invisible there.</p>
         </div>
 
-        <!-- Dokumentportal -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Lead-generering</div>
-                <h3>Sertifiserings- og dokumentportal</h3>
+        <div class="friction-block lang-nb">
+            <p><strong>Silikal og Sika eier synligheten på nøyaktig de søkeordene som bringer inn arkitekter, innkjøpere og driftsansvarlige.</strong></p>
+            <p>Ingen av dem har AcryliCons 50 år med erfaring, kjemisk binding som aldri delaminerer, eller 10-års garanti med stålmerke støpt i gulvet. Men digitalt er de mer synlige enn Norges ledende leverandør av industrigulvbelegg.</p>
+            <p><strong>Den som blir funnet først, får samtalen. Akkurat nå er det ikke AcryliCon.</strong></p>
+        </div>
+        <div class="friction-block lang-en">
+            <p><strong>Silikal and Sika own the visibility on exactly the keywords that bring in architects, procurement officers and facility managers.</strong></p>
+            <p>None of them have AcryliCon's nearly 50 years of experience, chemical bonding that never delaminates, or 10-year warranty with a steel stamp cast into the floor. But digitally, they are more visible than Norway's leading industrial flooring supplier.</p>
+            <p><strong>Whoever is found first, gets the conversation. Right now, that is not AcryliCon.</strong></p>
+        </div>
+
+        <!-- COMPETITOR COMPARISON -->
+        <div class="competitor-comparison">
+            <div class="competitor-comparison-header lang-nb">Kvalitet vs. digital synlighet</div>
+            <div class="competitor-comparison-header lang-en">Quality vs. digital visibility</div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"></div>
+                <div class="competitor-cell label">AcryliCon</div>
+                <div class="competitor-cell label lang-nb">Typisk konkurrent</div>
+                <div class="competitor-cell label lang-en">Typical competitor</div>
             </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>Arkitekter og innkjøpere trenger teknisk dokumentasjon og sertifiseringer (BREEAM, M1, LEED, DNV m.fl.) for å spesifisere AcryliCon. I dag sendes disse manuelt per e-post på forespørsel.</p>
-                </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Selvbetjening: fagfolk finner og laster ned dokumentasjon selv</li>
-                        <li>E-post ved nedlasting = oversikt over hvem som vurderer AcryliCon</li>
-                        <li>Sparer intern tid på dokumenthåndtering</li>
-                        <li>For BREEAM/LEED-prosjekter er dette obligatorisk — gjør det enkelt å velge AcryliCon</li>
-                    </ul>
-                </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Levetid</span><span class="lang-en">Lifespan</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">20–30+ år</span><span class="lang-en">20–30+ years</span></div>
+                <div class="competitor-cell"><span class="lang-nb">5–8 år</span><span class="lang-en">5–8 years</span></div>
             </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">50 – 70 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Leads + tidsbesparelse</div>
-                </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Garanti</span><span class="lang-en">Warranty</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">10 år (stålmerke i gulvet)</span><span class="lang-en">10 years (steel stamp in the floor)</span></div>
+                <div class="competitor-cell"><span class="lang-nb">1–5 år (papir)</span><span class="lang-en">1–5 years (paper)</span></div>
+            </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Herdetid</span><span class="lang-en">Curing time</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">2 timer</span><span class="lang-en">2 hours</span></div>
+                <div class="competitor-cell"><span class="lang-nb">24–72 timer</span><span class="lang-en">24–72 hours</span></div>
+            </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Erfaring</span><span class="lang-en">Experience</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">Snart 50 år</span><span class="lang-en">Nearly 50 years</span></div>
+                <div class="competitor-cell"><span class="lang-nb">Varierer</span><span class="lang-en">Varies</span></div>
+            </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Synlig i Google-søk</span><span class="lang-en">Visible in Google search</span></div>
+                <div class="competitor-cell bad"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">Ja</span><span class="lang-en">Yes</span></div>
+            </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label"><span class="lang-nb">Synlig i AI-søk</span><span class="lang-en">Visible in AI search</span></div>
+                <div class="competitor-cell bad"><span class="lang-nb">Nei</span><span class="lang-en">No</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">Ja (PSI 90+)</span><span class="lang-en">Yes (PSI 90+)</span></div>
+            </div>
+            <div class="competitor-row">
+                <div class="competitor-cell label">Google Business</div>
+                <div class="competitor-cell bad"><span class="lang-nb">0 profiler</span><span class="lang-en">0 profiles</span></div>
+                <div class="competitor-cell good"><span class="lang-nb">Aktive profiler</span><span class="lang-en">Active profiles</span></div>
             </div>
         </div>
 
-        <!-- Garantibevis -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Merkevarebygging</div>
-                <h3>Digitalt garantibevis med QR-kode</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Situasjonen i dag</div>
-                    <p>AcryliCon er unike med daterte stålmerker i hvert gulv. Men garantiinformasjonen er på papir. Ved eierbytte eller skifte av driftsansvarlig kan dokumentasjon gå tapt.</p>
-                </div>
-                <div class="result-block">
-                    <div class="result-block-label">Hva AcryliCon oppnår</div>
-                    <ul>
-                        <li>Hvert prosjekt får en unik digital side med QR-kode</li>
-                        <li>Driftsansvarlig skanner gulvet → ser garanti, produkt, vedlikeholdsinstruks</li>
-                        <li>«Skann gulvet ditt» — en historie som skiller seg ut i bransjen</li>
-                        <li>Binder eiendomsforvalteren til AcryliCon for vedlikehold og utvidelser</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">40 – 60 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Kundelojalitet</div>
-                </div>
-            </div>
+        <div class="friction-block lang-nb">
+            <p>AcryliCon har det beste produktet. Men <strong>det hjelper ikke å ha det beste produktet hvis ingen finner det.</strong></p>
+            <p>Hver dag søker arkitekter, innkjøpere og driftsansvarlige etter gulvløsninger i Norge. De finner Silikal, Sika og Solberg Gulv. De finner ikke AcryliCon. <strong>Disse kundene går tapt — ikke fordi produktet er dårligere, men fordi nettsiden er usynlig.</strong></p>
+        </div>
+        <div class="friction-block lang-en">
+            <p>AcryliCon has the best product. But <strong>it does not help to have the best product if no one can find it.</strong></p>
+            <p>Every day, architects, procurement officers and facility managers search for flooring solutions in Norway. They find Silikal, Sika and Solberg Gulv. They do not find AcryliCon. <strong>These customers are lost — not because the product is inferior, but because the website is invisible.</strong></p>
         </div>
 
-        <div class="phase-summary">
-            <span class="phase-summary-label">Samlet investering fase 4</span>
-            <span class="phase-summary-value">90 – 130 000 kr</span>
-        </div>
-    </div>
-</section>
+        <!-- GA4 DATA -->
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 16px;" class="lang-nb">Hva dataene forteller oss</h3>
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 16px;" class="lang-en">What the data tells us</h3>
+        <p style="font-size: 15px; color: var(--gray-1); margin-bottom: 20px;" class="lang-nb">Google Analytics 4, februar 2025 – februar 2026. Perioden inkluderer betalte kampanjer via Brist markedsbyrå i Oslo.</p>
+        <p style="font-size: 15px; color: var(--gray-1); margin-bottom: 20px;" class="lang-en">Google Analytics 4, February 2025 – February 2026. The period includes paid campaigns via Brist marketing agency in Oslo.</p>
 
-<!-- PHASE 5 -->
-<section id="phase-5">
-    <div class="container">
-        <div class="phase-header">
-            <div class="phase-number">5</div>
-            <div class="phase-header-text">
-                <h2>Vekst</h2>
-                <span>2027</span>
-            </div>
-        </div>
-
-        <!-- Arkitekt-spek -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Konvertering</div>
-                <h3>Arkitekt-spesifikasjonsverktøy</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Muligheten</div>
-                    <p>Arkitekter skriver anbudsspesifikasjoner. Et verktøy som genererer ferdig spesifikasjonstekst — med tekniske data og sertifiseringer — gjør det enklest mulig å skrive AcryliCon inn i anbudet. Når vi først står i spesifikasjonen, er det vanskelig for konkurrenter å komme inn.</p>
-                </div>
-            </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering</div>
-                    <div class="footer-stat-value">80 – 100 000 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Type verdi</div>
-                    <div class="footer-stat-value" style="font-size: 16px;">Anbudskonvertering</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Nye land -->
-        <div class="solution-card">
-            <div class="solution-card-header">
-                <div class="solution-tag">Skalering</div>
-                <h3>Nye land på plattformen</h3>
-            </div>
-            <div class="solution-card-body">
-                <div class="situation-block">
-                    <div class="situation-block-label">Muligheten</div>
-                    <p>Arkitekturen fra fase 1 gjør det enkelt å legge til nye land. Hvert land får sin egen side med lokalt innhold — kontorer, referanser, språk — mens design, struktur og alle verktøy deles automatisk.</p>
-                </div>
-            </div>
-            <div class="solution-card-footer">
-                <div class="footer-stat">
-                    <div class="footer-stat-label">Investering per land</div>
-                    <div class="footer-stat-value">30 – 37 500 kr</div>
-                </div>
-                <div class="footer-stat">
-                    <div class="footer-stat-label">AcryliCon er i</div>
-                    <div class="footer-stat-value">21 land</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- OVERVIEW -->
-<section class="overview-section" id="overview">
-    <div class="container">
-        <h2>Totalbildet</h2>
-        <p class="section-subtitle">Samlet investering fordelt over fem faser</p>
-
-        <table class="overview-table">
-            <thead>
-                <tr>
-                    <th>Fase</th>
-                    <th>Periode</th>
-                    <th style="text-align: right;">Investering</th>
-                </tr>
-            </thead>
+        <div class="lang-nb">
+        <table class="comparison-table">
+            <thead><tr><th></th><th>Betalt søk (Brist / Google Ads)</th><th>Organisk søk</th></tr></thead>
             <tbody>
-                <tr>
-                    <td class="phase-name">Grunnmur</td>
-                    <td class="phase-period">Q1 2026</td>
-                    <td class="phase-amount">100 000 kr</td>
-                </tr>
-                <tr>
-                    <td class="phase-name">Selgerverktøy</td>
-                    <td class="phase-period">Q2 2026</td>
-                    <td class="phase-amount">160 – 200 000 kr</td>
-                </tr>
-                <tr>
-                    <td class="phase-name">Kundeverktøy</td>
-                    <td class="phase-period">Q3 2026</td>
-                    <td class="phase-amount">140 – 200 000 kr</td>
-                </tr>
-                <tr>
-                    <td class="phase-name">Profesjonalisering</td>
-                    <td class="phase-period">Q4 2026</td>
-                    <td class="phase-amount">90 – 130 000 kr</td>
-                </tr>
-                <tr>
-                    <td class="phase-name">Vekst</td>
-                    <td class="phase-period">2027</td>
-                    <td class="phase-amount">Løpende</td>
-                </tr>
-                <tr class="total-row">
-                    <td class="phase-name">Totalt 2026</td>
-                    <td></td>
-                    <td class="phase-amount">490 – 630 000 kr</td>
-                </tr>
+                <tr><td>Andel av trafikk</td><td class="col-paid">53%</td><td class="col-organic">17%</td></tr>
+                <tr><td>Engasjement per besøk</td><td class="col-paid">18 sekunder</td><td class="col-organic">1 min 13 sek</td></tr>
+                <tr><td>Konverteringsrate</td><td class="col-paid">37,5%</td><td class="col-organic">62,5%</td></tr>
             </tbody>
         </table>
+        </div>
+        <div class="lang-en">
+        <table class="comparison-table">
+            <thead><tr><th></th><th>Paid search (Brist / Google Ads)</th><th>Organic search</th></tr></thead>
+            <tbody>
+                <tr><td>Share of traffic</td><td class="col-paid">53%</td><td class="col-organic">17%</td></tr>
+                <tr><td>Engagement per visit</td><td class="col-paid">18 seconds</td><td class="col-organic">1 min 13 sec</td></tr>
+                <tr><td>Conversion rate</td><td class="col-paid">37.5%</td><td class="col-organic">62.5%</td></tr>
+            </tbody>
+        </table>
+        </div>
 
-        <div class="perspective-cards">
-            <div class="perspective-card">
-                <div class="big-number">&lt;1%</div>
-                <p>av AcryliCon Norges årlige omsetning for hele den digitale plattformen</p>
+        <div class="insight-block">
+            <p class="lang-nb"><strong>Over halvparten av trafikken kom fra betalte annonser via Brist — men de som fant AcryliCon selv, var 3–4 ganger mer verdifulle.</strong> De leste lenger, klikket mer, og tok oftere kontakt. Å kjøpe oppmerksomhet for 18 sekunders besøk er ikke en strategi. Å eie synligheten er det.</p>
+            <p class="lang-en"><strong>Over half of the traffic came from paid ads via Brist — but those who found AcryliCon organically were 3–4 times more valuable.</strong> They read longer, clicked more, and made contact more often. Buying attention for 18-second visits is not a strategy. Owning the visibility is.</p>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="number">600+</div>
+                <div class="label lang-nb">månedlige profesjonelle søk der AcryliCon er usynlig</div>
+                <div class="label lang-en">monthly professional searches where AcryliCon is invisible</div>
             </div>
-            <div class="perspective-card">
-                <div class="big-number">21</div>
-                <p>land som kan kobles på plattformen — hvert verktøy skalerer automatisk</p>
+            <div class="stat-card">
+                <div class="number">57–68</div>
+                <div class="label lang-nb">PageSpeed — konkurrenter med 90+ vises i Googles AI-svar</div>
+                <div class="label lang-en">PageSpeed — competitors with 90+ appear in Google's AI answers</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">0</div>
+                <div class="label lang-nb">Google Business-profiler for 4 kontorer</div>
+                <div class="label lang-en">Google Business profiles for 4 offices</div>
             </div>
         </div>
 
-        <div class="perspective-quote">
-            <p>Én arkitekt som spesifiserer AcryliCon fordi dokumentportalen gjorde det enkelt, eller én kunde som velger AcryliCon fordi TCO-kalkulatoren viste de reelle tallene — det er nok til å betale for flere av disse løsningene.</p>
+        <!-- REFERENCE POTENTIAL -->
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 16px;" class="lang-nb">Det ubrukte potensialet</h3>
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--dark-blue); margin-bottom: 16px;" class="lang-en">The untapped potential</h3>
+
+        <div class="insight-block lang-nb">
+            <p>De 5 referansene med dybdeinnhold genererer <strong>7 279 sesjoner i året</strong> — 12% av all trafikk. 94% av disse besøkende kjente ikke AcryliCon fra før. Nationalteatret stasjon alene bringer inn 4 462 besøkende i året. Gratis. Hver dag.</p>
+            <p>Det finnes <strong>100+ referanser i databasen som ikke utnyttes.</strong> Prosjekter fra 1978 til i dag — fiskeindustri, sykehus, skoler, næringsmiddel, offshore. Ingen konkurrent kan matche denne porteføljen. Men den er usynlig.</p>
+            <p>Potensialet er 25 000–50 000 ekstra sesjoner årlig — organisk, varig, og med langt høyere kvalitet enn betalt trafikk. <strong>Hver eneste referanse er en unik landingsside ingen konkurrent kan kopiere.</strong></p>
+        </div>
+        <div class="insight-block lang-en">
+            <p>The 5 references with in-depth content generate <strong>7,279 sessions per year</strong> — 12% of all traffic. 94% of these visitors did not know AcryliCon before. Nationalteatret station alone brings in 4,462 visitors per year. For free. Every day.</p>
+            <p>There are <strong>100+ references in the database that are not being utilised.</strong> Projects from 1978 to today — fish industry, hospitals, schools, food production, offshore. No competitor can match this portfolio. But it is invisible.</p>
+            <p>The potential is 25,000–50,000 additional sessions per year — organic, lasting, and of far higher quality than paid traffic. <strong>Every single reference is a unique landing page no competitor can copy.</strong></p>
+        </div>
+
+        <div class="quote-block">
+            <p class="lang-nb">AcryliCon har det beste produktet, den lengste historien, og den største referanseporteføljen i Norge. Det eneste som mangler er at folk finner det.</p>
+            <p class="lang-en">AcryliCon has the best product, the longest track record, and the largest reference portfolio in Norway. The only thing missing is that people find it.</p>
         </div>
     </div>
 </section>
 
-<!-- RETAINER -->
-<section class="retainer-section">
+<!-- PÅGÅR NÅ -->
+<section id="roadmap">
     <div class="container">
-        <div class="retainer-card">
-            <div class="retainer-card-header">
-                <h3>Løpende drifts- og utviklingsavtale</h3>
-                <p>Support, rådgivning og videreutvikling</p>
-            </div>
-            <div class="retainer-card-body">
-                <div class="retainer-price">
-                    <span class="amount">19 500</span>
-                    <span class="period"> kr / mnd</span>
+        <span class="section-label lang-nb">Pågår nå</span>
+        <span class="section-label lang-en">In progress</span>
+        <h2 class="section-title lang-nb">Under arbeid — Q1 2026</h2>
+        <h2 class="section-title lang-en">Work in progress — Q1 2026</h2>
+
+        <ul class="roadmap-list" style="margin-bottom: 0;">
+            <li class="roadmap-item">
+                <div class="roadmap-check done"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Internasjonal nettside (engelsk)</h4>
+                    <h4 class="lang-en">International website (English)</h4>
+                    <p class="lang-nb">Engelskspråklig nettside på WordPress multisite. Samme design og kvalitet som den norske. Arkitekturen gjør det enkelt å legge til nye land senere.</p>
+                    <p class="lang-en">English-language website on WordPress multisite. Same design and quality as the Norwegian site. The architecture makes it easy to add new countries later.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-scale lang-nb">Skalering</span>
+                        <span class="tag tag-scale lang-en">Scaling</span>
+                    </div>
                 </div>
-                <ul class="retainer-features">
-                    <li>15 timer per måned inkludert</li>
-                    <li>Tilgjengelighet for support og feilretting</li>
-                    <li>Jevnlige møter og statusoppdateringer</li>
-                    <li>Løpende videreutvikling og optimalisering</li>
-                    <li>Rådgivning innen SEO, ytelse og digital strategi</li>
-                    <li>Forvaltning av alle digitale verktøy og plattformen</li>
-                </ul>
-                <p class="retainer-note">
-                    Timer utover avtalen faktureres til 1 500 kr/t.<br>
-                    Større prosjekter avtales separat.
-                </p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ANBEFALT ARBEIDSPAKKE -->
+<section id="recommended" style="background: var(--neutral-1);">
+    <div class="container">
+        <span class="section-label red lang-nb">Anbefalt neste steg</span>
+        <span class="section-label red lang-en">Recommended next steps</span>
+        <h2 class="section-title lang-nb">Synlighet — den viktigste investeringen nå</h2>
+        <h2 class="section-title lang-en">Visibility — the most important investment now</h2>
+        <p class="section-subtitle lang-nb">Basert på dataene over er dette det som vil gi størst effekt på kortest tid. Alt handler om å gjøre AcryliCon synlig der kundene allerede søker.</p>
+        <p class="section-subtitle lang-en">Based on the data above, these are the actions that will have the greatest impact in the shortest time. It all comes down to making AcryliCon visible where customers are already searching.</p>
+
+        <ul class="roadmap-list">
+            <li class="roadmap-item">
+                <div class="roadmap-check"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Mobil UX og PageSpeed</h4>
+                    <h4 class="lang-en">Mobile UX and PageSpeed</h4>
+                    <p class="lang-nb">66% av trafikken er mobil. Dedikert gjennomgang av navigasjon, CTA-plassering og ytelsesoptimalisering. PageSpeed fra 57–68 til 90+ er kritisk for AI-søk.</p>
+                    <p class="lang-en">66% of traffic is mobile. Dedicated review of navigation, CTA placement and performance optimisation. PageSpeed from 57–68 to 90+ is critical for AI search.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-leads lang-nb">Konvertering</span>
+                        <span class="tag tag-leads lang-en">Conversion</span>
+                    </div>
+                    <p class="hours-estimate lang-nb">Estimert: <span>20+ timer</span></p>
+                    <p class="hours-estimate lang-en">Estimated: <span>20+ hours</span></p>
+                </div>
+            </li>
+            <li class="roadmap-item">
+                <div class="roadmap-check"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Teknisk SEO</h4>
+                    <h4 class="lang-en">Technical SEO</h4>
+                    <p class="lang-nb">hreflang-tagger, strukturert data, meta descriptions, og PageSpeed-optimalisering. Gjør AcryliCon synlig i Googles AI-genererte svar.</p>
+                    <p class="lang-en">hreflang tags, structured data, meta descriptions, and PageSpeed optimisation. Makes AcryliCon visible in Google's AI-generated answers.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-leads lang-nb">Trafikk &amp; leads</span>
+                        <span class="tag tag-leads lang-en">Traffic &amp; leads</span>
+                    </div>
+                    <p class="hours-estimate lang-nb">Estimert: <span>25+ timer</span></p>
+                    <p class="hours-estimate lang-en">Estimated: <span>25+ hours</span></p>
+                </div>
+            </li>
+            <li class="roadmap-item">
+                <div class="roadmap-check"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Oppgradere topp-referanser + forbedre layout og filtrering</h4>
+                    <h4 class="lang-en">Upgrade top references + improve layout and filtering</h4>
+                    <p class="lang-nb">5 referanser gir allerede 7 279 sesjoner/år. Oppgradere 10 til med dybdeinnhold basert på analytics-innsikt for å øke antallet som trekker trafikk. Forbedre layout på eldre referanser med tynt innhold, og legge til filtrering slik at besøkende kan finne relevante prosjekter etter bruksområde, produkt og region.</p>
+                    <p class="lang-en">5 references already generate 7,279 sessions/year. Upgrade 10 more with in-depth content based on analytics insights to increase the number that drive traffic. Improve layout on older references with thin content, and add filtering so visitors can find relevant projects by application, product and region.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-leads lang-nb">Trafikk &amp; leads</span>
+                        <span class="tag tag-leads lang-en">Traffic &amp; leads</span>
+                    </div>
+                    <p class="hours-estimate lang-nb">Estimert: <span>25+ timer</span></p>
+                    <p class="hours-estimate lang-en">Estimated: <span>25+ hours</span></p>
+                </div>
+            </li>
+            <li class="roadmap-item">
+                <div class="roadmap-check"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Google Business-profiler</h4>
+                    <h4 class="lang-en">Google Business profiles</h4>
+                    <p class="lang-nb">Opprette og optimalisere profiler for alle 4 norske kontorer. Synlighet i Google Maps og lokale søk.</p>
+                    <p class="lang-en">Create and optimise profiles for all 4 Norwegian offices. Visibility in Google Maps and local search.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-leads lang-nb">Lokal synlighet</span>
+                        <span class="tag tag-leads lang-en">Local visibility</span>
+                    </div>
+                    <p class="hours-estimate lang-nb">Estimert: <span>8+ timer</span></p>
+                    <p class="hours-estimate lang-en">Estimated: <span>8+ hours</span></p>
+                </div>
+            </li>
+            <li class="roadmap-item">
+                <div class="roadmap-check"></div>
+                <div class="roadmap-content">
+                    <h4 class="lang-nb">Forbedre kontor-sidene</h4>
+                    <h4 class="lang-en">Improve office pages</h4>
+                    <p class="lang-nb">Analytics viser at /kontor har høy engasjement — besøkende bruker tid der. Forbedre både oversiktssiden og hver enkelt kontorside med bedre innhold, kontaktinfo, kart og lokale referanser. Styrker lokal tillit og gjør det enklere å ta kontakt med riktig kontor.</p>
+                    <p class="lang-en">Analytics show that /kontor has high engagement — visitors spend time there. Improve both the overview page and each individual office page with better content, contact details, maps and local references. Strengthens local trust and makes it easier to reach the right office.</p>
+                    <div class="roadmap-tags">
+                        <span class="tag tag-leads lang-nb">Lokal synlighet</span>
+                        <span class="tag tag-leads lang-en">Local visibility</span>
+                        <span class="tag tag-leads lang-nb">Konvertering</span>
+                        <span class="tag tag-leads lang-en">Conversion</span>
+                    </div>
+                    <p class="hours-estimate lang-nb">Estimert: <span>15+ timer</span></p>
+                    <p class="hours-estimate lang-en">Estimated: <span>15+ hours</span></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- BACK OFFICE — INTERN EFFEKTIVISERING -->
+<section id="backoffice">
+    <div class="container">
+        <span class="section-label red lang-nb">Ny investering</span>
+        <span class="section-label red lang-en">New investment</span>
+        <h2 class="section-title lang-nb">Back Office — intern effektivisering</h2>
+        <h2 class="section-title lang-en">Back Office — internal efficiency</h2>
+        <p class="section-subtitle lang-nb">AcryliCon bruker unødvendig tid på å lete etter dokumenter, samle referanser manuelt og koordinere på tvers av kontorer. Et internt back office bygget på den eksisterende plattformen løser dette.</p>
+        <p class="section-subtitle lang-en">AcryliCon spends unnecessary time searching for documents, gathering references manually and coordinating across offices. An internal back office built on the existing platform solves this.</p>
+
+        <div class="friction-block lang-nb">
+            <p><strong>Når et kontor skal finne ut om AcryliCon har lagt gulv for en bestemt kunde, sender de e-post til alle andre kontorer.</strong> Monika bruker tid på å samle svar. Selgere bruker utdaterte produktblader fordi de ikke vet hvor den nyeste versjonen er. Det finnes ingen sentral kilde til sannhet for salgsmateriell.</p>
+            <p><strong>Alt dette kan løses med data som allerede finnes i plattformen.</strong></p>
+        </div>
+        <div class="friction-block lang-en">
+            <p><strong>When an office needs to find out if AcryliCon has installed flooring for a particular client, they email all other offices.</strong> Monika spends time collecting responses. Sales reps use outdated product sheets because they don't know where the latest version is. There is no single source of truth for sales materials.</p>
+            <p><strong>All of this can be solved with data that already exists in the platform.</strong></p>
+        </div>
+
+        <div class="insight-block" style="margin-bottom: 40px;">
+            <p class="lang-nb"><strong>Arkitektur:</strong> Back office bygges som eget site i WordPress multisite (<code>/bo/</code>) med magic link-innlogging. Deler brukersystem, referansedata og produktdata med de eksterne nettsidene. Filer og bilder lagres på Cloudflare R2.</p>
+            <p class="lang-en"><strong>Architecture:</strong> The back office is built as a separate site in WordPress multisite (<code>/bo/</code>) with magic link login. Shares user system, reference data and product data with the external websites. Files and images stored on Cloudflare R2.</p>
+        </div>
+
+        <!-- FASE 1 -->
+        <div class="phase-block">
+            <div class="phase-header">
+                <div class="phase-number active">1</div>
+                <div class="phase-header-text">
+                    <h3 class="lang-nb">Grunnmur + raskeste gevinst</h3>
+                    <h3 class="lang-en">Foundation + quickest wins</h3>
+                    <span class="lang-nb">~75 timer</span>
+                    <span class="lang-en">~75 hours</span>
+                </div>
             </div>
+            <ul class="roadmap-list">
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Back Office-oppsett + magic link login</h4>
+                        <h4 class="lang-en">Back Office setup + magic link login</h4>
+                        <p class="lang-nb">Nytt site i multisite (<code>/bo/</code>), brukerkontoer for alle ansatte, magic link-innlogging uten passord, oppsett av e-postleverandør (API). Rollebasert tilgang: selger, kontorleder, admin.</p>
+                        <p class="lang-en">New site in multisite (<code>/bo/</code>), user accounts for all employees, magic link login without passwords, email provider setup (API). Role-based access: sales rep, office manager, admin.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-ops lang-nb">Grunnmur</span>
+                            <span class="tag tag-ops lang-en">Foundation</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~30 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~30 hours</span></p>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Dokumentbibliotek</h4>
+                        <h4 class="lang-en">Document library</h4>
+                        <p class="lang-nb">Én sentral kilde til sannhet for produktblader, tekniske datablad og sertifikater. Organisert etter produktsystem. Alltid gjeldende versjon — gamle PDF-er kan aldri sirkulere igjen.</p>
+                        <p class="lang-en">One single source of truth for product sheets, technical data sheets and certificates. Organised by product system. Always the current version — outdated PDFs can never circulate again.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-saving lang-nb">Tidsbesparelse</span>
+                            <span class="tag tag-saving lang-en">Time saving</span>
+                            <span class="tag tag-sales lang-nb">Salgsverktøy</span>
+                            <span class="tag tag-sales lang-en">Sales tool</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~25 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~25 hours</span></p>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Referansesøk</h4>
+                        <h4 class="lang-en">Reference search</h4>
+                        <p class="lang-nb">Søk og filtrer alle referanser etter bransje, produkt, region og kontor. «Har vi lagt gulv for Coop?» — svar på sekunder i stedet for e-postrunder. Bygger på data som allerede finnes i databasen.</p>
+                        <p class="lang-en">Search and filter all references by industry, product, region and office. "Have we installed flooring for Coop?" — answered in seconds instead of email rounds. Built on data already in the database.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-saving lang-nb">Tidsbesparelse</span>
+                            <span class="tag tag-saving lang-en">Time saving</span>
+                            <span class="tag tag-sales lang-nb">Salgsverktøy</span>
+                            <span class="tag tag-sales lang-en">Sales tool</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~20 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~20 hours</span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="phase-block">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <div class="phase-header-text">
+                    <h3 class="lang-nb">Utvidelse</h3>
+                    <h3 class="lang-en">Expansion</h3>
+                    <span class="lang-nb">~55 timer</span>
+                    <span class="lang-en">~55 hours</span>
+                </div>
+            </div>
+            <ul class="roadmap-list">
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Bildebibliotek + Cloudflare R2</h4>
+                        <h4 class="lang-en">Image library + Cloudflare R2</h4>
+                        <p class="lang-nb">Referansebilder, produktbilder og prosjektfoto — søkbart, nedlastbart, organisert etter referanse, produkt og bruksområde. Filer lagres på Cloudflare R2 for å håndtere store mediemengder uten å belaste serveren.</p>
+                        <p class="lang-en">Reference images, product photos and project photos — searchable, downloadable, organised by reference, product and application. Files stored on Cloudflare R2 to handle large media volumes without burdening the server.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-sales lang-nb">Salgsverktøy</span>
+                            <span class="tag tag-sales lang-en">Sales tool</span>
+                            <span class="tag tag-ops lang-nb">Infrastruktur</span>
+                            <span class="tag tag-ops lang-en">Infrastructure</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~30 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~30 hours</span></p>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Kontaktliste / hvem er hvem</h4>
+                        <h4 class="lang-en">Contact list / who is who</h4>
+                        <p class="lang-nb">Oversikt over alle ansatte på tvers av kontorer — rolle, kompetanseområde, kontaktinfo. Vite hvem man spør om hva uten å gjette.</p>
+                        <p class="lang-en">Overview of all employees across offices — role, area of expertise, contact details. Know who to ask about what without guessing.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-ops lang-nb">Operasjonelt</span>
+                            <span class="tag tag-ops lang-en">Operational</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~10 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~10 hours</span></p>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Intern nyhetsfeed</h4>
+                        <h4 class="lang-en">Internal news feed</h4>
+                        <p class="lang-nb">Oppdateringer fra ledelsen, nye produkter, nye referanser, endringer — samlet på ett sted i stedet for e-postrunder. Alle kontorer holder seg oppdatert automatisk.</p>
+                        <p class="lang-en">Updates from management, new products, new references, changes — gathered in one place instead of email rounds. All offices stay updated automatically.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-ops lang-nb">Kommunikasjon</span>
+                            <span class="tag tag-ops lang-en">Communication</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~15 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~15 hours</span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- FASE 3 -->
+        <div class="phase-block">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <div class="phase-header-text">
+                    <h3 class="lang-nb">Avansert</h3>
+                    <h3 class="lang-en">Advanced</h3>
+                    <span class="lang-nb">~60 timer</span>
+                    <span class="lang-en">~60 hours</span>
+                </div>
+            </div>
+            <ul class="roadmap-list">
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Opplæringsmateriell</h4>
+                        <h4 class="lang-en">Training materials</h4>
+                        <p class="lang-nb">Sentralt sted for onboarding av nye selgere og gulvleggere — produktkunnskap, salgsargumenter, tekniske detaljer, prosedyrer. Skalerer til nye kontorer og land.</p>
+                        <p class="lang-en">Central hub for onboarding new sales reps and floor installers — product knowledge, sales arguments, technical details, procedures. Scales to new offices and countries.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-ops lang-nb">Operasjonelt</span>
+                            <span class="tag tag-ops lang-en">Operational</span>
+                            <span class="tag tag-scale lang-nb">Skalering</span>
+                            <span class="tag tag-scale lang-en">Scaling</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~20 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~20 hours</span></p>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <div class="roadmap-check"></div>
+                    <div class="roadmap-content">
+                        <h4 class="lang-nb">Prosjekt- og tilbudsoversikt</h4>
+                        <h4 class="lang-en">Project and quote overview</h4>
+                        <p class="lang-nb">Enkel oversikt over pågående prosjekter og tilbud per kontor. Unngå at to kontorer tilbyr samme kunde. CRM-light uten eksternt system.</p>
+                        <p class="lang-en">Simple overview of ongoing projects and quotes per office. Avoid two offices quoting the same client. CRM-light without external system.</p>
+                        <div class="roadmap-tags">
+                            <span class="tag tag-ops lang-nb">Operasjonelt</span>
+                            <span class="tag tag-ops lang-en">Operational</span>
+                            <span class="tag tag-sales lang-nb">Salgsverktøy</span>
+                            <span class="tag tag-sales lang-en">Sales tool</span>
+                        </div>
+                        <p class="hours-estimate lang-nb">Estimert: <span>~40 timer</span></p>
+                        <p class="hours-estimate lang-en">Estimated: <span>~40 hours</span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="insight-block" style="margin-top: 32px;">
+            <p class="lang-nb">Verktøy fra mulighets-seksjonen — produktblad-generator, referanseark-generator og HMS-portal — integreres i back office når de bygges. Samlet med fasene over utgjør dette den komplette interne plattformen.</p>
+            <p class="lang-en">Tools from the opportunities section — product sheet generator, reference sheet generator and HSE portal — will be integrated into the back office when built. Together with the phases above, this forms the complete internal platform.</p>
         </div>
     </div>
 </section>
 
-<!-- CLOSING -->
-<div class="closing">
-    <h2>La oss bygge videre.</h2>
-    <p>Rekkefølge og innhold tilpasses etter AcryliCons prioriteringer. Dette veikartet er et utgangspunkt for samtalen om hva som gir mest verdi — og hvor vi starter.</p>
-</div>
+<!-- AVDEKKEDE MULIGHETER -->
+<section id="modules">
+    <div class="container">
+        <span class="section-label lang-nb">Avdekket gjennom kartlegging</span>
+        <span class="section-label lang-en">Identified through analysis</span>
+        <h2 class="section-title lang-nb">Muligheter på plattformen</h2>
+        <h2 class="section-title lang-en">Platform opportunities</h2>
+        <p class="section-subtitle lang-nb">Alt under er avdekket gjennom arbeidet med nettside og plattform. Hver av disse kan bygges når AcryliCon er klar — ingenting er låst til en tidsplan.</p>
+        <p class="section-subtitle lang-en">Everything below has been identified through the work on the website and platform. Each of these can be built when AcryliCon is ready — nothing is locked to a timeline.</p>
+
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px; margin-top: 8px;" class="lang-nb">Selgerverktøy</h3>
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px; margin-top: 8px;" class="lang-en">Sales tools</h3>
+        <ul class="roadmap-list" style="margin-bottom: 24px;">
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Produktblad-generator</h4><h4 class="lang-en">Product sheet generator</h4>
+                <p class="lang-nb">Automatisk generering av produktblader direkte fra nettsidens data. Alltid oppdatert, profesjonelt design, klar som PDF. Erstatter ekstern grafiker.</p>
+                <p class="lang-en">Automatic generation of product sheets directly from website data. Always up to date, professional design, ready as PDF. Replaces external graphic designer.</p>
+                <div class="roadmap-tags"><span class="tag tag-saving lang-nb">Kostnadsbesparelse</span><span class="tag tag-saving lang-en">Cost saving</span><span class="tag tag-sales lang-nb">Salgsverktøy</span><span class="tag tag-sales lang-en">Sales tool</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>60+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>60+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Referanseark-generator</h4><h4 class="lang-en">Reference sheet generator</h4>
+                <p class="lang-nb">Selgeren filtrerer referanser etter bruksområde, produkt og region — og genererer en profesjonell referansepakke med 3–5 prosjekter. Klar som PDF på sekunder. Etterspurt av Anders Øwre-Johnsen (Midt-Vest Norge).</p>
+                <p class="lang-en">The sales rep filters references by application, product and region — and generates a professional reference package with 3–5 projects. Ready as PDF in seconds. Requested by Anders Øwre-Johnsen (Mid-West Norway).</p>
+                <div class="roadmap-tags"><span class="tag tag-sales lang-nb">Salgsverktøy</span><span class="tag tag-sales lang-en">Sales tool</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>30+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>30+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Arkitekt-spesifikasjonsverktøy</h4><h4 class="lang-en">Architect specification tool</h4>
+                <p class="lang-nb">Generer ferdig spesifikasjonstekst for anbud — med tekniske data og sertifiseringer. Når AcryliCon først står i spesifikasjonen, er det vanskelig for konkurrenter å komme inn.</p>
+                <p class="lang-en">Generate ready-made specification text for tenders — with technical data and certifications. Once AcryliCon is in the specification, it is difficult for competitors to get in.</p>
+                <div class="roadmap-tags"><span class="tag tag-sales lang-nb">Anbudskonvertering</span><span class="tag tag-sales lang-en">Tender conversion</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>40+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>40+ hours</span></p>
+            </div></li>
+        </ul>
+
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-nb">Kundeverktøy</h3>
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-en">Customer tools</h3>
+        <ul class="roadmap-list" style="margin-bottom: 24px;">
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">TCO-kalkulator — Totaløkonomi</h4><h4 class="lang-en">TCO calculator — Total cost of ownership</h4>
+                <p class="lang-nb">Interaktiv kalkulator der kunden taster inn areal og bruksområde, sammenligner over 10–30 år, og får en PDF-rapport. Forvandler &laquo;dere er dyre&raquo; til &laquo;dere er billigst over tid&raquo; — med kundens egne tall.</p>
+                <p class="lang-en">Interactive calculator where the customer enters area and application, compares over 10–30 years, and gets a PDF report. Transforms "you are expensive" into "you are the cheapest over time" — using the customer's own numbers.</p>
+                <div class="roadmap-tags"><span class="tag tag-sales lang-nb">Konverteringsverktøy</span><span class="tag tag-sales lang-en">Conversion tool</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>50+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>50+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Produktvelger</h4><h4 class="lang-en">Product selector</h4>
+                <p class="lang-nb">Enkel veiviser: &laquo;Hva slags lokale? Hvilke krav?&raquo; → anbefalt produkt med begrunnelse og relevante referanser. Kvalifiserer leads 24/7, på alle språk.</p>
+                <p class="lang-en">Simple wizard: "What type of facility? What requirements?" → recommended product with rationale and relevant references. Qualifies leads 24/7, in all languages.</p>
+                <div class="roadmap-tags"><span class="tag tag-leads lang-nb">Lead-kvalifisering</span><span class="tag tag-leads lang-en">Lead qualification</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>30+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>30+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Eget kontaktskjema — full kontroll</h4><h4 class="lang-en">Own contact form — full control</h4>
+                <p class="lang-nb">Erstatt SuperOffice iFrame med egne skjemaer som sender direkte til respektivt kontor sin e-post. Gir full kontroll over design, innsikt i hvem som tar kontakt og fra hvilke sider, konverteringssporing i GA4, og mulighet til å logge og følge opp henvendelser på en strukturert måte — uten avhengighet til tredjepartssystem.</p>
+                <p class="lang-en">Replace the SuperOffice iFrame with custom forms that send directly to each office's email. Provides full control over design, insight into who is making contact and from which pages, conversion tracking in GA4, and the ability to log and follow up enquiries in a structured way — without dependency on third-party systems.</p>
+                <div class="roadmap-tags"><span class="tag tag-leads lang-nb">Lead-kvalitet</span><span class="tag tag-leads lang-en">Lead quality</span><span class="tag tag-conversion lang-nb">Kontroll</span><span class="tag tag-conversion lang-en">Control</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>15+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>15+ hours</span></p>
+            </div></li>
+        </ul>
+
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-nb">Profesjonalisering</h3>
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-en">Professionalisation</h3>
+        <ul class="roadmap-list" style="margin-bottom: 24px;">
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Sertifiserings- og dokumentportal</h4><h4 class="lang-en">Certification and document portal</h4>
+                <p class="lang-nb">Selvbetjening for arkitekter og innkjøpere: filtrer etter produkt og sertifisering, last ned datablad og sertifikater. E-post ved nedlasting gir oversikt over hvem som vurderer AcryliCon.</p>
+                <p class="lang-en">Self-service for architects and procurement officers: filter by product and certification, download data sheets and certificates. Email on download provides insight into who is evaluating AcryliCon.</p>
+                <div class="roadmap-tags"><span class="tag tag-leads lang-nb">Lead-generering</span><span class="tag tag-leads lang-en">Lead generation</span><span class="tag tag-saving lang-nb">Tidsbesparelse</span><span class="tag tag-saving lang-en">Time saving</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>35+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>35+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Digitalt garantibevis med QR-kode</h4><h4 class="lang-en">Digital warranty certificate with QR code</h4>
+                <p class="lang-nb">Hvert prosjekt får en unik digital side. Driftsansvarlig skanner gulvet og ser garanti, produkt og vedlikeholdsinstruks. &laquo;Skann gulvet ditt&raquo; — en historie ingen konkurrent kan matche.</p>
+                <p class="lang-en">Each project gets a unique digital page. The facility manager scans the floor and sees warranty, product and maintenance instructions. "Scan your floor" — a story no competitor can match.</p>
+                <div class="roadmap-tags"><span class="tag tag-brand lang-nb">Merkevarebygging</span><span class="tag tag-brand lang-en">Brand building</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>40+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>40+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">HMS-portal for gulvleggere</h4><h4 class="lang-en">HSE portal for floor installers</h4>
+                <p class="lang-nb">Hver gulvlegger får en digital sertifiseringsside. Vis URL til HMS-ansvarlig på byggeplass i stedet for å lete i lommeboken. Sentral oversikt per kontor med automatisk varsel før sertifiseringer utløper.</p>
+                <p class="lang-en">Each floor installer gets a digital certification page. Show the URL to the HSE manager on site instead of searching through your wallet. Central overview per office with automatic alerts before certifications expire.</p>
+                <div class="roadmap-tags"><span class="tag tag-ops lang-nb">Operasjonelt</span><span class="tag tag-ops lang-en">Operational</span><span class="tag tag-brand lang-nb">Profesjonelt inntrykk</span><span class="tag tag-brand lang-en">Professional impression</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>30+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>30+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">WCAG tilgjengelighet</h4><h4 class="lang-en">WCAG accessibility</h4>
+                <p class="lang-nb">Full tilgjengelighetsaudit og implementering. Fjerner et potensielt hinder i offentlige anbudsrunder — sykehus, skoler, offentlige bygg.</p>
+                <p class="lang-en">Full accessibility audit and implementation. Removes a potential barrier in public tenders — hospitals, schools, government buildings.</p>
+                <div class="roadmap-tags"><span class="tag tag-ops lang-nb">Lovkrav for offentlig sektor</span><span class="tag tag-ops lang-en">Legal requirement for public sector</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>20+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>20+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4>Cookie consent / GDPR</h4>
+                <p class="lang-nb">Lovpålagt samtykkehåndtering for GA4, GTM og Byggfakta. Scripts lastes kun etter samtykke.</p>
+                <p class="lang-en">Legally required consent management for GA4, GTM and Byggfakta. Scripts load only after consent.</p>
+                <div class="roadmap-tags"><span class="tag tag-ops lang-nb">Lovkrav</span><span class="tag tag-ops lang-en">Legal requirement</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>8+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>8+ hours</span></p>
+            </div></li>
+        </ul>
+
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-nb">Vekst og skalering</h3>
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-en">Growth and scaling</h3>
+        <ul class="roadmap-list" style="margin-bottom: 24px;">
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Nye land på plattformen</h4><h4 class="lang-en">New countries on the platform</h4>
+                <p class="lang-nb">Hvert nytt land kobles på multisite med lokalt innhold — kontorer, referanser, språk — mens design, struktur og alle verktøy deles automatisk.</p>
+                <p class="lang-en">Each new country connects to the multisite with local content — offices, references, language — while design, structure and all tools are shared automatically.</p>
+                <div class="roadmap-tags"><span class="tag tag-scale lang-nb">Skalering</span><span class="tag tag-scale lang-en">Scaling</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>20+ timer teknisk oppsett per land</span> — innhold, oversettelse og spesialtilpasning avtales separat.</p>
+                <p class="hours-estimate lang-en">Estimated: <span>20+ hours technical setup per country</span> — content, translation and customisation agreed separately.</p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Karrieresider med søknadshåndtering</h4><h4 class="lang-en">Career pages with application handling</h4>
+                <p class="lang-nb">Profesjonelt søknadsskjema med CV-opplasting og automatisk ruting til riktig kontor. Skalerer til alle internasjonale markeder.</p>
+                <p class="lang-en">Professional application form with CV upload and automatic routing to the right office. Scales to all international markets.</p>
+                <div class="roadmap-tags"><span class="tag tag-scale lang-nb">Skalering</span><span class="tag tag-scale lang-en">Scaling</span><span class="tag tag-ops lang-nb">Rekruttering</span><span class="tag tag-ops lang-en">Recruitment</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>15+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>15+ hours</span></p>
+            </div></li>
+        </ul>
+
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-nb">Innsikt og styring</h3>
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--dark-blue); margin-bottom: 12px;" class="lang-en">Insights and governance</h3>
+        <ul class="roadmap-list">
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Månedlig rapport / dashboard</h4><h4 class="lang-en">Monthly report / dashboard</h4>
+                <p class="lang-nb">Synliggjør verdien av web-investeringen. Trafikk, leads, topp-sider, SEO-utvikling — samlet i en visuell rapport hver måned.</p>
+                <p class="lang-en">Makes the value of the web investment visible. Traffic, leads, top pages, SEO progress — consolidated in a visual report each month.</p>
+                <div class="roadmap-tags"><span class="tag tag-ops lang-nb">Styringsinformasjon</span><span class="tag tag-ops lang-en">Management information</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>10+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>10+ hours</span></p>
+            </div></li>
+            <li class="roadmap-item"><div class="roadmap-check"></div><div class="roadmap-content">
+                <h4 class="lang-nb">Byggfakta-utnyttelse</h4><h4 class="lang-en">Byggfakta utilisation</h4>
+                <p class="lang-nb">Byggfakta Analytics er allerede installert. Sett opp regionale varsler slik at kontorene får beskjed når interessante bedrifter besøker nettsiden.</p>
+                <p class="lang-en">Byggfakta Analytics is already installed. Set up regional alerts so offices are notified when interesting companies visit the website.</p>
+                <div class="roadmap-tags"><span class="tag tag-leads lang-nb">Varme leads</span><span class="tag tag-leads lang-en">Warm leads</span></div>
+                <p class="hours-estimate lang-nb">Estimert: <span>6+ timer</span></p><p class="hours-estimate lang-en">Estimated: <span>6+ hours</span></p>
+            </div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- LANGSIKTIG PERSPEKTIV -->
+<section style="background: var(--dark-blue); color: var(--white); padding: 60px 40px; text-align: center;">
+    <div class="container">
+        <p style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--light-blue); margin-bottom: 16px;" class="lang-nb">Det langsiktige bildet</p>
+        <p style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--light-blue); margin-bottom: 16px;" class="lang-en">The long-term picture</p>
+        <div style="display: flex; justify-content: center; gap: 48px; margin-bottom: 28px; flex-wrap: wrap;">
+            <div>
+                <div style="font-size: 52px; font-weight: 800; color: var(--white); line-height: 1;">690+</div>
+                <div style="font-size: 15px; color: rgba(255,255,255,0.5); margin-top: 4px;" class="lang-nb">timer identifisert</div>
+                <div style="font-size: 15px; color: rgba(255,255,255,0.5); margin-top: 4px;" class="lang-en">hours identified</div>
+            </div>
+            <div>
+                <div style="font-size: 52px; font-weight: 800; color: var(--white); line-height: 1;">15+</div>
+                <div style="font-size: 15px; color: rgba(255,255,255,0.5); margin-top: 4px;" class="lang-nb">timer/mnd + arbeidspakker</div>
+                <div style="font-size: 15px; color: rgba(255,255,255,0.5); margin-top: 4px;" class="lang-en">hours/mo + work packages</div>
+            </div>
+        </div>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 20px; line-height: 1.7;" class="lang-nb">Over 800 timer med muligheter er identifisert — ekstern synlighet, intern effektivisering og back office. Og det er bare Norge. Internasjonal ekspansjon vil avdekke betydelig mer.</p>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 20px; line-height: 1.7;" class="lang-en">Over 800 hours of opportunities have been identified — external visibility, internal efficiency and back office. And that is Norway alone. International expansion will uncover significantly more.</p>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 28px; line-height: 1.7;" class="lang-nb">Med en fast avtale som grunnmur og målrettede arbeidspakker for større prosjekter, kan synlighet og back office bygges parallelt — steg for steg.</p>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 28px; line-height: 1.7;" class="lang-en">With a fixed agreement as the foundation and targeted work packages for larger projects, visibility and back office can be built in parallel — step by step.</p>
+
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px 28px; max-width: 600px; margin: 0 auto; text-align: left;">
+            <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin: 0 0 12px; line-height: 1.7;" class="lang-nb">Synlighet i søk er ikke noe man oppnår én gang — det er en løpende jobb. Også i Norge. Konkurrenter oppdaterer, Google endrer seg, og nye søkemønstre oppstår.</p>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin: 0 0 12px; line-height: 1.7;" class="lang-en">Search visibility is not something you achieve once — it is an ongoing effort. Even in Norway. Competitors update, Google changes, and new search patterns emerge.</p>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.7;" class="lang-nb">Den gode nyheten: <strong style="color: var(--light-blue);">agentiske workflows</strong> gjør det nå mulig å automatisere mye av dette — overvåking, optimalisering, innholdsoppdatering på tvers av språk. Rollen blir å være dirigent for disse systemene, ikke utfører av hvert enkelt steg. Dette er allerede på plass i forbindelse med lanseringen av den internasjonale nettsiden, og klart for videre arbeid fremover.</p>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.7;" class="lang-en">The good news: <strong style="color: var(--light-blue);">agentic workflows</strong> now make it possible to automate much of this — monitoring, optimisation, content updates across languages. The role becomes conducting these systems, not executing every single step. This is already in place for the launch of the international website, and ready for continued work going forward.</p>
+        </div>
+    </div>
+</section>
+
+<!-- INTERNASJONAL EKSPANSJON -->
+<section style="background: var(--neutral-1); padding: 60px 40px;">
+    <div class="container">
+        <p style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-1); margin-bottom: 16px; text-align: center;" class="lang-nb">Og det er bare Norge</p>
+        <p style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-1); margin-bottom: 16px; text-align: center;" class="lang-en">And that is just Norway</p>
+        <h2 style="font-size: 28px; font-weight: 800; color: var(--dark-blue); text-align: center; margin-bottom: 16px;" class="lang-nb">Den internasjonale siden endrer bildet</h2>
+        <h2 style="font-size: 28px; font-weight: 800; color: var(--dark-blue); text-align: center; margin-bottom: 16px;" class="lang-en">The international site changes the picture</h2>
+        <p style="font-size: 16px; color: var(--gray-2); max-width: 640px; margin: 0 auto 32px; line-height: 1.7; text-align: center;" class="lang-nb">Den engelske nettsiden lanseres nå. Innen 12–24 måneder kan AcryliCon ha 5–6 land på plattformen — med lokalt innhold, kontorer og referanser i hvert marked.</p>
+        <p style="font-size: 16px; color: var(--gray-2); max-width: 640px; margin: 0 auto 32px; line-height: 1.7; text-align: center;" class="lang-en">The English website is launching now. Within 12–24 months, AcryliCon can have 5–6 countries on the platform — with local content, offices and references in each market.</p>
+
+        <div style="max-width: 640px; margin: 0 auto;" class="lang-nb">
+            <p style="font-size: 15px; color: var(--gray-2); line-height: 1.8; margin-bottom: 16px;">Det åpner muligheter vi ikke har kartlagt ennå:</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Referansebank på tvers av land — hvordan vise globale prosjekter lokalt?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Innrapportering av referanser — skjema der kontorer sender inn nye prosjekter?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Verktøy som skalerer — skal kalkulatorer, produktblader og referanseark fungere på alle språk?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Worldwide supplier-posisjonering — digitalt bevis på global tilstedeværelse</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2);"><span style="position: absolute; left: 0;">?</span> Løpende SEO på tvers av land — opprettholde synlighet i hvert marked over tid</li>
+            </ul>
+        </div>
+        <div style="max-width: 640px; margin: 0 auto;" class="lang-en">
+            <p style="font-size: 15px; color: var(--gray-2); line-height: 1.8; margin-bottom: 16px;">This opens opportunities we have not yet mapped:</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Cross-country reference bank — how to display global projects locally?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Reference submission — forms for offices to submit new projects?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Scalable tools — should calculators, product sheets and reference sheets work in all languages?</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2); border-bottom: 1px solid var(--neutral-2);"><span style="position: absolute; left: 0;">?</span> Worldwide supplier positioning — digital proof of global presence</li>
+                <li style="padding: 10px 0 10px 28px; position: relative; font-size: 15px; color: var(--gray-2);"><span style="position: absolute; left: 0;">?</span> Ongoing SEO across countries — maintaining visibility in each market over time</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 32px; padding: 20px 24px; background: var(--white); border-radius: 10px; max-width: 640px; margin-left: auto; margin-right: auto; text-align: center;">
+            <p style="font-size: 15px; color: var(--gray-2); margin: 0 0 12px; line-height: 1.7;" class="lang-nb">Tradisjonelt ville dette krevd store ressurser — egne team i hvert marked. Med AI-agenter kan mye av dette nå systematiseres og automatiseres, men det krever en person som kjenner plattformen og setter opp systemene riktig.</p>
+            <p style="font-size: 15px; color: var(--gray-2); margin: 0 0 12px; line-height: 1.7;" class="lang-en">Traditionally, this would have required large resources — dedicated teams in each market. With AI agents, much of this can now be systematised and automated, but it requires a person who knows the platform and sets up the systems correctly.</p>
+            <p style="font-size: 15px; color: var(--gray-2); margin: 0; line-height: 1.7;" class="lang-nb"><strong>690+ timer er det vi vet om i dag.</strong> Internasjonal ekspansjon vil avdekke betydelig mer.</p>
+            <p style="font-size: 15px; color: var(--gray-2); margin: 0; line-height: 1.7;" class="lang-en"><strong>690+ hours is what we know about today.</strong> International expansion will uncover significantly more.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PARTNERSHIP -->
+<section class="partnership-section" id="partnership">
+    <div class="container">
+        <span class="section-label lang-nb">Avtale</span>
+        <span class="section-label lang-en">Agreement</span>
+        <h2 class="section-title lang-nb">Din digitale avdeling<br>— to arbeidsdager i måneden (10% stilling)</h2>
+        <h2 class="section-title lang-en">Your digital department<br>— two working days per month (10% position)</h2>
+        <p class="section-subtitle lang-nb">En fast person som kjenner hele plattformen, teknologien og strategien. Større prosjekter — som back office og synlighets-pakken — avtales som egne arbeidspakker.</p>
+        <p class="section-subtitle lang-en">A dedicated person who knows the entire platform, technology and strategy. Larger projects — such as back office and the visibility package — are agreed as separate work packages.</p>
+
+        <div class="partnership-card">
+            <div class="partnership-card-body">
+                <div class="partnership-category">
+                    <div class="partnership-category-label lang-nb">Drift og forvaltning</div>
+                    <div class="partnership-category-label lang-en">Operations and management</div>
+                    <ul class="partnership-features lang-nb">
+                        <li>Løpende vedlikehold av WordPress, tema, plugins og PHP-kompatibilitet</li>
+                        <li>Sikkerhetsoppdateringer, overvåking og backup-verifisering</li>
+                        <li>Servebolt hosting-forvaltning — cache, CDN, ytelsesoptimalisering</li>
+                        <li>Feilretting og support ved akutte problemer</li>
+                    </ul>
+                    <ul class="partnership-features lang-en">
+                        <li>Ongoing maintenance of WordPress, theme, plugins and PHP compatibility</li>
+                        <li>Security updates, monitoring and backup verification</li>
+                        <li>Servebolt hosting management — cache, CDN, performance optimisation</li>
+                        <li>Bug fixes and support for urgent issues</li>
+                    </ul>
+                </div>
+                <div class="partnership-category">
+                    <div class="partnership-category-label lang-nb">Videreutvikling</div>
+                    <div class="partnership-category-label lang-en">Continued development</div>
+                    <ul class="partnership-features lang-nb">
+                        <li>Back office-utvikling — dokumentbibliotek, referansesøk, bildebibliotek og interne selgerverktøy</li>
+                        <li>Innholdsoppdateringer, nye sider og designjusteringer</li>
+                        <li>Implementering av tiltak fra mulighets-listen — steg for steg</li>
+                        <li>SEO-oppfølging med agentiske workflows — overvåking, optimalisering og innholdsoppdatering</li>
+                        <li>Multisite-forvaltning på tvers av land etter hvert som plattformen vokser</li>
+                    </ul>
+                    <ul class="partnership-features lang-en">
+                        <li>Back office development — document library, reference search, image library and internal sales tools</li>
+                        <li>Content updates, new pages and design adjustments</li>
+                        <li>Implementation of actions from the opportunity list — step by step</li>
+                        <li>SEO follow-up with agentic workflows — monitoring, optimisation and content updates</li>
+                        <li>Multisite management across countries as the platform grows</li>
+                    </ul>
+                </div>
+                <div class="partnership-category">
+                    <div class="partnership-category-label lang-nb">Strategisk sparring</div>
+                    <div class="partnership-category-label lang-en">Strategic advisory</div>
+                    <ul class="partnership-features lang-nb">
+                        <li>Fast statusmøte 1×/mnd — analytics-gjennomgang, prioritering og veikart</li>
+                        <li>Rådgivning på digitale valg, leverandørvurdering og teknologibeslutninger</li>
+                        <li>Én person som har bygget hele plattformen — tema, sync-plugin, hosting, arkitektur og datmodell</li>
+                        <li>10 års kjennskap til virksomheten — ingen opplæringstid, ingen kunnskapsoverføring</li>
+                    </ul>
+                    <ul class="partnership-features lang-en">
+                        <li>Monthly status meeting — analytics review, prioritisation and roadmap</li>
+                        <li>Advisory on digital decisions, vendor evaluation and technology choices</li>
+                        <li>One person who has built the entire platform — theme, sync plugin, hosting, architecture and data model</li>
+                        <li>10 years of knowledge of the business — no onboarding time, no knowledge transfer</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="partnership-card-header">
+                <div class="partnership-hours">
+                    <span class="hours-number">~15</span>
+                    <span class="hours-label lang-nb">timer / måned</span>
+                    <span class="hours-label lang-en">hours / month</span>
+                </div>
+                <div class="partnership-price">
+                    <span class="price-amount">21 000 kr</span>
+                    <span class="price-period lang-nb">/ mnd</span>
+                    <span class="price-period lang-en">/ month</span>
+                </div>
+                <p class="partnership-price-detail lang-nb">15 t × 1 400 kr/t — fast avtale sparer 200 kr/t vs. ordinær timepris på <span class="strikethrough">1 600 kr/t</span> (3 000 kr/mnd)</p>
+                <p class="partnership-price-detail lang-en">15 h × NOK 1,400/h — fixed agreement saves NOK 200/h vs. standard rate of <span class="strikethrough">NOK 1,600/h</span> (NOK 3,000/month)</p>
+            </div>
+        </div>
+
+        <div class="partnership-comparison" style="margin-top: 32px;">
+            <div class="lang-nb"><strong>Til sammenlikning:</strong> En intern digital leder med 15 års erfaring innen design, strategi og utvikling koster 900 000–1 200 000 kr/år. Denne avtalen gir det samme for 252 000 kr/år — fra en senior rådgiver som allerede kjenner virksomheten etter 10 års samarbeid. Uten rekruttering, opplæring eller overhead.</div>
+            <div class="lang-en"><strong>For comparison:</strong> An in-house digital lead with 15 years of experience in design, strategy and development costs NOK 900,000–1,200,000/year. This agreement delivers the same for NOK 252,000/year — from a senior advisor who already knows the business after 10 years of collaboration. No recruitment, onboarding or overhead.</div>
+        </div>
+        <p style="font-size: 14px; color: var(--gray-1); margin-top: 16px; line-height: 1.7;" class="lang-nb">Løpende avtale med gjensidig 3 måneders oppsigelsestid. Faktureres månedlig. Større prosjekter fra mulighets-listen og back office avtales separat som egne arbeidspakker.</p>
+        <p style="font-size: 14px; color: var(--gray-1); margin-top: 16px; line-height: 1.7;" class="lang-en">Rolling agreement with mutual 3-month notice period. Invoiced monthly. Larger projects from the opportunity list and back office are agreed separately as individual work packages.</p>
+    </div>
+</section>
+
+<script>
+function setLang(lang) {
+    document.body.classList.toggle('en', lang === 'en');
+    document.documentElement.lang = lang === 'en' ? 'en' : 'nb';
+    document.title = lang === 'en'
+        ? 'Digital Roadmap for AcryliCon 2026–2027'
+        : 'Digital veikart for AcryliCon 2026–2027';
+    document.getElementById('btn-nb').classList.toggle('active', lang === 'nb');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+</script>
 
 </body>
 </html>

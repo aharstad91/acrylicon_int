@@ -45,3 +45,29 @@
 | Produktdatablad-system | CPT for automatisk flerspråklige datablad | Planlagt |
 | Ansatt-sertifiseringsdatabase | Spore og vise sertifiseringer | Planlagt |
 | Filhåndteringsportal | Løse utdaterte dokumenter via e-post | Planlagt |
+| Internasjonal karriereside | Åpne stillinger worldwide + søknadsskjema | Planlagt |
+
+## Karrieresider (alle markeder)
+
+**Nåsituasjon:** Karriereside finnes på acrylicon.no/karriere/ med godt innhold (rollebeskrivelse, fordeler, ansatt-sitater), men søknad skjer kun via mailto:jobb@acrylicon.no.
+
+**Mål:** Profesjonell karriereløsning som fungerer nasjonalt og internasjonalt.
+
+### Fase 1: Søknadsskjema (Gravity Forms)
+- Installer Gravity Forms (lisens tilgjengelig)
+- Søknadsskjema med: navn, e-post, telefon, foretrukket region/kontor, CV-opplasting (PDF), motivasjonstekst
+- Søknader lagres i WP-admin + e-postvarsling til jobb@acrylicon.no
+- Kopier til EN-siten (international careers page)
+
+### Fase 2: Stillinger som CPT (senere)
+- Custom post type for stillingsannonser med tittel, beskrivelse, kontor/region, land
+- Arkivside som viser alle åpne stillinger worldwide
+- Filtrering per land, kontor og type
+- Synkes mellom språk/land via multisite-sync
+- Hver stilling har eget søknadsskjema
+
+### Internasjonalt perspektiv
+- Hovedkarriereside på EN-siten (`/careers/`) viser alle åpne stillinger globalt
+- Nasjonale karrieresider (`/no/karriere/`, `/uk/careers/`) viser kun lokale stillinger
+- Søknadsskjema tilpasset per marked (språk, felt, e-postvarsling til riktig kontor)
+- Gravity Forms → Zapier → SuperOffice for lead/søknadshåndtering
