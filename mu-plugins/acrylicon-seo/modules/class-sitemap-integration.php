@@ -39,6 +39,11 @@ class Acrylicon_SEO_Sitemap_Integration {
 			return;
 		}
 
+		// Don't redirect WordPress core sitemap URLs (wp-sitemap*.xml)
+		if ( strpos( $uri, 'wp-sitemap' ) !== false ) {
+			return;
+		}
+
 		if ( preg_match( '#/sitemap_index\.xml#', $uri ) ||
 		     preg_match( '#/[a-z-]+-sitemap\d*\.xml#', $uri ) ) {
 			wp_redirect( home_url( '/wp-sitemap.xml' ), 301 );
