@@ -4,6 +4,42 @@
 
 ---
 
+## 2026-02-25 – Custom SEO mu-plugin erstatter Yoast SEO
+
+### Beslutninger
+- **Full Yoast-erstatning:** Bygget komplett custom mu-plugin "AcryliCon SEO" med 8 moduler (titles, descriptions, schema, OG, canonical, robots, admin metabox, sitemap). Yoast network-deaktivert.
+- **mu-plugin arkitektur:** Subdirectory-mønster med loader-fil. Alltid aktiv, temauavhengig. `plugins_url()` defineres i `init` hook — kan ikke kalles i global scope for mu-plugins.
+- **Organization schema kun på forsiden:** Research viste at Google anbefaler dette. Andre sider refererer via `@id`.
+- **`og:type = website` for alle sider:** B2B-side uten kommentarfelt/forfatter — `article` er ikke semantisk korrekt.
+- **Logo som PNG, ikke SVG:** Google avviser SVG for schema. Må lage PNG-versjon av eksisterende logo.
+- **`is_front_page()` sjekkes FØR `is_singular()`:** Front page er også singular i WordPress. Denne rekkefølgen er kritisk i alle moduler.
+- **Yoast postmeta beholdt som fallback:** `_yoast_wpseo_title` og `_yoast_wpseo_metadesc` leses som sekundær kilde i fallback-kjeden.
+
+### Parkert / Åpne spørsmål
+- ~~Ralph testkjøring~~ — Løst: Bygget alt selv via /full workflow. Ralph-oppsettet kan fjernes.
+- **Logo PNG mangler:** Må konvertere `acrylicon-logo-dark.svg` til PNG (min 112x112px). Blokkerer schema-validering.
+- **OG default-bilde mangler:** Trenger `acrylicon-og-default.jpg` (1200x630) for sider uten featured image.
+- **Taxonomy term-navn er engelske:** (Todo 009) Påvirker meta descriptions og schema. Uløst.
+- **Deploy:** SEO-modulen er på `feat/custom-seo-module` branch. Yoast må deaktiveres på prod samtidig med deploy.
+- **wp-sitemap.xml:** Fungerer ikke lokalt (301 redirect-loop). Sannsynligvis .htaccess/rewrite issue. Bør testes på prod.
+
+### Retning
+SEO-infrastrukturen er nå fullstendig under vår kontroll. Alle ~145+ sider har meta title, description, canonical, OG tags, robots, og JSON-LD schema — uten noen tredjeparts-plugin. Admin UI gir redaktører Google preview og mulighet for manuell overstyring.
+
+Neste steg bør være:
+1. Lage logo PNG + OG default-bilde (blokkerende for production)
+2. Merge til main og deploy (inkl. Yoast-deaktivering på prod)
+3. Verifisere med Google Rich Results Test og Search Console
+4. Todo 009 (taxonomy term-navn) — påvirker meta descriptions kvalitet
+
+### Observasjoner
+- **Research-fasen avdekket 15+ korreksjoner** til opprinnelig plan: `plugins_url()` timing, Organization kun på forsiden, SVG→PNG krav, search noindex allerede i core, canonical priority 10 (ikke 2), etc. Deepen-fasen er definitivt verdt tiden.
+- **WordPress har overraskende god SEO-infrastruktur:** `document_title_parts`, `wp_robots`, `rel_canonical`, core sitemaps med lastmod — bare trenger å fylle hullene.
+- **`is_front_page()` vs `is_singular()` ordreproblemet** er en klassiker som dukket opp i 4 separate moduler. Viktig å huske.
+- **Yoast-deaktivering var rent:** Ingen andre avhengigheter i temaet utover `wpseo_metadesc` filter som allerede var i den separate filen.
+
+---
+
 ## 2026-02-25 – Meta description fallback + Ralph SEO-oppsett
 
 ### Beslutninger
