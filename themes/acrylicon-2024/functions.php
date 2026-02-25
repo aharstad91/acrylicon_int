@@ -390,6 +390,7 @@ add_filter('edit_post_link', function($link, $post_id, $text) {
 require_once get_template_directory() . '/assets/components/register.php';
 require_once get_template_directory() . '/assets/components/titles.php';
 require_once get_template_directory() . '/inc/language-switcher.php';
+require_once get_template_directory() . '/inc/meta-descriptions.php';
 
 
 
