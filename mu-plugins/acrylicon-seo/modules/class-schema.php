@@ -283,7 +283,16 @@ class Acrylicon_SEO_Schema {
 		}
 
 		if ( ! empty( $phone ) ) {
-			$business['telephone'] = wp_strip_all_tags( $phone, true );
+			$business['telephone'] = '+47 ' . wp_strip_all_tags( $phone, true );
+		}
+
+		$location = get_field( 'location', $post->ID );
+		if ( ! empty( $location['lat'] ) && ! empty( $location['lng'] ) ) {
+			$business['geo'] = [
+				'@type'     => 'GeoCoordinates',
+				'latitude'  => (float) $location['lat'],
+				'longitude' => (float) $location['lng'],
+			];
 		}
 
 		$image = get_the_post_thumbnail_url( $post->ID, 'large' );
