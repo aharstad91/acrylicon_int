@@ -41,9 +41,20 @@ function theme_enqueue_scripts() {
 	// Tailwind CSS - replaces utility.css, utility-md.css, and utility-lg.css
 	wp_enqueue_style('tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), filemtime(get_template_directory() . '/assets/css/tailwind.css'));
 
-	// Swiper — only load on pages that use a slider block
+	// Swiper — only load on pages that use a slider block or dybdecase image gallery
 	global $post;
 	$needs_swiper = ( $post && has_block( 'acf/slider-block', $post ) );
+	if ( ! $needs_swiper && $post && $post->post_type === 'referanser' ) {
+		$type_terms = get_the_terms( $post->ID, 'referanser-type' );
+		if ( $type_terms && ! is_wp_error( $type_terms ) ) {
+			foreach ( $type_terms as $t ) {
+				if ( $t->slug === 'dybdecase' ) {
+					$needs_swiper = true;
+					break;
+				}
+			}
+		}
+	}
 	if ( $needs_swiper ) {
 		wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
 		wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);

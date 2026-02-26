@@ -460,3 +460,10 @@
     gap: 0.75rem !important;
   }
 }
+
+/* Reference filter active state */
+.filter-select.filter-active {
+  border-color: theme('colors.acryl-red');
+  color: theme('colors.acryl-red');
+  font-weight: 500;
+}

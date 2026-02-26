@@ -15,9 +15,17 @@
 	var resetBtn  = document.querySelector( '.filter-reset' );
 	var selects   = container.querySelectorAll( '.filter-select' );
 
-	// Filter on every dropdown change
+	// Filter on every dropdown change + highlight active selects
 	selects.forEach( function ( select ) {
-		select.addEventListener( 'change', filterCards );
+		select.addEventListener( 'change', function () {
+			// Visual active state on the select
+			if ( select.value !== 'all' ) {
+				select.classList.add( 'filter-active' );
+			} else {
+				select.classList.remove( 'filter-active' );
+			}
+			filterCards();
+		} );
 	} );
 
 	// Reset button
@@ -25,6 +33,7 @@
 		resetBtn.addEventListener( 'click', function () {
 			selects.forEach( function ( select ) {
 				select.value = 'all';
+				select.classList.remove( 'filter-active' );
 			} );
 			filterCards();
 		} );
