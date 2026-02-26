@@ -66,9 +66,11 @@ class Acrylicon_SEO_Admin_Metabox {
 		$auto_desc  = $this->get_auto_description( $post );
 		$permalink  = get_permalink( $post->ID );
 
-		// Build preview URL breadcrumb
+		// Build preview URL breadcrumb (strip /no/ multisite prefix)
 		$parsed = wp_parse_url( $permalink );
-		$breadcrumb = ( $parsed['host'] ?? 'acrylicon.no' ) . ' › ' . trim( str_replace( '/', ' › ', $parsed['path'] ?? '' ), ' › ' );
+		$path = $parsed['path'] ?? '';
+		$path = preg_replace( '#^/no/#', '/', $path );
+		$breadcrumb = ( $parsed['host'] ?? 'acrylicon.no' ) . ' › ' . trim( str_replace( '/', ' › ', $path ), ' › ' );
 
 		wp_nonce_field( 'acrylicon_seo_save', 'acrylicon_seo_nonce' );
 		?>

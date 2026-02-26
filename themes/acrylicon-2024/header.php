@@ -10,22 +10,9 @@
 	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 	})(window,document,'script','dataLayer','GTM-TJ93BLWH');</script>
 	<!-- End Google Tag Manager -->
-	
-	
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-D2YGZGKMXP"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'G-D2YGZGKMXP');
-	</script>
-	
+
 	<!-- Byggfakta Analytics Pro -->
 	<script async defer type="text/javascript" src="//stats.docu.info/docu-snippet.js" id="docu-snippet" data-site-id="8" data-domain-id="476"></script>
-	<!-- End Byggfakta Analytics Pro -->	
-
 
 	<?php wp_head(); ?>	
 	<link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/favicon.svg" />
