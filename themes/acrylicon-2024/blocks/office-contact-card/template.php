@@ -40,7 +40,7 @@ if (!empty($block['align'])) {
 			<div class="items-start bg-acryl-beige-lighter flex gap-4 rounded-lg">
 				<?php 
 				if ($image) {
-					echo wp_get_attachment_image($image, 'full', false, array(
+					echo wp_get_attachment_image($image, 'thumbnail', false, array(
 						'width' => 38,
 						'height' => 38,
 						'class' => 'relative top-1'

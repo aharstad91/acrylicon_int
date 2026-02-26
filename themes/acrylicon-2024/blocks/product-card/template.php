@@ -38,7 +38,7 @@ if (!empty($block['data']['preview_image_help'])) {
 <div <?php echo $anchor; ?> class="bg-acryl-beige-lighter mb-6 lg:flex rounded-lg overflow-hidden <?php echo esc_attr($class_name); ?>">
 	<figure class="lg:w-1-3 flex-shrink-0 flex-1-3 h-full ">
 		<a href="<?php echo home_url(); ?>/<?php echo esc_html($permalink); ?>">
-			<?php echo wp_get_attachment_image($image, 'full', false, array(
+			<?php echo wp_get_attachment_image($image, 'large', false, array(
 				'class' => 'object-cover h-full w-full h-80'
 			)); ?>
 		</a>
@@ -71,7 +71,7 @@ if (!empty($block['data']['preview_image_help'])) {
 					?>
 						<li class="flex gap-3 items-start font-sohne-mono">
 							<?php if ($icon) : ?>
-								<?php echo wp_get_attachment_image($icon, 'full', false, array(
+								<?php echo wp_get_attachment_image($icon, 'thumbnail', false, array(
 									'width' => '32',
 									'height' => '32',
 									'class' => 'w-8 h-8'

@@ -41,9 +41,13 @@ function theme_enqueue_scripts() {
 	// Tailwind CSS - replaces utility.css, utility-md.css, and utility-lg.css
 	wp_enqueue_style('tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), filemtime(get_template_directory() . '/assets/css/tailwind.css'));
 
-	// Swiper (was hardcoded in header.php and footer.php)
-	wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+	// Swiper — only load on pages that use a slider block
+	global $post;
+	$needs_swiper = ( $post && has_block( 'acf/slider-block', $post ) );
+	if ( $needs_swiper ) {
+		wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
+		wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+	}
 
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('gsap', 'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js', array(), '3.12.0', true);
@@ -53,6 +57,12 @@ function theme_enqueue_scripts() {
 	wp_enqueue_script('scripts', get_template_directory_uri() . '/assets/scripts/scripts.js', array('jquery'), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
+
+// Preload primary font to reduce FOIT/FOUT
+function acrylicon_preload_font() {
+	echo '<link rel="preload" href="' . esc_url( get_template_directory_uri() . '/assets/fonts/soehne-buch.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+}
+add_action( 'wp_head', 'acrylicon_preload_font', 1 );
 
 
 function enqueue_custom_block_editor_assets() {

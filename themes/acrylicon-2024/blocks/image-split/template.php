@@ -37,10 +37,10 @@ $image_two = get_field('img_two');
 
 <div <?php echo $anchor; ?> class="mt-6 grid gap-1 grid-cols-2 object-cover h-full <?php echo esc_attr($class_name); ?>">
 	<?php if ($image_one) : ?>
-		<?php echo wp_get_attachment_image($image_one['ID'], 'full', false, array('class' => 'w-full h-96 lg:h-900 object-cover rounded-lg')); ?>
+		<?php echo wp_get_attachment_image($image_one['ID'], 'large', false, array('class' => 'w-full h-96 lg:h-900 object-cover rounded-lg', 'fetchpriority' => 'high')); ?>
 	<?php endif; ?>
 	
 	<?php if ($image_two) : ?>
-		<?php echo wp_get_attachment_image($image_two['ID'], 'full', false, array('class' => 'w-full h-96 lg:h-900 object-cover rounded-lg')); ?>
+		<?php echo wp_get_attachment_image($image_two['ID'], 'large', false, array('class' => 'w-full h-96 lg:h-900 object-cover rounded-lg')); ?>
 	<?php endif; ?>
 </div>

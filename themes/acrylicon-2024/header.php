@@ -3,18 +3,47 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#253761">
 
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-TJ93BLWH');</script>
-	<!-- End Google Tag Manager -->
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link rel="preconnect" href="https://www.googletagmanager.com">
 
-	<!-- Byggfakta Analytics Pro -->
-	<script async defer type="text/javascript" src="//stats.docu.info/docu-snippet.js" id="docu-snippet" data-site-id="8" data-domain-id="476"></script>
+	<?php wp_head(); ?>
 
-	<?php wp_head(); ?>	
+	<script>
+	/* Delayed analytics — loads after 3.5s or first user interaction */
+	(function(){
+		var loaded = false;
+		function loadAnalytics() {
+			if (loaded) return;
+			loaded = true;
+			/* GTM */
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+			var j = document.createElement('script');
+			j.async = true;
+			j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TJ93BLWH';
+			document.head.appendChild(j);
+			/* Byggfakta Analytics Pro */
+			var b = document.createElement('script');
+			b.async = true;
+			b.defer = true;
+			b.src = '//stats.docu.info/docu-snippet.js';
+			b.id = 'docu-snippet';
+			b.setAttribute('data-site-id', '8');
+			b.setAttribute('data-domain-id', '476');
+			document.head.appendChild(b);
+		}
+		var t = setTimeout(loadAnalytics, 3500);
+		['mouseover','touchstart','scroll','keydown'].forEach(function(evt) {
+			document.addEventListener(evt, function handler() {
+				clearTimeout(t);
+				loadAnalytics();
+				document.removeEventListener(evt, handler);
+			}, {once: true, passive: true});
+		});
+	})();
+	</script>	
 	<link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/favicon.svg" />
 	<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/favicon-96x96.png" sizes="96x96" />
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/assets/favicon/favicon.ico" />
@@ -32,7 +61,7 @@
 	<div class="max-w-max w-full mx-auto px-20">
 		<div class="flex items-center justify-between">
 			<a href="<?php echo home_url(); ?>" class="flex items-center">
-				<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
+				<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo" width="208" height="45">
 			</a>
 			<div class="flex items-center gap-6">
 				<?php
@@ -51,7 +80,7 @@
 <header class="lg:hidden sticky relative top-0 z-50 w-full bg-acryl-beige-lightest" style="height: 76px;">
 	<div class="flex items-center justify-between py-4 px-5 py-2">
 		<a href="<?php echo home_url(); ?>" class="flex items-center">
-			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo">
+			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo" width="208" height="45">
 		</a>
 		<button 
 		id="menuButton"

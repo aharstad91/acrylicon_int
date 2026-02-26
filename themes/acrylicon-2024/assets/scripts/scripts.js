@@ -1,3 +1,4 @@
+if (typeof Swiper === 'undefined') { /* Swiper not loaded on this page */ } else {
 var swiper = new Swiper(".mySwiper", {
 	slidesPerView: 1, // Fast verdi på 1 slide i visningen
 	spaceBetween: 4,
@@ -29,3 +30,4 @@ if (prevArea && nextArea) {
 		swiper.slideNext();
 	});
 }
+} // end Swiper guard

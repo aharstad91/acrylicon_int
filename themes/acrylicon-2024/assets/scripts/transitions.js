@@ -12,6 +12,13 @@
     );
   });
 
+  // bfcache fix: restore visibility when navigating back/forward
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      gsap.set('main, footer', { opacity: 1, y: 0 });
+    }
+  });
+
   // Page fade-out on navigation
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a');

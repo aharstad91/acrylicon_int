@@ -6,30 +6,29 @@
 				<!-- Click areas -->
 				<div class="swiper-area-prev"></div>
 				<div class="swiper-area-next"></div>
-				
+
 				<div class="swiper-wrapper">
-					<?php 
+					<?php
 					$images = get_field('slider_images');
-					if($images): 
+					if($images):
 						foreach($images as $image):
 					?>
 						<div class="swiper-slide">
-							<img 
-								src="<?php echo esc_url($image['url']); ?>" 
-								alt="<?php echo esc_attr($image['alt']); ?>"
-								class="w-full h-auto object-contain rounded-lg"
-							>
+							<?php echo wp_get_attachment_image( $image['ID'], 'large', false, array(
+								'class' => 'w-full h-auto object-contain rounded-lg',
+								'loading' => 'lazy',
+							) ); ?>
 						</div>
-					<?php 
-						endforeach; 
-					endif; 
+					<?php
+						endforeach;
+					endif;
 					?>
 				</div>
-				
+
 				<!-- Navigation arrows -->
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
-				
+
 				<!-- Pagination -->
 				<div class="swiper-pagination"></div>
 			</div>
