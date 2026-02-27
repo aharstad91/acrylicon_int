@@ -148,6 +148,7 @@ $total = count( $cards );
 <?php endif; ?>
 
 <div class="reference-grid grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+	<?php $card_index = 0; ?>
 	<?php foreach ( $cards as $card ) :
 		$post_id       = $card['id'];
 		$is_case_study = $card['is_case_study'];
@@ -178,10 +179,18 @@ $total = count( $cards );
 					<?php endforeach; ?>
 				</div>
 				<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="block">
-					<?php echo get_the_post_thumbnail( $post_id, 'large', [
+					<?php
+					$img_attrs = [
 						'class' => 'w-full object-cover rounded-lg h-124',
 						'alt'   => get_the_title( $post_id ),
-					] ); ?>
+						'sizes' => '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw',
+					];
+					// First 3 cards are above the fold — eager load, no lazy
+					if ( $card_index < 3 ) {
+						$img_attrs['loading'] = 'eager';
+					}
+					echo get_the_post_thumbnail( $post_id, 'large', $img_attrs );
+					?>
 				</a>
 			</div>
 		</div>
@@ -205,5 +214,6 @@ $total = count( $cards );
 		</p>
 		<?php endif; ?>
 	</div>
+	<?php $card_index++; ?>
 	<?php endforeach; ?>
 </div>

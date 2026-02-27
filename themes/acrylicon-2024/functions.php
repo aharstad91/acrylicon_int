@@ -15,6 +15,22 @@ function theme_setup() {
 }
 add_action('after_setup_theme', 'theme_setup');
 
+/**
+ * Fix default sizes attribute for responsive images.
+ *
+ * WordPress defaults to "(max-width: {width}px) 100vw, {width}px" which tells the
+ * browser the image is always full-width. Our grid layouts are typically 3-col on
+ * desktop and 2-col on tablet, so we override with accurate breakpoint sizes.
+ */
+add_filter( 'wp_calculate_image_sizes', function ( $sizes, $size ) {
+	// Only override for images wider than 300px (skip thumbnails/icons)
+	$width = is_array( $size ) ? $size[0] : $size;
+	if ( $width > 300 ) {
+		return '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw';
+	}
+	return $sizes;
+}, 10, 2 );
+
 // Register Menus
 function register_theme_menus() {
 	register_nav_menus(array(

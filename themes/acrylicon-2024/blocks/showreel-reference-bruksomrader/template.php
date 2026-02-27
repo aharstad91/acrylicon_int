@@ -135,11 +135,12 @@ $wp_query = new WP_Query($query_args);
 								</div>
 							<?php endif; ?>
 							<a href="<?php echo esc_url(get_permalink()); ?>" class="block">
-								<?php 
-								echo get_the_post_thumbnail($post_id, 'large', array(
+								<?php
+								echo get_the_post_thumbnail($post_id, 'large', [
 									'class' => 'h-124 w-full object-cover rounded-lg',
-									'alt'   => get_the_title()
-								)); 
+									'alt'   => get_the_title(),
+									'sizes' => '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw',
+								]);
 								?>
 							</a>
 						</div>

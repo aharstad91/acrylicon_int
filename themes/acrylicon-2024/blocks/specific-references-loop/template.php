@@ -36,6 +36,7 @@ $current_term_id = get_queried_object_id();
 
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 	<?php if ($selected_posts): ?>
+		<?php $ref_index = 0; ?>
 		<?php foreach ($selected_posts as $post): ?>
 			<?php setup_postdata($post); ?>
 			<div class="flex flex-col">
@@ -68,11 +69,17 @@ $current_term_id = get_queried_object_id();
 								</div>
 							<?php endif; ?>
 							<a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="block">
-								<?php 
-								echo get_the_post_thumbnail($post->ID, 'large', array(
+								<?php
+								$img_attrs = [
 									'class' => 'h-124 w-full object-cover rounded-lg',
-									'alt'   => get_the_title($post->ID)
-								)); 
+									'alt'   => get_the_title($post->ID),
+									'sizes' => '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw',
+								];
+								// First 3 cards are above the fold — eager load, no lazy
+								if ( $ref_index < 3 ) {
+									$img_attrs['loading'] = 'eager';
+								}
+								echo get_the_post_thumbnail($post->ID, 'large', $img_attrs);
 								?>
 							</a>
 						</div>
@@ -99,6 +106,7 @@ $current_term_id = get_queried_object_id();
 					</p>
 				<?php endif; ?>
 			</div>
+		<?php $ref_index++; ?>
 		<?php endforeach; ?>
 		<?php wp_reset_postdata(); ?>
 	<?php else: ?>
