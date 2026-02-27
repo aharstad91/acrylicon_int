@@ -57,3 +57,19 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - Swiper correctly conditional: 169KB CSS+JS only on slider-block pages (verified on 4 pages)
 - jQuery properly deferred, analytics properly delayed (3.5s/interaction)
 - Cache headers excellent: max-age=31536000 on all static assets
+
+## Story 5: Image optimization audit [COMPLETE]
+**Result:** FAIL — Systemic WebP generation gap, multiple oversized JPEGs
+**Key learnings:**
+- CORRECTION to Story 2: WebP content negotiation NOW works on NO site too (haslumslide2.jpg=30KB WebP, image2.jpg=63KB WebP) — the `/norway/` redirect issue from Story 2 may have been a caching artifact or has since been fixed
+- Servebolt WebP content negotiation works perfectly via `Vary: Accept` + Apache, BUT only when a `.webp` file exists on disk
+- Only ~3 images from Feb 2025 have WebP variants (image2.jpg, haslumslide2.jpg, imagehhh8.jpg, imagefda3.jpg, image-98-1.jpg)
+- ALL older uploads (2016–2024) and ALL `.jpeg` extension files have NO WebP variant — served as original JPEG regardless
+- `.jpeg` extension images (b375329e, natoipn, 9720950f, IMG_29571) consistently lack WebP — possible bug where WebP generator only processes `.jpg` not `.jpeg`
+- Worst offenders: image-86.jpg (1,031KB), image-98.jpg (985KB) on single reference page — uncompressed/low-compression JPEGs at 679×908px
+- Reference archive loads ALL 100 posts on single page — 100 thumbnail images, ~15-30MB total if all scrolled
+- Homepage has 2 images with `fetchpriority="high"` — should only be 1 (the LCP element)
+- GOOD: All images have width+height (no CLS), all have srcset, 97/100 archive images have loading="lazy"
+- GOOD: Cache headers (max-age=604800) on all images
+- #1 priority fix: Bulk WebP generation for all existing uploads, especially `.jpeg` files
+- #2 priority fix: Re-encode oversized JPEGs (image-86, image-98) at quality 80

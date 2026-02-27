@@ -79,7 +79,7 @@
       "id": "5",
       "title": "Image optimization audit",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Audit all images on key pages for format, sizing, lazy loading, and fetchpriority. Images are typically the biggest PageSpeed bottleneck on content-heavy sites.",
       "acceptance_criteria": [
         "Use Chrome MCP: navigate to /no/ with mobile emulation, take_snapshot to get all image elements",
