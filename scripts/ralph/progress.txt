@@ -73,3 +73,18 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - GOOD: Cache headers (max-age=604800) on all images
 - #1 priority fix: Bulk WebP generation for all existing uploads, especially `.jpeg` files
 - #2 priority fix: Re-encode oversized JPEGs (image-86, image-98) at quality 80
+
+## Story 6: Third-party script and font loading audit [COMPLETE]
+**Result:** PASS — All third-party scripts deferred, fonts optimally loaded
+**Key learnings:**
+- GTM + Byggfakta loaded via excellent delayed pattern: setTimeout(3500ms) or first user interaction (mouseover/touchstart/scroll/keydown)
+- All GTM-triggered scripts (Facebook 518KB, LinkedIn 54KB, Readpeak 4KB) consequently deferred too
+- Total third-party: ~1,078KB transfer, only ~40ms main thread time, ZERO FCP/LCP impact
+- Facebook Pixel is heaviest third-party at 518KB transfer + 21ms main thread — consider server-side Conversions API
+- Only 1 font loaded per page: Soehne Buch (33KB woff2), preloaded, font-display:swap — best practices
+- Unused fonts (Kursiv, Mono) declared in CSS but browser correctly skips download
+- `<meta name="theme-color">` present (#253761)
+- Preconnect hints for cdn.jsdelivr.net and googletagmanager.com — good
+- Minor: stats.docu.info has 301 redirect `/analytics/js` → `/analytics/js/` (trailing slash)
+- Minor: Redundant dns-prefetch for cdn.jsdelivr.net (preconnect already covers it)
+- Minor: jQuery Migrate (5KB) still loaded in production — unnecessary

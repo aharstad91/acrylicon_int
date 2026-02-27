@@ -98,7 +98,7 @@
       "id": "6",
       "title": "Third-party script and font loading audit",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Audit all third-party scripts (GTM, analytics, Byggfakta) and font loading strategy. Third-party scripts are the #1 cause of TBT/INP issues.",
       "acceptance_criteria": [
         "Navigate to /no/ with Chrome MCP, list_network_requests to get ALL requests",
