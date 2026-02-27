@@ -1,0 +1,16 @@
+# Ralph Progress Log
+Started: Fri Feb 27 09:00:21 CET 2026
+---
+
+## Story 1: Core Web Vitals — Norwegian homepage /no/ [COMPLETE]
+**Result:** PASS — LCP 297ms, CLS 0.00
+**Key learnings:**
+- LCP element is a hero `<video>` (2.5MB MP4) — streams via HTTP 206, loads fast
+- 301 redirects from `/norway/` to `/no/` on video + images — stale DB references, adds ~19ms to LCP resource
+- Large PNG (882KB) should be WebP (~200KB) — stale `/norway/` path too
+- image2.jpg (589KB) and haslumslide2.jpg (426KB) could be WebP for ~75% savings
+- LCP video missing `fetchpriority="high"` (currently Low priority)
+- All 4 render-blocking CSS files load in <7ms via H2 — not a bottleneck
+- Third-party scripts (FB 518KB, GTM 348KB, etc.) all deferred — ~1MB total but no FCP/LCP impact
+- No console errors, clean execution
+- Servebolt TTFB is excellent (32ms)

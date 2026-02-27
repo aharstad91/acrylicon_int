@@ -1,0 +1,193 @@
+{
+  "project": "acrylicon-performance-seo-audit",
+  "branchName": "ralph/qa-performance-seo",
+  "description": "Performance and SEO audit of acrylicon.no production site. Each story runs real measurements against production using Chrome MCP performance traces and curl-based HTML analysis. Goal: identify and document anything holding back PageSpeed scores, Core Web Vitals, or SEO visibility.",
+  "stories": [
+    {
+      "id": "1",
+      "title": "Core Web Vitals — Norwegian homepage /no/",
+      "priority": "high",
+      "status": "complete",
+      "description": "Run a Chrome MCP performance trace on the Norwegian homepage with mobile emulation. This is the most important page — it's the main landing page for organic traffic.",
+      "acceptance_criteria": [
+        "Set Chrome to mobile emulation: viewport 390x844, deviceScaleFactor 2, isMobile true, hasTouch true, CPU throttle 4x, network 'Fast 4G'",
+        "Navigate to https://acryli-28355.jana-osl.servebolt.cloud/no/",
+        "Run performance_start_trace with reload=true and autoStop=true",
+        "Save trace to scripts/ralph/tests/traces/no-homepage.json.gz",
+        "Document ALL performance insights returned — especially LCP, CLS, TBT/INP",
+        "For each insight with issues, run performance_analyze_insight to get details",
+        "Write findings to scripts/ralph/tests/results/01-cwv-no-homepage.md with: scores, problematic resources, specific recommendations",
+        "PASS if LCP < 2500ms AND CLS < 0.1. FAIL otherwise with exact values and causes",
+        "Also check list_console_messages for any JS errors"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Core Web Vitals — English homepage /",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Same performance trace on English homepage. Compare with Norwegian to catch locale-specific issues.",
+      "acceptance_criteria": [
+        "Same mobile emulation as story 1",
+        "Navigate to https://acryli-28355.jana-osl.servebolt.cloud/",
+        "Run performance_start_trace with reload=true and autoStop=true",
+        "Save trace to scripts/ralph/tests/traces/en-homepage.json.gz",
+        "Document ALL insights, drill into any with issues",
+        "Write findings to scripts/ralph/tests/results/02-cwv-en-homepage.md",
+        "Compare with story 1 results — note any differences between EN/NO",
+        "PASS if LCP < 2500ms AND CLS < 0.1"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Core Web Vitals — Product page, reference page, office page",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Performance traces on the 3 other key page types. Each has different blocks and content — performance can vary.",
+      "acceptance_criteria": [
+        "Same mobile emulation as story 1",
+        "Test these 3 pages with performance_start_trace (reload=true, autoStop=true):",
+        "  1. /no/produkter/flake-system/ (product — heavy images, multiple blocks)",
+        "  2. /no/referanser/rehabilitering-av-norges-idrettshogskole/ (reference — Gutenberg content)",
+        "  3. /no/kontor/ (office page — simpler layout)",
+        "Save traces to scripts/ralph/tests/traces/ with descriptive names",
+        "Write combined findings to scripts/ralph/tests/results/03-cwv-inner-pages.md",
+        "For EACH page document: LCP value + LCP element, CLS value + shifting elements, largest resources, render-blocking resources",
+        "Drill into any performance insight that shows issues",
+        "PASS if ALL 3 pages have LCP < 2500ms AND CLS < 0.1"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Render-blocking resource audit",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Identify ALL render-blocking CSS and JS across the site. Every render-blocking resource delays First Contentful Paint and LCP.",
+      "acceptance_criteria": [
+        "Curl https://acryli-28355.jana-osl.servebolt.cloud/no/ and extract ALL <link rel='stylesheet'> and <script> tags from <head>",
+        "Curl https://acryli-28355.jana-osl.servebolt.cloud/no/kontor/ (page WITHOUT slider) — same extraction",
+        "For each resource, document: URL, estimated size (curl -sI to get Content-Length), whether it's render-blocking (in <head> without async/defer), whether it's critical for above-the-fold",
+        "Flag any CSS/JS that loads on ALL pages but is only needed on some (waste)",
+        "Flag any third-party resources loaded synchronously",
+        "Check: is Swiper CSS/JS loading on /no/kontor/? (it should NOT be)",
+        "Check: are there any inline <style> blocks larger than 5KB? (should be external or critical-only)",
+        "Write audit to scripts/ralph/tests/results/04-render-blocking-audit.md",
+        "PASS if no unnecessary render-blocking resources found. FAIL with list of each wasteful resource and estimated impact"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Image optimization audit",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Audit all images on key pages for format, sizing, lazy loading, and fetchpriority. Images are typically the biggest PageSpeed bottleneck on content-heavy sites.",
+      "acceptance_criteria": [
+        "Use Chrome MCP: navigate to /no/ with mobile emulation, take_snapshot to get all image elements",
+        "For EACH image on the page, check: format (WebP/AVIF preferred over JPEG/PNG), has width+height attributes (prevents CLS), loading='lazy' on below-fold images, fetchpriority='high' on LCP image only, srcset present for responsive serving, reasonable size (no 'full' size images on mobile)",
+        "Repeat for /no/referanser/ (archive with many thumbnails) and a single reference page",
+        "Use list_network_requests filtered to 'image' type to check actual transferred sizes",
+        "Flag any image > 200KB on mobile viewport",
+        "Flag any image served as PNG/JPEG when WebP exists",
+        "Flag any image without width/height (CLS risk)",
+        "Flag LCP image if it doesn't have fetchpriority='high'",
+        "Write audit to scripts/ralph/tests/results/05-image-audit.md with specific image URLs and recommendations",
+        "PASS if all above-fold images are optimized. FAIL with list of issues"
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Third-party script and font loading audit",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Audit all third-party scripts (GTM, analytics, Byggfakta) and font loading strategy. Third-party scripts are the #1 cause of TBT/INP issues.",
+      "acceptance_criteria": [
+        "Navigate to /no/ with Chrome MCP, list_network_requests to get ALL requests",
+        "Categorize each request: first-party vs third-party, resource type, transfer size, timing",
+        "Verify GTM is NOT loaded synchronously — should be delayed (setTimeout 3500ms or user interaction)",
+        "Check if any third-party script blocks main thread (visible in performance trace insights)",
+        "Audit font loading: are fonts preloaded? Do they use font-display: swap? How many font files total?",
+        "Check for preconnect hints to third-party domains (cdn.jsdelivr.net, fonts, analytics)",
+        "Check: is there a <meta name='theme-color'>?",
+        "Document total page weight breakdown: HTML, CSS, JS, images, fonts, third-party",
+        "Write audit to scripts/ralph/tests/results/06-third-party-font-audit.md",
+        "PASS if no synchronous third-party scripts and fonts are optimally loaded. FAIL with specifics"
+      ]
+    },
+    {
+      "id": "7",
+      "title": "SEO technical signals — crawlability and indexability",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Verify all technical SEO signals that affect how Google crawls and indexes the site. This is the foundation — if crawlability is broken, nothing else matters.",
+      "acceptance_criteria": [
+        "Curl robots.txt on both / and /no/ — verify it exists, allows Googlebot, has sitemap reference",
+        "Curl sitemap (find URL from robots.txt) — verify it's valid XML, contains key pages, no broken URLs",
+        "For 6 key pages (EN home, NO home, product, reference single, reference archive, office): verify <meta name='robots'> allows indexing, <link rel='canonical'> is correct (self-referencing, absolute URL, HTTPS), <title> is unique per page and < 60 chars, <meta name='description'> is unique per page, 50-160 chars, contains relevant keywords",
+        "Check that 404 pages return actual HTTP 404 status (not soft 404): curl a non-existent URL",
+        "Check HTTP headers: X-Robots-Tag, correct Content-Type, proper cache headers",
+        "Verify HTTPS: no mixed content warnings, HTTP->HTTPS redirect works (curl -I http:// version)",
+        "Write audit to scripts/ralph/tests/results/07-seo-crawlability.md",
+        "PASS if all pages are indexable with correct canonicals. FAIL with specific issues"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "SEO structured data — schema completeness and validity",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Extract and validate JSON-LD structured data on all page types. Correct schema = rich results in Google.",
+      "acceptance_criteria": [
+        "For each page type, extract <script type='application/ld+json'> content and validate with jq:",
+        "Homepage (/no/): Organization (name, logo with valid URL, sameAs, contactPoint), WebSite (name, url, inLanguage='nb-NO', publisher ref), WebPage, BreadcrumbList",
+        "Product (/no/produkter/flake-system/): Product (name, brand, manufacturer ref, description, image with valid URL)",
+        "Reference single: Article (headline, datePublished in ISO8601, dateModified, publisher ref, image)",
+        "Office (single kontor): ProfessionalService (name, parentOrganization ref, telephone with +47, address, geo with lat/lng)",
+        "Archive (/no/referanser/): CollectionPage (url, name, isPartOf ref)",
+        "Verify ALL @id references actually resolve to existing nodes in the graph (no dangling refs)",
+        "Verify logo URL, og:image URL, and product image URL all return HTTP 200",
+        "Write audit to scripts/ralph/tests/results/08-schema-audit.md with full JSON-LD output per page type",
+        "PASS if all schemas are complete and valid. FAIL with specific missing/incorrect fields"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "SEO hreflang and international targeting",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Verify hreflang implementation across EN/NO pairs. Broken hreflang = Google serves wrong language version to users.",
+      "acceptance_criteria": [
+        "Test at least 4 page pairs: homepages, reference archive, a product page, the locations/contact page",
+        "For EACH page: extract all <link rel='alternate' hreflang='...'> tags",
+        "Verify reciprocity: if page A declares hreflang to page B, curl page B and verify it declares hreflang back to page A",
+        "Verify x-default always points to the English version",
+        "Verify language codes are consistent (en vs en-US, nb vs nb-NO — must be same format across all pages)",
+        "Verify all hreflang URLs are: absolute, HTTPS, canonical (not redirected URLs)",
+        "Curl each hreflang target URL and verify it returns HTTP 200 (not 404 or redirect)",
+        "Check html lang attribute matches the page language",
+        "Write audit to scripts/ralph/tests/results/09-hreflang-audit.md",
+        "PASS if all pairs are reciprocal and all URLs resolve. FAIL with broken pairs"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Mobile UX and PageSpeed visual verification",
+      "priority": "high",
+      "status": "incomplete",
+      "description": "Visual verification of mobile experience on key pages. Take screenshots, check for layout issues, verify tap targets and readability. This catches what automated metrics miss.",
+      "acceptance_criteria": [
+        "Set Chrome to mobile: viewport 390x844, deviceScaleFactor 2, isMobile true, hasTouch true",
+        "For EACH of these 5 pages: /no/, /no/referanser/, /no/kontor/, a single reference, the locations page:",
+        "  1. Navigate and wait for page load",
+        "  2. Take full-page screenshot saved to scripts/ralph/tests/screenshots/{page-name}-mobile.png",
+        "  3. Take snapshot (a11y tree) — check for proper heading hierarchy (h1 > h2 > h3, no skips)",
+        "  4. Check list_console_messages for errors",
+        "  5. Verify no horizontal overflow: evaluate_script to check document.documentElement.scrollWidth <= viewport width",
+        "  6. On pages with phone numbers: verify they are <a href='tel:...'> links (check snapshot for 'link' role on phone numbers)",
+        "Verify navigation is accessible on mobile (hamburger menu or similar)",
+        "Take screenshot of /no/referanser/ and verify filter dropdowns are visible and usable",
+        "Write visual audit to scripts/ralph/tests/results/10-mobile-visual-audit.md with screenshot paths and findings",
+        "PASS if all pages render correctly on mobile with no errors. FAIL with specific issues and screenshot evidence"
+      ]
+    }
+  ]
+}
