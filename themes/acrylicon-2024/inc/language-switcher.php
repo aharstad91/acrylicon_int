@@ -51,7 +51,8 @@ function acrylicon_slug_map() {
             'baerekraft'          => 'sustainability',
             'levetids-kostnader'  => 'lifecycle-costs',
             'gode-grunner'        => 'good-reasons',
-            'kontakt-oss'         => 'locations',
+            'kontakt-oss'         => 'locations',  // TODO: verify EN page exists
+            'kontor'              => 'locations',  // NO /kontor/ ↔ EN /locations/
             'sertifiseringer'     => 'certifications',
             'industrier'          => 'industries',
             'kontor'              => 'offices',
@@ -157,6 +158,24 @@ function acrylicon_get_equivalent_url( $target_blog_id ) {
     if ( empty( $path ) || is_search() || is_404() ) {
         $cache[ $target_blog_id ] = acrylicon_get_fallback_url( $target_blog_id );
         return $cache[ $target_blog_id ];
+    }
+
+    // For singular posts/pages: use the same post ID on the target blog
+    // (multisite-sync keeps the same IDs across blogs)
+    if ( is_singular() ) {
+        $post_id = get_queried_object_id();
+        if ( $post_id ) {
+            switch_to_blog( $target_blog_id );
+            $target_post = get_post( $post_id );
+            if ( $target_post && $target_post->post_status === 'publish' ) {
+                $target_url = get_permalink( $post_id );
+                restore_current_blog();
+                $cache[ $target_blog_id ] = $target_url;
+                return $cache[ $target_blog_id ];
+            }
+            restore_current_blog();
+            // Post doesn't exist on target blog — fall through to slug mapping
+        }
     }
 
     // Split path into segments and map each one

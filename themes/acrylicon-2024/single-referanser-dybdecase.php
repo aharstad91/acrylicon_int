@@ -7,74 +7,11 @@
 $post_id    = get_the_ID();
 $is_english = ( get_current_blog_id() === 1 );
 
-// Taxonomy data
+// Taxonomy data for related references
 $category_terms = get_the_terms( $post_id, 'referanser-kategorier' ) ?: [];
-$product_terms  = get_the_terms( $post_id, 'referanser-produkter' ) ?: [];
-$office_terms   = get_the_terms( $post_id, 'referanser-kontor' ) ?: [];
 ?>
 
 <main class="max-w-screen-2xl mx-auto px-5 md:px-20 pt-12 md:pt-20 lg:pt-44 pb-8">
-
-	<?php if ( has_post_thumbnail() ) : ?>
-	<div class="mb-8 -mx-5 md:mx-0">
-		<?php the_post_thumbnail( 'large', [
-			'class'         => 'w-full h-64 md:h-96 lg:h-124 object-cover md:rounded-lg',
-			'fetchpriority' => 'high',
-		] ); ?>
-	</div>
-	<?php endif; ?>
-
-	<div class="flex flex-wrap gap-2 mb-4">
-		<span class="inline-block bg-acryl-red text-white rounded-full px-3 py-1 text-sm">
-			<?php echo $is_english ? 'Case Study' : 'Dybdecase'; ?>
-		</span>
-		<?php foreach ( $category_terms as $term ) : ?>
-			<span class="inline-block bg-acryl-beige-lighter rounded-full px-3 py-1 text-sm">
-				<?php echo esc_html( $term->name ); ?>
-			</span>
-		<?php endforeach; ?>
-	</div>
-
-	<h1 class="text-3xl md:text-5xl lg:text-7xl font-light mb-8 leading-tight"><?php the_title(); ?></h1>
-
-	<?php
-	// Build fact box
-	$facts = [];
-	if ( $product_terms ) {
-		$facts[] = [
-			'label' => $is_english ? 'Product system' : 'Produktsystem',
-			'value' => implode( ', ', wp_list_pluck( $product_terms, 'name' ) ),
-		];
-	}
-	if ( $office_terms ) {
-		$names = array_map( function( $t ) {
-			return preg_replace( '/^Acrylicon\s+/i', '', $t->name );
-		}, $office_terms );
-		$facts[] = [
-			'label' => $is_english ? 'Office' : 'Kontor',
-			'value' => implode( ', ', $names ),
-		];
-	}
-	if ( $category_terms ) {
-		$facts[] = [
-			'label' => $is_english ? 'Industry' : 'Bruksområde',
-			'value' => implode( ', ', wp_list_pluck( $category_terms, 'name' ) ),
-		];
-	}
-	?>
-
-	<?php if ( $facts ) : ?>
-	<div class="bg-acryl-beige-lighter rounded-lg p-6 md:p-8 mb-10">
-		<dl class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-0">
-			<?php foreach ( $facts as $fact ) : ?>
-			<div>
-				<dt class="font-sohne-mono text-xs text-acryl-gray-1 mb-1"><?php echo esc_html( $fact['label'] ); ?></dt>
-				<dd class="text-base m-0"><?php echo esc_html( $fact['value'] ); ?></dd>
-			</div>
-			<?php endforeach; ?>
-		</dl>
-	</div>
-	<?php endif; ?>
 
 	<section class="prose max-w-none text-xl">
 		<div class="editor"><?php the_content(); ?></div>

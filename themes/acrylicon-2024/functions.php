@@ -69,6 +69,19 @@ function theme_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
 
+// Load block CSS per-block instead of one monolithic wp-block-library (saves ~100KB)
+add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+
+// Remove jQuery Migrate in production (unnecessary overhead)
+add_action( 'wp_default_scripts', function ( $scripts ) {
+	if ( ! is_admin() && isset( $scripts->registered['jquery'] ) ) {
+		$scripts->registered['jquery']->deps = array_diff(
+			$scripts->registered['jquery']->deps,
+			[ 'jquery-migrate' ]
+		);
+	}
+} );
+
 // Preload primary font to reduce FOIT/FOUT
 function acrylicon_preload_font() {
 	echo '<link rel="preload" href="' . esc_url( get_template_directory_uri() . '/assets/fonts/soehne-buch.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";

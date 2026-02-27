@@ -82,11 +82,12 @@
 		<a href="<?php echo home_url(); ?>" class="flex items-center">
 			<img class="w-48" src="<?php bloginfo('template_directory'); ?>/assets/gfx/acrylicon-logo-dark.svg" alt="Acrylicon logo" width="208" height="45">
 		</a>
-		<button 
+		<button
 		id="menuButton"
 		type="button"
 		aria-controls="menuPanel"
 		aria-expanded="false"
+		aria-label="Menu"
 		class="relative z-50 flex flex-col items-center justify-center w-8 h-8 space-y-1.5 group h-6 w-6"
 		>
 			<div class="mm-toggle">

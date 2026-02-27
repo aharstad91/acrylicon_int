@@ -279,7 +279,12 @@ class Acrylicon_SEO_Schema {
 		];
 
 		if ( ! empty( $address ) ) {
-			$business['address'] = wp_strip_all_tags( $address, true );
+			$clean_address = wp_strip_all_tags( $address, true );
+			$business['address'] = [
+				'@type'          => 'PostalAddress',
+				'streetAddress'  => $clean_address,
+				'addressCountry' => 'NO',
+			];
 		}
 
 		if ( ! empty( $phone ) ) {

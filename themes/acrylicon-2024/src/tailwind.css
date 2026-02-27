@@ -467,3 +467,14 @@
   color: theme('colors.acryl-red');
   font-weight: 500;
 }
+
+/* Reference filter — prevent horizontal overflow on mobile */
+.filter-select {
+  max-width: 100%;
+}
+
+@media (max-width: 639px) {
+  .filter-group {
+    width: 100%;
+  }
+}

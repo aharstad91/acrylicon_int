@@ -16,6 +16,8 @@ return [
 		'height' => 120,
 	],
 	'foundingDate' => '1977',
+	'telephone'    => '+47 73 90 10 00',
+	'email'        => 'info@acrylicon.no',
 	'address'      => [
 		'@type'           => 'PostalAddress',
 		'streetAddress'   => 'Industrivegen 24',
@@ -23,5 +25,14 @@ return [
 		'postalCode'      => '2386',
 		'addressCountry'  => 'NO',
 	],
-	'sameAs'       => [],
+	'contactPoint' => [
+		'@type'       => 'ContactPoint',
+		'telephone'   => '+47 73 90 10 00',
+		'email'       => 'info@acrylicon.no',
+		'contactType' => 'customer service',
+	],
+	'sameAs'       => [
+		'https://www.linkedin.com/company/acrylicon/',
+		'https://www.facebook.com/acrylicon/',
+	],
 ];
