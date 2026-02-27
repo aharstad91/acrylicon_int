@@ -14,3 +14,18 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - Third-party scripts (FB 518KB, GTM 348KB, etc.) all deferred — ~1MB total but no FCP/LCP impact
 - No console errors, clean execution
 - Servebolt TTFB is excellent (32ms)
+
+## Story 2: Core Web Vitals — English homepage / [COMPLETE]
+**Result:** PASS — LCP 354ms, CLS 0.00
+**Key learnings:**
+- LCP element is same hero `<video>` (2.5MB MP4), no redirect on EN (direct path)
+- EN homepage has JS error: "Swiper is not defined" in scripts.js — Swiper lib not loaded on pages without slider block, but init code runs anyway
+- CRITICAL FINDING: Servebolt WebP content negotiation works on EN but NOT on NO
+  - image2.jpg: EN serves 63KB WebP, NO serves 589KB JPEG
+  - Large PNG: EN serves 52KB WebP, NO serves 882KB PNG
+  - haslumslide2: EN serves 30KB WebP, NO serves 426KB JPEG
+  - Total savings on EN vs NO: ~1,752KB — likely because NO's `/norway/` → `/no/` 301 redirects bypass WebP negotiation
+- haslumskole-1024x526.jpg (2016 image) not WebP-converted on either site — only 39KB so low priority
+- GSAP render-blocking from CDN (25ms) but estimated savings: 0ms
+- Third-party scripts same profile as NO: ~1,078KB, all deferred
+- Fixing the `/norway/` DB references on NO is highest priority — would enable WebP and save ~1.7MB

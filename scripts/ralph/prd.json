@@ -25,7 +25,7 @@
       "id": "2",
       "title": "Core Web Vitals — English homepage /",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Same performance trace on English homepage. Compare with Norwegian to catch locale-specific issues.",
       "acceptance_criteria": [
         "Same mobile emulation as story 1",
