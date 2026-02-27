@@ -42,7 +42,7 @@
       "id": "3",
       "title": "Core Web Vitals — Product page, reference page, office page",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Performance traces on the 3 other key page types. Each has different blocks and content — performance can vary.",
       "acceptance_criteria": [
         "Same mobile emulation as story 1",

@@ -29,3 +29,16 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - GSAP render-blocking from CDN (25ms) but estimated savings: 0ms
 - Third-party scripts same profile as NO: ~1,078KB, all deferred
 - Fixing the `/norway/` DB references on NO is highest priority — would enable WebP and save ~1.7MB
+
+## Story 3: Core Web Vitals — Product page, reference page, office page [COMPLETE]
+**Result:** PASS — All 3 pages: LCP 251–288ms, CLS 0.00
+**Key learnings:**
+- Product page LCP 251ms (text H2), Reference 288ms (image), Office 258ms (text P) — all ~10x under 2500ms threshold
+- TTFB consistently excellent: 20–30ms across all page types
+- Reference page `image-86.jpg` is 1,031KB JPEG not served as WebP — WebP variant likely missing on disk
+- Product page JPEGs (106KB, 122KB, 146KB) also not WebP-negotiated — older uploads (2016/2021) likely lack WebP variants
+- Reference page LCP image `image2.jpg` correctly served as WebP (63KB) — content negotiation works for newer uploads
+- Swiper conditionally loads only on pages with slider block: 245.8KB JSDelivr on reference vs 72.8KB on product/office — confirmed working
+- No console errors on any inner page (unlike EN homepage's "Swiper is not defined")
+- No `/norway/` → `/no/` redirect issue on inner pages — only affects homepage media paths
+- All third-party scripts deferred, no FCP/LCP impact, total main thread time < 35ms per page
