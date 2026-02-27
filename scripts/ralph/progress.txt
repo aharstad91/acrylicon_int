@@ -124,3 +124,21 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - All schema image URLs return HTTP 200
 - All dates are valid ISO 8601
 - BreadcrumbList correct on all pages — last item properly omits `item` URL
+
+## Story 9: SEO hreflang and international targeting [COMPLETE]
+**Result:** FAIL — CRITICAL: post slug mismatch breaks hreflang on all translated CPT pages + 4 additional issues
+**Key learnings:**
+- CRITICAL: `acrylicon_map_slug()` in `inc/language-switcher.php` maps CPT prefixes (produkter→products) but NOT individual post slugs
+- When EN/NO posts have different slugs (normal for translated content), hreflang points to non-existent URLs
+- Product hreflang: EN→NO produces `/no/produkter/flake-system-floor/` (404), NO→EN produces `/products/flake-system-gulv/` (301)
+- Reference single hreflang: same pattern — English slug used on NO site (404), Norwegian slug used on EN site (301→correct)
+- EN `/offices/` page does not exist (404) — NO `/no/kontor/` hreflang `en` target is dead
+- EN `/locations/` hreflang `nb` points to `/no/kontakt-oss/` which is 404 (page removed/moved)
+- Slug map still has `kontakt-oss → locations` but the NO page is now at `/no/kontor/`
+- Epoxy-system pages (same slug on both sites) incorrectly fall back to homepage hreflang — possible `is_404()` context bug
+- 404 pages emit hreflang tags pointing to homepages (should be suppressed)
+- GOOD: Homepages and reference archive have perfect reciprocal hreflang
+- GOOD: x-default consistently points to English version
+- GOOD: Language codes consistent (`en`/`nb`), HTML lang correct (`en-US`/`nb-NO`)
+- GOOD: All URLs are HTTPS and absolute
+- FIX: Use `get_permalink()` with same post ID via `switch_to_blog()` instead of segment mapping — multisite-sync uses same post IDs
