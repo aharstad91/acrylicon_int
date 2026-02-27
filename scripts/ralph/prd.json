@@ -117,7 +117,7 @@
       "id": "7",
       "title": "SEO technical signals — crawlability and indexability",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Verify all technical SEO signals that affect how Google crawls and indexes the site. This is the foundation — if crawlability is broken, nothing else matters.",
       "acceptance_criteria": [
         "Curl robots.txt on both / and /no/ — verify it exists, allows Googlebot, has sitemap reference",
