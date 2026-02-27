@@ -172,7 +172,7 @@
       "id": "10",
       "title": "Mobile UX and PageSpeed visual verification",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Visual verification of mobile experience on key pages. Take screenshots, check for layout issues, verify tap targets and readability. This catches what automated metrics miss.",
       "acceptance_criteria": [
         "Set Chrome to mobile: viewport 390x844, deviceScaleFactor 2, isMobile true, hasTouch true",

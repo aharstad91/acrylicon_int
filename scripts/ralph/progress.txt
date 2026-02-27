@@ -142,3 +142,21 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - GOOD: Language codes consistent (`en`/`nb`), HTML lang correct (`en-US`/`nb-NO`)
 - GOOD: All URLs are HTTPS and absolute
 - FIX: Use `get_permalink()` with same post ID via `switch_to_blog()` instead of segment mapping — multisite-sync uses same post IDs
+
+## Story 10: Mobile UX and PageSpeed visual verification [COMPLETE]
+**Result:** FAIL — 9 issues found, 2 high-priority
+**Key learnings:**
+- CRITICAL: /no/referanser/ has 43px horizontal overflow from `.filter-group` select element (433px vs 390px viewport) — filter dropdown not constrained to mobile width
+- CRITICAL: All single office page employee emails are `@localhost` (e.g., ho@localhost, hmf@localhost) — dev placeholders never updated for production, blocks customer contact
+- Missing h1 on both archive pages: /no/referanser/ (h2 "Referanser") and /no/kontor/ (h2 "Kontorer") — archive templates use h2 instead of h1
+- Hamburger menu button has no accessible name (no aria-label, no text) — WCAG violation on all pages
+- English category labels ("Schools and public buildings") appear on Norwegian pages — shared taxonomy terms not translated for Blog 3
+- Career CTA on /no/ homepage links to stale `/norway/karriere/` path instead of `/no/karriere/`
+- /no/kontakt-oss/ is 404 — no Norwegian equivalent of the comprehensive EN /locations/ page (28 offices with phone numbers)
+- Single office page headings are jumbled: h1→h2→h5→h4→h3 — needs restructuring
+- GOOD: Mobile nav works correctly — hamburger opens/closes, 8 links + language switcher, touch-friendly spacing
+- GOOD: All pages except /no/referanser/ have no horizontal overflow
+- GOOD: No JS errors on any Norwegian page (EN /locations/ has known "Swiper is not defined" error)
+- GOOD: Single office pages have proper tel: links (10 per office) with +47 country codes
+- GOOD: EN /locations/ has 28 properly formatted tel: links for worldwide offices
+- GOOD: Text readable without zoom, images scale correctly, CTAs are full-width and tappable
