@@ -42,3 +42,18 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - No console errors on any inner page (unlike EN homepage's "Swiper is not defined")
 - No `/norway/` → `/no/` redirect issue on inner pages — only affects homepage media paths
 - All third-party scripts deferred, no FCP/LCP impact, total main thread time < 35ms per page
+
+## Story 4: Render-blocking resource audit [COMPLETE]
+**Result:** FAIL — 4 issues found, but actual performance impact is minimal
+**Key learnings:**
+- Only 4 CSS files are render-blocking: block-library (16.7KB gz), style.css (1.5KB), fonts.css (0.3KB), tailwind.css (5.7KB)
+- All load in <12ms via H2 multiplexing — Chrome estimates 0ms savings from fixing
+- `wp-block-library/style.min.css` is 113.6KB raw (16.7KB compressed) — largest render-blocking resource, most styles unused by ACF+Tailwind theme
+- Fix: `add_filter('should_load_separate_core_block_assets', '__return_true')` — WP 5.8+ feature to load per-block styles
+- GSAP (71KB) in footer without defer — free optimization to add defer attribute
+- wp-emoji inline script (5.8KB) loads on every page — unnecessary for corporate site
+- WordPress Global Styles inline block (9KB) mostly unused CSS custom properties
+- gravity.css, block-panels.css already use media="print" onload swap pattern — well optimized
+- Swiper correctly conditional: 169KB CSS+JS only on slider-block pages (verified on 4 pages)
+- jQuery properly deferred, analytics properly delayed (3.5s/interaction)
+- Cache headers excellent: max-age=31536000 on all static assets

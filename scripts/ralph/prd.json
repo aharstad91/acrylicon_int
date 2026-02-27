@@ -61,7 +61,7 @@
       "id": "4",
       "title": "Render-blocking resource audit",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Identify ALL render-blocking CSS and JS across the site. Every render-blocking resource delays First Contentful Paint and LCP.",
       "acceptance_criteria": [
         "Curl https://acryli-28355.jana-osl.servebolt.cloud/no/ and extract ALL <link rel='stylesheet'> and <script> tags from <head>",
