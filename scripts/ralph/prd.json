@@ -134,7 +134,7 @@
       "id": "8",
       "title": "SEO structured data — schema completeness and validity",
       "priority": "high",
-      "status": "incomplete",
+      "status": "complete",
       "description": "Extract and validate JSON-LD structured data on all page types. Correct schema = rich results in Google.",
       "acceptance_criteria": [
         "For each page type, extract <script type='application/ld+json'> content and validate with jq:",

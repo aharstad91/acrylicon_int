@@ -105,3 +105,22 @@ Started: Fri Feb 27 09:00:21 CET 2026
 - HTTPS redirect works correctly, no mixed content, proper 404 handling
 - All titles unique and under 60 chars, canonicals self-referencing, OG tags complete
 - HTML pages have NO Cache-Control headers (TTFB is excellent at 20-30ms so low priority)
+
+## Story 8: SEO structured data — schema completeness and validity [COMPLETE]
+**Result:** FAIL — 10 issues found, 3 high-priority
+**Key learnings:**
+- JSON-LD is syntactically valid on all pages, using single @graph array pattern
+- Organization on homepage has `name`, `legalName`, `logo` (valid ImageObject), `foundingDate`, `address` (PostalAddress) — good
+- MISSING: Organization `contactPoint` — no phone/email in schema, kills Knowledge Panel phone display
+- MISSING: Organization `sameAs` is empty array — no social links for Knowledge Panel
+- MISSING: WebSite `potentialAction` (SearchAction) — no sitelinks search box
+- Product schema has name/brand/manufacturer/image but NO `offers` — cannot trigger Product rich results
+- EN Product `description` is in Norwegian — multisite-sync copies without translating
+- Article (reference single) has headline, dates, publisher, image but NO `author` — weakens E-E-A-T
+- ProfessionalService `address` is plain STRING not PostalAddress object — Google can't parse address components
+- ProfessionalService missing `openingHours` and `areaServed`
+- Archive pages use generic WebPage instead of CollectionPage
+- Inner pages have dangling @id refs to `#organization` and `#website` (defined only on homepage) — Google handles this but self-contained graphs are more robust
+- All schema image URLs return HTTP 200
+- All dates are valid ISO 8601
+- BreadcrumbList correct on all pages — last item properly omits `item` URL
