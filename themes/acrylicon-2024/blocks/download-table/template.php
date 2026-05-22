@@ -35,21 +35,25 @@ if (!empty($block['align'])) {
 	<div class="py-4 lg:flex-row flex-col flex lg:gap-4 border-solid border-gray-2 border-t items-start">
 		<div class="lg:w-1-2 w-full pt-4 font-sohne-mono"><?php echo esc_html($title); ?></div>
 		<ul class="lg:w-1-2 w-full">
-		<?php if (have_rows('download_table_repeater')): 
+		<?php
+		$is_english = ( get_current_blog_id() === 1 );
+		$download_label = $is_english ? 'Download' : 'Last ned';
+		$download_alt   = $is_english ? 'Download file' : 'Last ned fil';
+		if (have_rows('download_table_repeater')):
 			while (have_rows('download_table_repeater')) : the_row();
 				$name = get_sub_field('download_name');
 				$link = get_sub_field('download_link');
 				?>
-				
+
 					<li class="flex w-full font-sohne-mono gap-4 items-center py-4 flex gap-4 border-solid border-gray-2 border-t">
-						<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/download-file.svg" alt="Last ned fil">
+						<img src="<?php bloginfo('template_directory'); ?>/assets/gfx/download-file.svg" alt="<?php echo esc_attr($download_alt); ?>">
 						<div class="gap-4 w-full md:flex">
 							<?php if ($name) : ?>
 								<div class="text-black md:w-1-2 text-base font-normal font-sohne-mono mb-1"><?php echo esc_html($name); ?></div>
 							<?php endif; ?>
 							<?php if ($link) : ?>
 								<div class="flex justify-end w-full">
-									<a href="<?php echo esc_html($link); ?>" class=" text-black underline">Last ned</a>
+									<a href="<?php echo esc_html($link); ?>" class=" text-black underline"><?php echo esc_html($download_label); ?></a>
 								</div>
 							<?php endif; ?>
 						</div>
