@@ -43,7 +43,7 @@ if (!empty($block['align'])) {
 					echo wp_get_attachment_image($image, 'thumbnail', false, array(
 						'width' => 38,
 						'height' => 38,
-						'class' => 'relative top-1'
+						'class' => 'relative top-1 w-[38px] h-[38px] shrink-0'
 					));
 				}
 				?>
