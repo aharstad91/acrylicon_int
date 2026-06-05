@@ -37,6 +37,7 @@ if ( get_blog_details( $norway_blog_id ) ) {
 			'title'     => get_the_title(),
 			'permalink' => get_the_permalink(),
 			'phone'     => get_field( 'office_tel' ),
+			'email'     => get_post_meta( get_the_ID(), 'office_email', true ),
 			'address'   => get_field( 'office_adress' ),
 			'lat'       => $location['lat'] ?? null,
 			'lng'       => $location['lng'] ?? null,
@@ -71,29 +72,29 @@ foreach ( $norway_offices as $office ) {
 <main>
 	<?php // Hero Section ?>
 	<section class="bg-acryl-dark-blue text-white">
-		<div class="max-w-screen-2xl mx-auto px-4 py-16 lg:py-24">
-			<p class="font-sohne-mono text-base text-acryl-light-blue mb-4">
+		<div class="max-w-screen-2xl mx-auto px-5 md:px-20 py-16 lg:py-24">
+			<p class="font-sohne-mono text-base font-light text-acryl-light-blue mb-4">
 				<?php echo $is_english ? 'Contact Us' : 'Kontakt oss'; ?>
 			</p>
 			<h1 class="text-4xl lg:text-6xl font-normal mb-6">
 				<?php echo $is_english ? 'Worldwide Locations' : 'Våre kontorer'; ?>
 			</h1>
-			<p class="text-xl text-white/80 max-w-2xl">
+			<p class="text-xl text-acryl-light-blue max-w-2xl">
 				<?php echo $is_english
-					? 'AcryliCon has licensed distributors and trained contractors in 18 countries. Find your local office below.'
+					? 'AcryliCon has licensed and trade contractors in 18 countries. Find your local office below.'
 					: 'AcryliCon har lisensierte distributører og opplærte entreprenører i 18 land. Finn ditt lokale kontor nedenfor.'; ?>
 			</p>
 		</div>
 	</section>
 
-	<?php // Norwegian Offices — First, with map ?>
-	<?php if ( $norway_offices ) : ?>
+	<?php // Norwegian Offices — Rich cards with map (Norwegian site only) ?>
+	<?php if ( $norway_offices && ! $is_english ) : ?>
 	<section class="bg-white">
-		<div class="max-w-screen-2xl mx-auto px-4 py-16 lg:py-24">
+		<div class="max-w-screen-2xl mx-auto px-5 md:px-20 py-16 lg:py-24">
 			<div class="flex items-center gap-3 mb-8 pb-3 border-b border-acryl-beige-light">
 				<?php echo svg_icon( 'flags/no', [ 'width' => '24', 'height' => '17', 'class' => 'inline-block flex-shrink-0' ] ); ?>
 				<h2 class="text-2xl lg:text-3xl font-normal text-acryl-dark-blue">
-					<?php echo $is_english ? 'Norway' : 'Norge'; ?>
+					Norge
 				</h2>
 			</div>
 
@@ -102,9 +103,7 @@ foreach ( $norway_offices as $office ) {
 			<div id="office-map" class="w-full h-80 lg:h-96 rounded-lg mb-10 bg-acryl-beige-lightest"></div>
 			<noscript>
 				<p class="text-sm text-acryl-gray-2 mb-8">
-					<?php echo $is_english
-						? 'Enable JavaScript to view the interactive map.'
-						: 'Aktiver JavaScript for å se det interaktive kartet.'; ?>
+					Aktiver JavaScript for å se det interaktive kartet.
 				</p>
 			</noscript>
 			<?php endif; ?>
@@ -112,7 +111,7 @@ foreach ( $norway_offices as $office ) {
 			<?php // Rich Norwegian office cards ?>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<?php foreach ( $norway_offices as $office ) : ?>
-				<div class="bg-acryl-beige-lightest rounded-lg overflow-hidden shadow-sm">
+				<div class="bg-acryl-beige-lighter rounded-lg overflow-hidden">
 					<?php if ( $office['thumbnail'] ) : ?>
 					<a href="<?php echo esc_url( $office['permalink'] ); ?>" class="block">
 						<?php echo $office['thumbnail']; ?>
@@ -141,9 +140,16 @@ foreach ( $norway_offices as $office ) {
 							</a>
 							<?php endif; ?>
 
+							<?php if ( ! empty( $office['email'] ) ) : ?>
+							<a href="mailto:<?php echo esc_attr( antispambot( $office['email'] ) ); ?>"
+							   class="inline-flex items-center gap-1 text-acryl-dark-blue hover:text-acryl-red transition-colors">
+								<span><?php echo esc_html( antispambot( $office['email'] ) ); ?></span>
+							</a>
+							<?php endif; ?>
+
 							<a href="<?php echo esc_url( $office['permalink'] ); ?>"
 							   class="inline-flex items-center gap-1 text-acryl-red hover:text-acryl-dark-blue transition-colors font-medium">
-								<?php echo $is_english ? 'View office' : 'Se kontor'; ?> ›
+								Se kontor ›
 							</a>
 						</div>
 					</div>
@@ -154,14 +160,40 @@ foreach ( $norway_offices as $office ) {
 	</section>
 	<?php endif; ?>
 
-	<?php // International Offices ?>
+	<?php // All Offices (EN: includes Norway in the list; NO: international only) ?>
 	<section class="bg-acryl-beige-lightest">
-		<div class="max-w-screen-2xl mx-auto px-4 py-16 lg:py-24">
+		<div class="max-w-screen-2xl mx-auto px-5 md:px-20 py-16 lg:py-24">
 			<h2 class="text-2xl lg:text-3xl font-normal text-acryl-dark-blue mb-10">
-				<?php echo $is_english ? 'International Offices' : 'Internasjonale kontorer'; ?>
+				<?php echo $is_english ? 'Our Offices' : 'Internasjonale kontorer'; ?>
 			</h2>
 
-			<?php foreach ( $international_offices as $key => $country_data ) : ?>
+			<?php
+			// On the English site, merge Norwegian offices into the international list
+			$all_offices = $international_offices;
+			if ( $is_english && $norway_offices ) {
+				$norway_int_offices = [];
+				foreach ( $norway_offices as $no ) {
+					$short_name = preg_replace( '/^Acrylicon\s+/i', '', $no['title'] );
+					$office_entry = [
+						'name'    => 'AcryliCon ' . $short_name,
+						'company' => 'AcryliCon ' . $short_name,
+						'address' => $no['address'] ? [ $no['address'] ] : [],
+						'phone'   => $no['phone'] ? '+47 ' . $no['phone'] : '',
+						'email'   => $no['email'] ?? '',
+						'web'     => '',
+					];
+					$norway_int_offices[] = $office_entry;
+				}
+				$all_offices['norway'] = [
+					'country' => 'Norway',
+					'flag'    => 'no',
+					'offices' => $norway_int_offices,
+				];
+				ksort( $all_offices );
+			}
+			?>
+
+			<?php foreach ( $all_offices as $key => $country_data ) : ?>
 			<div class="mb-12 last:mb-0" id="<?php echo esc_attr( $key ); ?>">
 				<div class="flex items-center gap-3 mb-6 pb-3 border-b border-acryl-beige-light">
 					<?php echo svg_icon( 'flags/' . $country_data['flag'], [ 'width' => '24', 'height' => '17', 'class' => 'inline-block flex-shrink-0' ] ); ?>
@@ -170,7 +202,7 @@ foreach ( $norway_offices as $office ) {
 
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					<?php foreach ( $country_data['offices'] as $office ) : ?>
-					<div class="bg-white rounded-lg p-6 shadow-sm">
+					<div class="bg-white rounded-lg p-6">
 						<h4 class="text-lg font-normal text-acryl-dark-blue mb-1"><?php echo esc_html( $office['name'] ); ?></h4>
 						<?php if ( $office['company'] !== $office['name'] ) : ?>
 						<p class="text-sm text-acryl-gray-2 mb-3"><?php echo esc_html( $office['company'] ); ?></p>
@@ -214,11 +246,11 @@ foreach ( $norway_offices as $office ) {
 
 	<?php // Contact CTA Section ?>
 	<section class="bg-acryl-dark-blue text-white">
-		<div class="max-w-screen-2xl mx-auto px-4 py-16 lg:py-20 text-center">
+		<div class="max-w-screen-2xl mx-auto px-5 md:px-20 py-16 lg:py-20 text-center">
 			<h2 class="text-3xl lg:text-4xl font-normal mb-4">
 				<?php echo $is_english ? 'Get in Touch' : 'Ta kontakt'; ?>
 			</h2>
-			<p class="text-lg text-white/80 mb-8 max-w-xl mx-auto">
+			<p class="text-lg text-acryl-light-blue mb-8 max-w-xl mx-auto">
 				<?php echo $is_english
 					? "Can't find your country? Contact our head office in Norway and we'll connect you with the right team."
 					: 'Finner du ikke ditt land? Ta kontakt med hovedkontoret i Norge, så setter vi deg i kontakt med rett team.'; ?>
