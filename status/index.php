@@ -6,10 +6,10 @@
  * Token ligger i status-token.php (gitignored, deployes manuelt per miljø).
  * Fail-closed: mangler token-fil eller feil token → 404 uten innhold.
  *
- * Prinsipper (statusside-skillet):
- * - progress = andel done; partial teller som 0
- * - grønn journey = alle done OG godkjentAvTeam satt (kun av mennesker)
- * - data i status-data.php, oppdateres via vanlige commits
+ * Layout følger statusside-skillets standardiserte spec (templates/LAYOUT.md):
+ * nøytral smal kolonne, kollapsede journey-kort, slide-in detalj-panel.
+ * Prinsipper: progress = andel done (partial=0); grønn = alle done +
+ * godkjentAvTeam (settes kun av mennesker); data i status-data.php via git.
  */
 
 $token_file = __DIR__ . '/status-token.php';
@@ -29,7 +29,8 @@ header( 'Content-Type: text/html; charset=utf-8' );
 
 $journeys = include __DIR__ . '/status-data.php';
 
-/** Grønn = alle done + team-godkjent; rød = alt missing; ellers gul. */
+/* ---------- Derivasjon (speiler templates/lib/mvp-status.ts) ---------- */
+
 function journey_farge( array $j ): string {
 	$statuses = array_column( $j['kriterier'], 'status' );
 	if ( ! $statuses ) {
@@ -45,13 +46,8 @@ function journey_farge( array $j ): string {
 	return 'yellow';
 }
 
-function journey_progress( array $j ): int {
-	$n = count( $j['kriterier'] );
-	if ( ! $n ) {
-		return 0;
-	}
-	$done = count( array_filter( $j['kriterier'], fn( $k ) => $k['status'] === 'done' ) );
-	return (int) round( $done / $n * 100 );
+function journey_done( array $j ): int {
+	return count( array_filter( $j['kriterier'], fn( $k ) => $k['status'] === 'done' ) );
 }
 
 function total_progress( array $journeys ): int {
@@ -61,6 +57,14 @@ function total_progress( array $journeys ): int {
 	}
 	$done = count( array_filter( $alle, fn( $k ) => $k['status'] === 'done' ) );
 	return (int) round( $done / count( $alle ) * 100 );
+}
+
+function farge_fordeling( array $journeys ): array {
+	$f = [ 'green' => 0, 'yellow' => 0, 'red' => 0 ];
+	foreach ( $journeys as $j ) {
+		$f[ journey_farge( $j ) ]++;
+	}
+	return $f;
 }
 
 function nyeste_verifisert( array $journeys ): ?string {
@@ -75,16 +79,24 @@ function nyeste_verifisert( array $journeys ): ?string {
 	return $datoer ? max( $datoer ) : null;
 }
 
+function format_dato( ?string $iso ): string {
+	if ( ! $iso ) {
+		return 'ennå ikke verifisert';
+	}
+	$ts = strtotime( $iso );
+	if ( ! $ts ) {
+		return $iso;
+	}
+	$mnd = [ 1 => 'januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember' ];
+	return (int) date( 'j', $ts ) . '. ' . $mnd[ (int) date( 'n', $ts ) ] . ' ' . date( 'Y', $ts );
+}
+
 function e( ?string $s ): string {
 	return htmlspecialchars( (string) $s, ENT_QUOTES, 'UTF-8' );
 }
 
-/**
- * /goal-generering — broen til agent-arbeidsflyten. Mottakeren limer kommandoen
- * inn i Claude Code (v2.1.139+), og en evaluator driver arbeidet autonomt til
- * sluttbetingelsen faktisk holder. Verifiseringskommandoer er prosjektets egne
- * (php -l + curl mot localhost/prod), ikke tsc/eslint.
- */
+/* ---------- /goal-generering (broen til agent-arbeidsflyten) ---------- */
+
 const KVALITETSRUTINE = "Kvalitetsrutine:\n"
 	. "- Rører endringen auth, betaling eller datamutasjoner, eller er diffen stor (50+ linjer): kjør /ce-code-review på diffen og fiks funnene før ship.\n"
 	. "- Gjelder kriteriet en brukerflyt: verifiser i kjørende app (/verify eller nettleser mot localhost:8888/acrylicon) — ikke bare kode-lesing.\n"
@@ -145,14 +157,18 @@ function bygg_journey_goal( array $j ): string {
 	return implode( "\n", $linjer );
 }
 
-$total       = total_progress( $journeys );
-$alle_krit   = array_merge( ...array_column( $journeys, 'kriterier' ) );
-$ant_done    = count( array_filter( $alle_krit, fn( $k ) => $k['status'] === 'done' ) );
-$ant_partial = count( array_filter( $alle_krit, fn( $k ) => $k['status'] === 'partial' ) );
-$ant_missing = count( $alle_krit ) - $ant_done - $ant_partial;
-$sist        = nyeste_verifisert( $journeys );
+/* ---------- Avledede verdier ---------- */
 
-$status_label = [ 'done' => 'Ferdig', 'partial' => 'Delvis', 'missing' => 'Ikke startet' ];
+$total     = total_progress( $journeys );
+$fordeling = farge_fordeling( $journeys );
+$sist      = nyeste_verifisert( $journeys );
+
+$farge_meta = [
+	'green'  => [ 'label' => 'Godkjent',     'badge' => 'badge-green',  'bar' => 'bar-green' ],
+	'yellow' => [ 'label' => 'Underveis',    'badge' => 'badge-amber',  'bar' => 'bar-amber' ],
+	'red'    => [ 'label' => 'Ikke startet', 'badge' => 'badge-red',    'bar' => 'bar-red' ],
+];
+$krit_ikon = [ 'done' => '✓', 'partial' => '◌', 'missing' => '✕' ];
 ?>
 <!DOCTYPE html>
 <html lang="nb">
@@ -160,115 +176,218 @@ $status_label = [ 'done' => 'Ferdig', 'partial' => 'Delvis', 'missing' => 'Ikke 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>AcryliCon — Digital roadmap: status</title>
+<title>Status — AcryliCon digital roadmap 2026</title>
 <style>
-	:root { --blue:#253761; --red:#E2241C; --lblue:#D5EDF7; --bg:#f7f6f2; --ink:#1c1c1c; --muted:#6b7280; --green:#15803d; --yellow:#b45309; }
+	:root {
+		--bg:#fafafa; --card:#fff; --border:#e5e7eb; --ink:#111827; --muted:#6b7280;
+		--green:#16a34a; --green-bg:#dcfce7; --green-ink:#166534;
+		--amber:#d97706; --amber-bg:#fef3c7; --amber-ink:#92400e;
+		--red:#dc2626; --red-bg:#fee2e2; --red-ink:#991b1b;
+		--track:#e5e7eb;
+	}
 	* { box-sizing:border-box; }
-	body { margin:0; font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
-	.wrap { max-width:880px; margin:0 auto; padding:32px 20px 80px; }
-	header.top { background:var(--blue); color:#fff; border-radius:12px; padding:28px 28px 24px; }
-	header.top h1 { margin:0 0 4px; font-size:26px; }
-	header.top p { margin:0; opacity:.8; font-size:14px; }
-	.bar { background:rgba(255,255,255,.18); border-radius:99px; height:14px; margin-top:18px; overflow:hidden; }
-	.bar > div { background:#fff; height:100%; border-radius:99px; transition:width .4s; }
-	.bigpct { font-size:40px; font-weight:700; margin-top:14px; }
-	.counts { display:flex; gap:18px; margin-top:6px; font-size:14px; opacity:.9; flex-wrap:wrap; }
-	.journey { background:#fff; border-radius:12px; margin-top:22px; padding:22px 24px; border-left:6px solid #ccc; box-shadow:0 1px 3px rgba(0,0,0,.06); }
-	.journey.green { border-left-color:var(--green); }
-	.journey.yellow { border-left-color:#f59e0b; }
-	.journey.red { border-left-color:var(--red); }
-	.jhead { display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; }
-	.jhead h2 { margin:0; font-size:19px; color:var(--blue); }
-	.jpct { font-weight:700; color:var(--blue); white-space:nowrap; }
-	.aktor { font-size:13px; color:var(--muted); margin:2px 0 0; }
-	.hvorfor { font-size:14px; margin:10px 0 0; }
-	.steg { margin:10px 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:6px; font-size:12.5px; color:var(--blue); }
-	.steg li { background:var(--lblue); border-radius:99px; padding:3px 11px; }
-	.steg li + li::before { content:""; }
-	.jbar { background:#eee; border-radius:99px; height:8px; margin-top:14px; overflow:hidden; }
-	.jbar > div { background:var(--blue); height:100%; }
-	table.krit { width:100%; border-collapse:collapse; margin-top:14px; font-size:14px; }
-	table.krit td { padding:9px 8px; border-top:1px solid #eee; vertical-align:top; }
-	td.st { white-space:nowrap; width:110px; }
-	.badge { display:inline-block; border-radius:99px; padding:2px 10px; font-size:12px; font-weight:600; }
-	.badge.done { background:#dcfce7; color:var(--green); }
-	.badge.partial { background:#fef3c7; color:var(--yellow); }
-	.badge.missing { background:#fee2e2; color:var(--red); }
-	.bevis { color:var(--muted); font-size:12.5px; display:block; margin-top:3px; }
-	.notat { font-size:12.5px; display:block; margin-top:3px; }
-	td.cp { width:46px; text-align:right; }
-	button.copy { border:1px solid #d1d5db; background:#fff; border-radius:8px; padding:4px 8px; cursor:pointer; font-size:12px; color:var(--blue); }
-	button.copy:hover { background:var(--lblue); }
-	button.copy.ok { background:#dcfce7; border-color:var(--green); color:var(--green); }
-	button.jgoal { margin-top:14px; padding:7px 14px; font-weight:600; }
-	.godkjent { margin-top:12px; font-size:13px; color:var(--green); }
-	.ikkegodkjent { margin-top:12px; font-size:12.5px; color:var(--muted); }
-	footer { margin-top:28px; font-size:12.5px; color:var(--muted); }
+	body { margin:0; font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+	main { max-width:672px; margin:0 auto; padding:40px 16px; display:flex; flex-direction:column; gap:24px; }
+
+	/* Header */
+	.head-row { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; }
+	h1 { margin:0; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+	.sub { margin:2px 0 0; font-size:13px; color:var(--muted); }
+	.bigpct { font-size:48px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:-.02em; line-height:1; }
+	.progress { height:10px; border-radius:99px; background:var(--track); overflow:hidden; margin-top:16px; }
+	.progress > div { height:100%; border-radius:99px; background:var(--ink); }
+	.pills { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:14px; font-size:12px; font-weight:500; }
+	.pill { border-radius:99px; padding:4px 10px; }
+	.pill.green { background:var(--green-bg); color:var(--green-ink); }
+	.pill.amber { background:var(--amber-bg); color:var(--amber-ink); }
+	.pill.red { background:var(--red-bg); color:var(--red-ink); }
+	.deps { margin-left:auto; color:var(--muted); font-weight:400; }
+
+	/* Journey-kort (kollapsede) */
+	.cards { display:flex; flex-direction:column; gap:12px; }
+	.card { display:block; width:100%; text-align:left; border:1px solid var(--border); border-radius:12px; background:var(--card); padding:16px 20px; cursor:pointer; font:inherit; color:inherit; box-shadow:0 1px 2px rgba(0,0,0,.04); transition:box-shadow .15s; }
+	.card:hover { box-shadow:0 4px 10px rgba(0,0,0,.08); }
+	.card-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+	.jlabel { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+	.badge { display:inline-block; border-radius:99px; padding:2px 9px; font-size:11px; font-weight:600; }
+	.badge-green { background:var(--green-bg); color:var(--green-ink); }
+	.badge-amber { background:var(--amber-bg); color:var(--amber-ink); }
+	.badge-red { background:var(--red-bg); color:var(--red-ink); }
+	.chev { color:var(--muted); font-size:14px; margin-left:6px; }
+	.card-title { margin:8px 0 0; font-weight:600; line-height:1.35; }
+	.card-bar { display:flex; align-items:center; gap:8px; margin-top:10px; }
+	.minibar { flex:1; height:6px; border-radius:99px; background:var(--track); overflow:hidden; }
+	.minibar > div { height:100%; border-radius:99px; }
+	.bar-green { background:var(--green); }
+	.bar-amber { background:var(--amber); }
+	.bar-red { background:var(--red); }
+	.count { font-size:12px; font-weight:500; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+	/* Slide-in panel */
+	.overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
+	.overlay.open { opacity:1; pointer-events:auto; }
+	.panel { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:576px; background:var(--card); border-left:1px solid var(--border); box-shadow:-8px 0 24px rgba(0,0,0,.12); transform:translateX(100%); transition:transform .25s ease; z-index:50; display:flex; flex-direction:column; }
+	.panel.open { transform:translateX(0); }
+	.panel-head { flex-shrink:0; border-bottom:1px solid var(--border); padding:20px 24px 16px; position:relative; }
+	.panel-title { margin:8px 0 0; font-size:20px; font-weight:700; letter-spacing:-.01em; }
+	.panel-hvorfor { margin:6px 0 0; font-size:14px; line-height:1.6; }
+	.panel-aktor { margin:4px 0 0; font-size:12px; color:var(--muted); }
+	.close { position:absolute; top:14px; right:14px; border:0; background:none; font-size:16px; color:var(--muted); cursor:pointer; border-radius:6px; padding:4px 8px; }
+	.close:hover { background:var(--track); color:var(--ink); }
+	.jgoal { margin-top:12px; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); background:var(--card); border-radius:8px; padding:6px 11px; font-size:12px; font-weight:500; color:var(--muted); cursor:pointer; }
+	.jgoal:hover { background:var(--bg); color:var(--ink); }
+	.jgoal.ok { border-color:var(--green); color:var(--green-ink); background:var(--green-bg); }
+	.panel-body { overflow-y:auto; padding:16px 24px 24px; }
+	.sect { margin:0; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+	.krit { list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:8px; }
+	.krit li { display:flex; align-items:flex-start; gap:12px; border:1px solid var(--border); border-radius:10px; background:var(--card); padding:12px 14px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+	.kikon { flex-shrink:0; font-size:14px; font-weight:700; margin-top:1px; }
+	.kikon.done { color:var(--green); }
+	.kikon.partial { color:var(--amber); }
+	.kikon.missing { color:var(--red); }
+	.kbody { flex:1; min-width:0; }
+	.ktekst { margin:0; font-size:14px; font-weight:500; line-height:1.45; }
+	.knotat { margin:4px 0 0; font-size:12px; line-height:1.5; color:var(--muted); }
+	.kbevis { display:inline-block; margin-top:6px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; border-radius:5px; background:var(--bg); border:1px solid var(--border); padding:2px 7px; font:11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--muted); }
+	.kcopy { flex-shrink:0; border:0; background:none; cursor:pointer; font-size:13px; color:var(--muted); border-radius:6px; padding:4px 6px; margin-top:-2px; }
+	.kcopy:hover { background:var(--bg); color:var(--ink); }
+	.kcopy.ok { color:var(--green); }
+	.godkjent-boks { margin-top:16px; border-radius:8px; background:var(--bg); padding:10px 12px; font-size:12px; }
+	.godkjent-boks .ja { color:var(--green-ink); font-weight:500; }
+	.godkjent-boks .nei { color:var(--muted); }
+
+	footer { border-top:1px solid var(--border); padding-top:20px; text-align:center; font-size:12px; color:var(--muted); }
+	footer code { font:11px ui-monospace,SFMono-Regular,Menlo,monospace; }
 </style>
 </head>
 <body>
-<div class="wrap">
-	<header class="top">
-		<h1>AcryliCon — Digital roadmap 2026</h1>
-		<p>Felles statusside · scope godkjent av Monika 2026-06-12 · kun done teller — partial = 0</p>
-		<div class="bigpct"><?php echo $total; ?>%</div>
-		<div class="bar"><div style="width:<?php echo $total; ?>%"></div></div>
-		<div class="counts">
-			<span>✔ <?php echo $ant_done; ?> ferdig</span>
-			<span>◐ <?php echo $ant_partial; ?> delvis</span>
-			<span>○ <?php echo $ant_missing; ?> ikke startet</span>
-			<?php if ( $sist ) : ?><span>Sist verifisert mot kode: <?php echo e( $sist ); ?></span><?php endif; ?>
+<main>
+	<header>
+		<div class="head-row">
+			<div>
+				<h1>Digital roadmap 2026</h1>
+				<p class="sub">Verifisert mot kode <?php echo e( format_dato( $sist ) ); ?></p>
+			</div>
+			<span class="bigpct"><?php echo $total; ?>%</span>
+		</div>
+		<div class="progress"><div style="width:<?php echo $total; ?>%"></div></div>
+		<div class="pills">
+			<span class="pill green"><?php echo $fordeling['green']; ?> godkjent</span>
+			<span class="pill amber"><?php echo $fordeling['yellow']; ?> underveis</span>
+			<span class="pill red"><?php echo $fordeling['red']; ?> ikke startet</span>
+			<span class="deps">Avhengigheter: 1 (cutover) låser opp full effekt av 2</span>
 		</div>
 	</header>
 
-	<?php foreach ( $journeys as $j ) : $farge = journey_farge( $j ); $pct = journey_progress( $j ); ?>
-	<section class="journey <?php echo $farge; ?>">
-		<div class="jhead">
-			<h2><?php echo $j['nr'] . '. ' . e( $j['tittel'] ); ?></h2>
-			<span class="jpct"><?php echo $pct; ?>%</span>
-		</div>
-		<p class="aktor">Aktør: <?php echo e( $j['aktor'] ); ?></p>
-		<p class="hvorfor"><?php echo e( $j['hvorfor'] ); ?></p>
-		<ul class="steg"><?php foreach ( $j['steg'] as $i => $s ) : ?><li><?php echo ( $i + 1 ) . '. ' . e( $s ); ?></li><?php endforeach; ?></ul>
-		<div class="jbar"><div style="width:<?php echo $pct; ?>%"></div></div>
-		<table class="krit">
-			<?php foreach ( $j['kriterier'] as $k ) : ?>
-			<tr>
-				<td class="st"><span class="badge <?php echo e( $k['status'] ); ?>"><?php echo $status_label[ $k['status'] ]; ?></span></td>
-				<td>
-					<?php echo e( $k['tekst'] ); ?>
-					<?php if ( ! empty( $k['bevis'] ) ) : ?><span class="bevis">Bevis: <?php echo e( $k['bevis'] ); ?><?php if ( ! empty( $k['verifisert'] ) ) : ?> · verifisert <?php echo e( $k['verifisert'] ); ?><?php endif; ?></span><?php endif; ?>
-					<?php if ( ! empty( $k['notat'] ) ) : ?><span class="notat"><?php echo e( $k['notat'] ); ?></span><?php endif; ?>
-				</td>
-				<td class="cp"><button class="copy" title="Kopier /goal — lim inn i Claude Code, så jobber den til punktet er i mål" data-prompt="<?php echo e( bygg_goal( $j, $k ) ); ?>">📋</button></td>
-			</tr>
-			<?php endforeach; ?>
-		</table>
-		<button class="copy jgoal" title="Kopier /goal — lim inn i Claude Code, så jobber den til hele journeyen er i mål" data-prompt="<?php echo e( bygg_journey_goal( $j ) ); ?>">📋 Kopier /goal for hele journeyen</button>
-		<?php if ( ! empty( $j['godkjentAvTeam'] ) ) : $g = $j['godkjentAvTeam']; ?>
-			<p class="godkjent">✔ Godkjent av teamet <?php echo e( $g['dato'] ); ?> (<?php echo e( $g['av'] ); ?>)<?php if ( ! empty( $g['notat'] ) ) : ?> — <?php echo e( $g['notat'] ); ?><?php endif; ?></p>
-		<?php else : ?>
-			<p class="ikkegodkjent">Ikke team-godkjent ennå — grønn krever alle kriterier ferdig + eksplisitt beslutning.</p>
-		<?php endif; ?>
-	</section>
-	<?php endforeach; ?>
+	<div class="cards">
+		<?php foreach ( $journeys as $j ) :
+			$f      = $farge_meta[ journey_farge( $j ) ];
+			$done   = journey_done( $j );
+			$antall = count( $j['kriterier'] );
+			$pct    = $antall ? $done / $antall * 100 : 0;
+		?>
+		<button type="button" class="card" data-panel="panel-<?php echo e( $j['id'] ); ?>">
+			<div class="card-top">
+				<span class="jlabel">Journey <?php echo $j['nr']; ?></span>
+				<span><span class="badge <?php echo $f['badge']; ?>"><?php echo $f['label']; ?></span><span class="chev">›</span></span>
+			</div>
+			<p class="card-title"><?php echo e( $j['tittel'] ); ?></p>
+			<div class="card-bar">
+				<div class="minibar"><div class="<?php echo $f['bar']; ?>" style="width:<?php echo $pct; ?>%"></div></div>
+				<span class="count"><?php echo $done; ?>/<?php echo $antall; ?></span>
+			</div>
+		</button>
+		<?php endforeach; ?>
+	</div>
 
-	<footer>
-		Data: <code>wp-content/status/status-data.php</code> (git-historikken er endringsloggen).
-		Kilde for scope: <code>docs/strategy/digital-roadmap-2026.html</code>.
-		Baren kan gå ned når nye hull oppdages — ærlig er viktigere enn pen.
-	</footer>
-</div>
+	<footer>Oppdateres via <code>wp-content/status/status-data.php</code></footer>
+</main>
+
+<div class="overlay" id="overlay"></div>
+
+<?php foreach ( $journeys as $j ) :
+	$f      = $farge_meta[ journey_farge( $j ) ];
+	$done   = journey_done( $j );
+	$antall = count( $j['kriterier'] );
+	$pct    = $antall ? $done / $antall * 100 : 0;
+?>
+<aside class="panel" id="panel-<?php echo e( $j['id'] ); ?>" role="dialog" aria-modal="true" aria-label="Journey <?php echo $j['nr']; ?>">
+	<div class="panel-head">
+		<span class="jlabel">Journey <?php echo $j['nr']; ?></span>
+		<span class="badge <?php echo $f['badge']; ?>"><?php echo $f['label']; ?></span>
+		<h2 class="panel-title"><?php echo e( $j['tittel'] ); ?></h2>
+		<p class="panel-hvorfor"><?php echo e( $j['hvorfor'] ); ?></p>
+		<p class="panel-aktor">Aktør: <?php echo e( $j['aktor'] ); ?></p>
+		<div class="card-bar">
+			<div class="minibar"><div class="<?php echo $f['bar']; ?>" style="width:<?php echo $pct; ?>%"></div></div>
+			<span class="count"><?php echo $done; ?>/<?php echo $antall; ?> kriterier</span>
+		</div>
+		<button type="button" class="jgoal" data-prompt="<?php echo e( bygg_journey_goal( $j ) ); ?>">📋 Kopier /goal for hele journeyen</button>
+		<button type="button" class="close" aria-label="Lukk">✕</button>
+	</div>
+	<div class="panel-body">
+		<h3 class="sect">Akseptkriterier</h3>
+		<ul class="krit">
+			<?php foreach ( $j['kriterier'] as $k ) : ?>
+			<li>
+				<span class="kikon <?php echo e( $k['status'] ); ?>"><?php echo $krit_ikon[ $k['status'] ]; ?></span>
+				<div class="kbody">
+					<p class="ktekst"><?php echo e( $k['tekst'] ); ?></p>
+					<?php if ( ! empty( $k['notat'] ) ) : ?><p class="knotat"><?php echo e( $k['notat'] ); ?></p><?php endif; ?>
+					<?php if ( ! empty( $k['bevis'] ) ) : ?><span class="kbevis" title="<?php echo e( $k['bevis'] ); ?>"><?php echo e( $k['bevis'] ); ?><?php if ( ! empty( $k['verifisert'] ) ) : ?> · <?php echo e( $k['verifisert'] ); ?><?php endif; ?></span><?php endif; ?>
+				</div>
+				<button type="button" class="kcopy" title="Kopier /goal — lim inn i Claude Code, så jobber den til punktet er i mål" data-prompt="<?php echo e( bygg_goal( $j, $k ) ); ?>">📋</button>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+		<p class="godkjent-boks">
+			<?php if ( ! empty( $j['godkjentAvTeam'] ) ) : $g = $j['godkjentAvTeam']; ?>
+				<span class="ja">Godkjent av teamet <?php echo e( format_dato( $g['dato'] ) ); ?> (<?php echo e( $g['av'] ); ?>)<?php if ( ! empty( $g['notat'] ) ) : ?> — <?php echo e( $g['notat'] ); ?><?php endif; ?></span>
+			<?php else : ?>
+				<span class="nei">Ikke godkjent av teamet ennå</span>
+			<?php endif; ?>
+		</p>
+	</div>
+</aside>
+<?php endforeach; ?>
+
 <script>
-document.querySelectorAll('button.copy').forEach(function (btn) {
-	btn.addEventListener('click', function () {
-		var original = btn.textContent;
-		navigator.clipboard.writeText(btn.dataset.prompt).then(function () {
-			btn.classList.add('ok'); btn.textContent = btn.classList.contains('jgoal') ? '✓ /goal kopiert' : '✓';
-			setTimeout(function () { btn.classList.remove('ok'); btn.textContent = original; }, 1600);
+(function () {
+	var overlay = document.getElementById('overlay');
+	var apen = null;
+
+	function lukk() {
+		if (apen) { apen.classList.remove('open'); apen = null; }
+		overlay.classList.remove('open');
+	}
+	function apne(id) {
+		lukk();
+		var p = document.getElementById(id);
+		if (p) { p.classList.add('open'); overlay.classList.add('open'); apen = p; }
+	}
+
+	document.querySelectorAll('.card').forEach(function (c) {
+		c.addEventListener('click', function () { apne(c.dataset.panel); });
+	});
+	overlay.addEventListener('click', lukk);
+	document.querySelectorAll('.panel .close').forEach(function (b) {
+		b.addEventListener('click', lukk);
+	});
+	document.addEventListener('keydown', function (ev) {
+		if (ev.key === 'Escape') lukk();
+	});
+
+	document.querySelectorAll('button[data-prompt]').forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var original = btn.textContent;
+			navigator.clipboard.writeText(btn.dataset.prompt).then(function () {
+				btn.classList.add('ok');
+				btn.textContent = btn.classList.contains('jgoal') ? '✓ /goal kopiert' : '✓';
+				setTimeout(function () { btn.classList.remove('ok'); btn.textContent = original; }, 1800);
+			});
 		});
 	});
-});
+})();
 </script>
 </body>
 </html>
