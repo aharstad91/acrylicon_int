@@ -40,3 +40,4 @@ docs/security/credentials.md
 **/node_modules/
 **/.sass-cache/
 **/vendor/
+status/status-token.php
