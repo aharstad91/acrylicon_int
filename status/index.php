@@ -101,7 +101,8 @@ const KVALITETSRUTINE = "Kvalitetsrutine:\n"
 	. "- Rører endringen auth, betaling eller datamutasjoner, eller er diffen stor (50+ linjer): kjør /ce-code-review på diffen og fiks funnene før ship.\n"
 	. "- Gjelder kriteriet en brukerflyt: verifiser i kjørende app (/verify eller nettleser mot localhost:8888/acrylicon) — ikke bare kode-lesing.\n"
 	. "- Trengs design/avveininger først (flere rimelige løsninger): start med /ce-plan.\n"
-	. '- Løste du noe ikke-opplagt underveis: fang læringen med /ce-compound.';
+	. "- Løste du noe ikke-opplagt underveis: fang læringen med /ce-compound.\n"
+	. 'Modellstrategi: kjør hovedløkka (orkestrering, kodeverifisering, statusoppdatering i status-data.php) selv på Fable. Avgrensede implementasjonsoppgaver delegeres til subagenter på Opus (Agent-verktøyet med model: "opus") — én subagent per oppgave, seriellt med mindre oppgavene er genuint uavhengige.';
 
 const VERIFISERING = 'php -l på endrede PHP-filer er grønn og berørte sider svarer 200 på prod';
 
