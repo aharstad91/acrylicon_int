@@ -79,25 +79,69 @@ function e( ?string $s ): string {
 	return htmlspecialchars( (string) $s, ENT_QUOTES, 'UTF-8' );
 }
 
-/** Agent-prompt for «kopier prompt»-knappen. */
-function kriterie_prompt( array $j, array $k ): string {
+/**
+ * /goal-generering — broen til agent-arbeidsflyten. Mottakeren limer kommandoen
+ * inn i Claude Code (v2.1.139+), og en evaluator driver arbeidet autonomt til
+ * sluttbetingelsen faktisk holder. Verifiseringskommandoer er prosjektets egne
+ * (php -l + curl mot localhost/prod), ikke tsc/eslint.
+ */
+const KVALITETSRUTINE = "Kvalitetsrutine:\n"
+	. "- Rører endringen auth, betaling eller datamutasjoner, eller er diffen stor (50+ linjer): kjør /ce-code-review på diffen og fiks funnene før ship.\n"
+	. "- Gjelder kriteriet en brukerflyt: verifiser i kjørende app (/verify eller nettleser mot localhost:8888/acrylicon) — ikke bare kode-lesing.\n"
+	. "- Trengs design/avveininger først (flere rimelige løsninger): start med /ce-plan.\n"
+	. '- Løste du noe ikke-opplagt underveis: fang læringen med /ce-compound.';
+
+const VERIFISERING = 'php -l på endrede PHP-filer er grønn og berørte sider svarer 200 på prod';
+
+$status_goal_label = [ 'done' => 'ferdig (kodeverifisert)', 'partial' => 'delvis', 'missing' => 'mangler' ];
+
+function bygg_goal( array $j, array $k ): string {
+	global $status_goal_label;
+	$betingelse = $k['status'] === 'done'
+		? 'Kriterium ' . $k['id'] . ' i wp-content/status/status-data.php er revalidert mot koden: verifisert-datoen er oppdatert hvis det fortsatt stemmer, ellers er status nedgradert med notat om hva som har driftet — og ' . VERIFISERING . '.'
+		: 'Kriterium ' . $k['id'] . ' i wp-content/status/status-data.php står som done med oppdatert bevis (fil:linje) og verifisert-dato — eller er eksplisitt markert blokkert på menneske i notatet — og ' . VERIFISERING . '.';
 	$linjer = [
-		'Prosjekt: Acrylicon (WordPress multisite). Statusside-kriterium å jobbe med:',
-		'Journey ' . $j['nr'] . ': ' . $j['tittel'] . ' (aktør: ' . $j['aktor'] . ')',
+		'/goal ' . $betingelse,
+		'',
+		'Kontekst fra Acrylicon-statussiden (WordPress multisite):',
+		'Journey ' . $j['nr'] . ': ' . $j['tittel'],
 		'Kriterium ' . $k['id'] . ': ' . $k['tekst'],
-		'Status nå: ' . $k['status'],
+		'Status nå: ' . $status_goal_label[ $k['status'] ],
 	];
 	if ( ! empty( $k['notat'] ) ) {
 		$linjer[] = 'Notat: ' . $k['notat'];
 	}
 	if ( ! empty( $k['bevis'] ) ) {
-		$linjer[] = 'Bevis: ' . $k['bevis'];
+		$linjer[] = 'Bevis/referanse: ' . $k['bevis'];
 	}
 	$linjer[] = '';
-	$linjer[] = 'Oppgave: implementer/fullfør dette kriteriet, verifiser mot kode og prod, '
-		. 'og oppdater deretter wp-content/status/status-data.php med ny status, bevis (fil:linje '
-		. 'eller commit) og verifisert-dato. Aldri done uten bevis; tvil = partial med notat. '
-		. 'Deploy statusdata til prod etterpå (scp wp-content/status/status-data.php).';
+	$linjer[] = $k['status'] === 'done'
+		? 'Revalider kriteriet mot koden. Stemmer det fortsatt, oppdater verifisert-datoen; hvis ikke, nedgrader status med notat om hva som har driftet.'
+		: 'Finn ut hva som mangler og implementer det. Når det er kodeverifisert: oppdater status, bevis (fil:linje/commit) og verifisert-dato i wp-content/status/status-data.php i samme commit som fiksen. Aldri done uten bevis; tvil = partial. Deploy endrede filer til prod (rsync/scp per CLAUDE.md) og statusdata med.';
+	$linjer[] = '';
+	$linjer[] = KVALITETSRUTINE;
+	return implode( "\n", $linjer );
+}
+
+function bygg_journey_goal( array $j ): string {
+	global $status_goal_label;
+	$linjer = [
+		'/goal Alle kriterier i journey ' . $j['nr'] . ' («' . $j['tittel'] . '») i wp-content/status/status-data.php står som done med bevis (fil:linje) og oppdatert verifisert-dato — eller er eksplisitt markert blokkert på menneske i notatet — og hver endring er shippet med ' . VERIFISERING . '.',
+		'',
+		'Kontekst fra Acrylicon-statussiden (WordPress multisite):',
+		'Journey ' . $j['nr'] . ': ' . $j['tittel'] . ' (aktør: ' . $j['aktor'] . ')',
+		'Hvorfor: ' . $j['hvorfor'],
+		'',
+		'Kriterier nå:',
+	];
+	foreach ( $j['kriterier'] as $k ) {
+		$linjer[] = '- ' . $k['id'] . ' [' . $status_goal_label[ $k['status'] ] . ']: ' . $k['tekst']
+			. ( ! empty( $k['notat'] ) ? ' (' . $k['notat'] . ')' : '' );
+	}
+	$linjer[] = '';
+	$linjer[] = 'Ta kriteriene i fornuftig rekkefølge (avhengigheter først). For hvert: implementer, verifiser mot koden, og oppdater status, bevis og verifisert-dato i wp-content/status/status-data.php i samme commit som fiksen. Aldri done uten bevis; tvil = partial. Det som krever menneskelig handling (review, kontoer, DNS, innhold fra Monika, juridiske beslutninger): marker tydelig i notatet og gå videre. Deploy endrede filer til prod (rsync/scp per CLAUDE.md) og statusdata med.';
+	$linjer[] = '';
+	$linjer[] = KVALITETSRUTINE;
 	return implode( "\n", $linjer );
 }
 
@@ -156,6 +200,7 @@ $status_label = [ 'done' => 'Ferdig', 'partial' => 'Delvis', 'missing' => 'Ikke 
 	button.copy { border:1px solid #d1d5db; background:#fff; border-radius:8px; padding:4px 8px; cursor:pointer; font-size:12px; color:var(--blue); }
 	button.copy:hover { background:var(--lblue); }
 	button.copy.ok { background:#dcfce7; border-color:var(--green); color:var(--green); }
+	button.jgoal { margin-top:14px; padding:7px 14px; font-weight:600; }
 	.godkjent { margin-top:12px; font-size:13px; color:var(--green); }
 	.ikkegodkjent { margin-top:12px; font-size:12.5px; color:var(--muted); }
 	footer { margin-top:28px; font-size:12.5px; color:var(--muted); }
@@ -195,10 +240,11 @@ $status_label = [ 'done' => 'Ferdig', 'partial' => 'Delvis', 'missing' => 'Ikke 
 					<?php if ( ! empty( $k['bevis'] ) ) : ?><span class="bevis">Bevis: <?php echo e( $k['bevis'] ); ?><?php if ( ! empty( $k['verifisert'] ) ) : ?> · verifisert <?php echo e( $k['verifisert'] ); ?><?php endif; ?></span><?php endif; ?>
 					<?php if ( ! empty( $k['notat'] ) ) : ?><span class="notat"><?php echo e( $k['notat'] ); ?></span><?php endif; ?>
 				</td>
-				<td class="cp"><button class="copy" title="Kopier agent-prompt" data-prompt="<?php echo e( kriterie_prompt( $j, $k ) ); ?>">📋</button></td>
+				<td class="cp"><button class="copy" title="Kopier /goal — lim inn i Claude Code, så jobber den til punktet er i mål" data-prompt="<?php echo e( bygg_goal( $j, $k ) ); ?>">📋</button></td>
 			</tr>
 			<?php endforeach; ?>
 		</table>
+		<button class="copy jgoal" title="Kopier /goal — lim inn i Claude Code, så jobber den til hele journeyen er i mål" data-prompt="<?php echo e( bygg_journey_goal( $j ) ); ?>">📋 Kopier /goal for hele journeyen</button>
 		<?php if ( ! empty( $j['godkjentAvTeam'] ) ) : $g = $j['godkjentAvTeam']; ?>
 			<p class="godkjent">✔ Godkjent av teamet <?php echo e( $g['dato'] ); ?> (<?php echo e( $g['av'] ); ?>)<?php if ( ! empty( $g['notat'] ) ) : ?> — <?php echo e( $g['notat'] ); ?><?php endif; ?></p>
 		<?php else : ?>
@@ -216,9 +262,10 @@ $status_label = [ 'done' => 'Ferdig', 'partial' => 'Delvis', 'missing' => 'Ikke 
 <script>
 document.querySelectorAll('button.copy').forEach(function (btn) {
 	btn.addEventListener('click', function () {
+		var original = btn.textContent;
 		navigator.clipboard.writeText(btn.dataset.prompt).then(function () {
-			btn.classList.add('ok'); btn.textContent = '✓';
-			setTimeout(function () { btn.classList.remove('ok'); btn.textContent = '📋'; }, 1600);
+			btn.classList.add('ok'); btn.textContent = btn.classList.contains('jgoal') ? '✓ /goal kopiert' : '✓';
+			setTimeout(function () { btn.classList.remove('ok'); btn.textContent = original; }, 1600);
 		});
 	});
 });

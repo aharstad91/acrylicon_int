@@ -16,8 +16,16 @@ med `openssl rand -hex 32` og deploy på nytt.)
 - **Grønn journey** = alle kriterier done **og** eksplisitt team-godkjenning
   (`godkjentAvTeam` settes kun etter menneskelig beslutning, aldri av agent).
 - Hvert kriterium viser status, bevis (fil:linje/commit/verifisering) og dato.
-- **📋-knappen** kopierer en ferdig agent-prompt for akkurat det kriteriet —
-  lim inn i Claude og jobb med punktet.
+- **📋-knappen per kriterium** kopierer en ferdig `/goal`-kommando: lim inn i
+  Claude Code (v2.1.139+), så jobber en evaluator-drevet agent autonomt til
+  sluttbetingelsen holder (done med bevis + dato, eller eksplisitt blokkert på
+  menneske). Done-kriterier får en revaliderings-variant.
+- **«Kopier /goal for hele journeyen»** gir én kommando for hele journeyen:
+  avhengigheter først, statusoppdatering i samme commit som fiksen,
+  menneskeblokkerte punkter markeres og hoppes over.
+- Begge promptene baker inn kvalitetsrutinen (/ce-code-review ved risiko/stor
+  diff, /verify for brukerflyter, /ce-plan ved avveininger, /ce-compound for
+  læring) og prosjektets verifisering (php -l + 200 på prod).
 
 ## Slik oppdateres den
 
