@@ -147,6 +147,11 @@ foreach ( $norway_offices as $office ) {
 							</a>
 							<?php endif; ?>
 
+							<a href="https://www.acrylicon.no" target="_blank" rel="noopener noreferrer"
+							   class="inline-flex items-center gap-1 text-acryl-dark-blue hover:text-acryl-red transition-colors">
+								<span>www.acrylicon.no</span>
+							</a>
+
 							<a href="<?php echo esc_url( $office['permalink'] ); ?>"
 							   class="inline-flex items-center gap-1 text-acryl-red hover:text-acryl-dark-blue transition-colors font-medium">
 								Se kontor ›
@@ -180,7 +185,7 @@ foreach ( $norway_offices as $office ) {
 						'address' => $no['address'] ? [ $no['address'] ] : [],
 						'phone'   => $no['phone'] ? '+47 ' . $no['phone'] : '',
 						'email'   => $no['email'] ?? '',
-						'web'     => '',
+						'web'     => 'www.acrylicon.no',
 					];
 					$norway_int_offices[] = $office_entry;
 				}
@@ -252,17 +257,17 @@ foreach ( $norway_offices as $office ) {
 			</h2>
 			<p class="text-lg text-acryl-light-blue mb-8 max-w-xl mx-auto">
 				<?php echo $is_english
-					? "Can't find your country? Contact our head office in Norway and we'll connect you with the right team."
-					: 'Finner du ikke ditt land? Ta kontakt med hovedkontoret i Norge, så setter vi deg i kontakt med rett team.'; ?>
+					? "Can't find your country? Contact our head office in Germany and we'll connect you with the right team."
+					: 'Finner du ikke ditt land? Ta kontakt med hovedkontoret i Tyskland, så setter vi deg i kontakt med rett team.'; ?>
 			</p>
 			<div class="flex flex-col md:flex-row items-center justify-center gap-6">
-				<a href="mailto:<?php echo esc_attr( antispambot( 'info@acrylicon.no' ) ); ?>"
+				<a href="mailto:<?php echo esc_attr( antispambot( 'info@acryliconpolymers.com' ) ); ?>"
 				   class="inline-flex items-center gap-3 px-8 py-4 bg-white text-acryl-dark-blue rounded-full text-lg hover:bg-white/90 transition-colors duration-200">
 					<span><?php echo $is_english ? 'Email Head Office' : 'Send e-post'; ?></span>
 				</a>
-				<a href="tel:+4773901000"
+				<a href="tel:+4938757595510"
 				   class="inline-flex items-center gap-3 px-8 py-4 border border-white text-white rounded-full text-lg hover:bg-white/10 transition-colors duration-200">
-					<span>+47 73 90 10 00</span>
+					<span>+49 38757 5955-10</span>
 				</a>
 			</div>
 		</div>

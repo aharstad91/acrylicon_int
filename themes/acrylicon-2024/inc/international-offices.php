@@ -39,7 +39,7 @@ return [
 				'address' => [ '14305 Rolland-Desjardins, suite 103', 'Mirabel, Quebec J7J 0K5' ],
 				'phone'   => '+1 450 818 9182',
 				'email'   => '',
-				'web'     => 'www.acrylicon.com',
+				'web'     => '',
 			],
 			[
 				'name'    => 'AcryliCon Canada — West Division (AB–BC)',
@@ -230,8 +230,8 @@ return [
 		'flag'    => 'gb',
 		'offices' => [
 			[
-				'name'    => 'AcryliCon UK — Head Office',
-				'company' => 'Acrylicon UK',
+				'name'    => 'AcryliCon UK',
+				'company' => 'Acrylicon Distribution',
 				'address' => [ 'AcryliCon House, The Knowledge Centre', 'Wyboston Lakes, Great North Road', 'Wyboston, Bedfordshire MK44 3BY' ],
 				'phone'   => '+44 (0) 844 800 7191',
 				'email'   => 'UK@acrylicon.com',
@@ -264,7 +264,7 @@ return [
 			[
 				'name'    => 'AcryliCon UK — South West',
 				'company' => 'Trusted Flooring Solutions Limited',
-				'address' => [ 'The Green, Kingham', 'Oxfordshire, OX7 6YD' ],
+				'address' => [ 'Ascott Under Wychwood', 'Chipping Norton, Oxfordshire, OX7 6AY' ],
 				'phone'   => '+44 (0) 7876 144 440',
 				'email'   => 'info@trustedflooringsolutions.com',
 				'web'     => 'www.trustedflooringsolutions.com',
@@ -289,8 +289,8 @@ return [
 				'company' => 'AcryliCon USA',
 				'address' => [ 'Rochester, New York, NY 14450' ],
 				'phone'   => '+1 888 736 7550',
-				'email'   => '',
-				'web'     => '',
+				'email'   => 'jasonbye@acryliconusa.com',
+				'web'     => 'www.acryliconusa.com',
 			],
 		],
 	],
