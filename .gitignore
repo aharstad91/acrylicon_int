@@ -40,4 +40,7 @@ docs/security/credentials.md
 **/node_modules/
 **/.sass-cache/
 **/vendor/
+
+# === STATUSSIDE ===
+!/status/
 status/status-token.php
