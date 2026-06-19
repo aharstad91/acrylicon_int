@@ -21,7 +21,7 @@ $category_terms = get_the_terms( $post_id, 'referanser-kategorier' ) ?: [];
 		<p class="text-lg mb-4"><?php echo $is_english
 			? 'Interested in a similar solution for your project?'
 			: 'Interessert i en lignende løsning for ditt prosjekt?'; ?></p>
-		<a href="<?php echo home_url( $is_english ? '/locations/' : '/kontakt-oss/' ); ?>" class="inline-block bg-acryl-red text-white px-6 py-3 rounded-full no-underline hover:opacity-90 transition-opacity">
+		<a href="<?php echo home_url( $is_english ? '/locations/' : '/kontor/' ); ?>" class="inline-block bg-acryl-red text-white px-6 py-3 rounded-full no-underline hover:opacity-90 transition-opacity">
 			<?php echo $is_english ? 'Contact us' : 'Kontakt oss'; ?> ›
 		</a>
 	</div>

@@ -137,7 +137,7 @@ $category_label = $category_terms ? implode( ', ', wp_list_pluck( $category_term
 		<p class="text-lg mb-4"><?php echo $is_english
 			? 'Want to know more about this project or a similar solution?'
 			: 'Vil du vite mer om dette prosjektet eller en lignende løsning?'; ?></p>
-		<a href="<?php echo home_url( $is_english ? '/locations/' : '/kontakt-oss/' ); ?>" class="inline-block bg-acryl-red text-white px-6 py-3 rounded-full no-underline hover:opacity-90 transition-opacity">
+		<a href="<?php echo home_url( $is_english ? '/locations/' : '/kontor/' ); ?>" class="inline-block bg-acryl-red text-white px-6 py-3 rounded-full no-underline hover:opacity-90 transition-opacity">
 			<?php echo $is_english ? 'Contact us' : 'Kontakt oss'; ?> ›
 		</a>
 	</div>

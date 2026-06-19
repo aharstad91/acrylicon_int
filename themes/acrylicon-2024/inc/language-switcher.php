@@ -51,11 +51,9 @@ function acrylicon_slug_map() {
             'baerekraft'          => 'sustainability',
             'levetids-kostnader'  => 'lifecycle-costs',
             'gode-grunner'        => 'good-reasons',
-            'kontakt-oss'         => 'locations',  // TODO: verify EN page exists
-            'kontor'              => 'locations',  // NO /kontor/ ↔ EN /locations/
+            'kontor'              => 'locations',  // NO /kontor/ ↔ EN /locations/ (EN has no /offices/ listing)
             'sertifiseringer'     => 'certifications',
             'industrier'          => 'industries',
-            'kontor'              => 'offices',
             'nedlastinger'        => 'downloads',
             'informasjonskapsler' => 'cookie-policy',
         ],
@@ -104,15 +102,30 @@ function acrylicon_is_valid_slug( $slug ) {
  *
  * Returns raw URL — caller is responsible for esc_url() at output.
  *
- * @param int $target_blog_id The blog ID to switch to.
+ * Only returns a real translated URL when one is verified to exist on the
+ * target blog (same post ID, or a slug-mapped URL that resolves to a published
+ * post). Otherwise it falls back to the target blog's front page and reports
+ * $has_translation = false so callers (e.g. hreflang) can omit the alternate.
+ *
+ * @param int   $target_blog_id  The blog ID to switch to.
+ * @param bool &$has_translation Set true when a genuine translation was found,
+ *                               false when the front-page fallback was used.
  * @return string The equivalent URL on the target blog.
  */
-function acrylicon_get_equivalent_url( $target_blog_id ) {
+function acrylicon_get_equivalent_url( $target_blog_id, &$has_translation = null ) {
     static $cache = [];
 
     if ( isset( $cache[ $target_blog_id ] ) ) {
-        return $cache[ $target_blog_id ];
+        $has_translation = $cache[ $target_blog_id ]['real'];
+        return $cache[ $target_blog_id ]['url'];
     }
+
+    // Store result in cache, set the by-ref flag, and return the URL.
+    $finish = static function ( $url, $real ) use ( &$cache, $target_blog_id, &$has_translation ) {
+        $cache[ $target_blog_id ] = [ 'url' => $url, 'real' => $real ];
+        $has_translation          = $real;
+        return $url;
+    };
 
     $current_blog_id = get_current_blog_id();
     $languages       = acrylicon_get_languages();
@@ -122,8 +135,7 @@ function acrylicon_get_equivalent_url( $target_blog_id ) {
     $path        = wp_parse_url( $request_uri, PHP_URL_PATH );
 
     if ( ! $path ) {
-        $cache[ $target_blog_id ] = acrylicon_get_fallback_url( $target_blog_id );
-        return $cache[ $target_blog_id ];
+        return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
     }
 
     // Strip the site base path (handles both local /acrylicon/ and production /)
@@ -144,37 +156,34 @@ function acrylicon_get_equivalent_url( $target_blog_id ) {
     // Clean up the path
     $path = trim( $path, '/' );
 
-    // If target is current blog, return this page's URL directly
+    // If target is current blog, return this page's URL directly (self is always "real")
     if ( $target_blog_id === $current_blog_id ) {
-        $relative                 = $path ? $path . '/' : '';
-        $cache[ $target_blog_id ] = home_url( '/' . $relative );
-        return $cache[ $target_blog_id ];
+        $relative = $path ? $path . '/' : '';
+        return $finish( home_url( '/' . $relative ), true );
     }
 
     // Determine mapping direction
     $direction = ( $current_blog_id === 3 ) ? 'no_to_en' : 'en_to_no';
 
-    // Edge cases: empty path, search, 404
+    // Edge cases: empty path (front page), search, 404 — no specific translation
     if ( empty( $path ) || is_search() || is_404() ) {
-        $cache[ $target_blog_id ] = acrylicon_get_fallback_url( $target_blog_id );
-        return $cache[ $target_blog_id ];
+        return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
     }
 
-    // For singular posts/pages: use the same post ID on the target blog
-    // (multisite-sync keeps the same IDs across blogs)
+    // For singular posts/pages: prefer the same post ID on the target blog
+    // (multisite-sync keeps the same IDs across blogs).
     if ( is_singular() ) {
         $post_id = get_queried_object_id();
         if ( $post_id ) {
             switch_to_blog( $target_blog_id );
             $target_post = get_post( $post_id );
-            if ( $target_post && $target_post->post_status === 'publish' ) {
-                $target_url = get_permalink( $post_id );
-                restore_current_blog();
-                $cache[ $target_blog_id ] = $target_url;
-                return $cache[ $target_blog_id ];
-            }
+            $real_url    = ( $target_post && $target_post->post_status === 'publish' )
+                ? get_permalink( $post_id )
+                : null;
             restore_current_blog();
-            // Post doesn't exist on target blog — fall through to slug mapping
+            if ( $real_url ) {
+                return $finish( $real_url, true );
+            }
         }
     }
 
@@ -190,27 +199,37 @@ function acrylicon_get_equivalent_url( $target_blog_id ) {
 
         // Validate slug
         if ( ! acrylicon_is_valid_slug( $segment ) ) {
-            $cache[ $target_blog_id ] = acrylicon_get_fallback_url( $target_blog_id );
-            return $cache[ $target_blog_id ];
+            return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
         }
 
         $mapped_segments[] = acrylicon_map_slug( $segment, $direction );
     }
 
     if ( empty( $mapped_segments ) ) {
-        $cache[ $target_blog_id ] = acrylicon_get_fallback_url( $target_blog_id );
-        return $cache[ $target_blog_id ];
+        return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
     }
 
     $mapped_path = implode( '/', $mapped_segments ) . '/';
 
-    // Build target URL using switch_to_blog for correct home_url
+    // Build the slug-mapped target URL and verify it actually exists.
     switch_to_blog( $target_blog_id );
     $target_url = home_url( '/' . $mapped_path );
+    if ( is_singular() ) {
+        // Singular source must resolve to a published singular post on the target,
+        // otherwise the slug-mapped URL would 404 (untranslated content).
+        $resolved = url_to_postid( $target_url );
+        $exists   = ( $resolved && get_post_status( $resolved ) === 'publish' );
+    } else {
+        // Archives/listings: slug-mapped archive URLs are known-valid.
+        $exists = true;
+    }
     restore_current_blog();
 
-    $cache[ $target_blog_id ] = $target_url;
-    return $cache[ $target_blog_id ];
+    if ( $exists ) {
+        return $finish( $target_url, true );
+    }
+
+    return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
 }
 
 /**
@@ -340,15 +359,27 @@ function acrylicon_render_footer_switcher( $languages, $current_blog_id ) {
 
 /**
  * Output hreflang tags in <head>.
+ *
+ * Only emits an alternate for a language when a genuine translation exists
+ * (the current language is always included as a self-reference). This avoids
+ * declaring hreflang alternates that point to non-existent (404) URLs.
  */
 function acrylicon_hreflang_tags() {
-    $languages   = acrylicon_get_languages();
-    $english_url = '';
+    $languages       = acrylicon_get_languages();
+    $current_blog_id = get_current_blog_id();
+    $english_url     = '';
 
     echo "\n<!-- Language alternates -->\n";
 
     foreach ( $languages as $blog_id => $lang ) {
-        $url = acrylicon_get_equivalent_url( $blog_id );
+        $has_translation = false;
+        $url             = acrylicon_get_equivalent_url( $blog_id, $has_translation );
+
+        // Include the current language (self) always; others only when real.
+        if ( $blog_id !== $current_blog_id && ! $has_translation ) {
+            continue;
+        }
+
         if ( $blog_id === 1 ) {
             $english_url = $url;
         }
@@ -359,7 +390,10 @@ function acrylicon_hreflang_tags() {
         );
     }
 
-    // x-default reuses English URL
+    // x-default reuses the English URL when present, else the current page URL.
+    if ( ! $english_url ) {
+        $english_url = acrylicon_get_equivalent_url( $current_blog_id );
+    }
     printf(
         '<link rel="alternate" hreflang="x-default" href="%s" />' . "\n",
         esc_url( $english_url )
