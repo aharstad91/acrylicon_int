@@ -129,12 +129,42 @@ class Sync_Manager {
 		$source_post = get_post( $source_post_id );
 		restore_current_blog();
 
+		// Language-agnostic guard: blank download_link values inherited from the
+		// source site so the synced post never points at the source language's
+		// datasheets/files. The editor attaches the correct-language file on the
+		// target; the templates hide the link when it is empty (no broken button).
+		$content = $this->strip_inherited_download_links( $source_post->post_content );
+
 		wp_update_post( [
 			'ID' => $target_post_id,
 			'post_title' => $source_post->post_title,
-			'post_content' => $source_post->post_content,
+			'post_content' => $content,
 			'post_excerpt' => $source_post->post_excerpt,
 		] );
+	}
+
+	/**
+	 * Empty download_link URLs in block markup copied from the source site.
+	 *
+	 * download_link values live inside ACF block JSON in post_content and are
+	 * copied verbatim during sync. Left as-is they point at the source site's
+	 * (source-language) files — e.g. an English page inheriting Norwegian
+	 * datasheets. We blank the value so the target shows no link until an editor
+	 * attaches the correct-language file. The matching ACF field-key reference
+	 * ("_..._download_link":"field_xxx") is preserved. On regex failure the
+	 * original content is returned unchanged (never blanked).
+	 *
+	 * @param string $content post_content from the source post
+	 * @return string content with download_link values emptied
+	 */
+	private function strip_inherited_download_links( $content ) {
+		$result = preg_replace(
+			'#("[a-z0-9_]*download_link":")(?!field_)[^"]*#i',
+			'${1}',
+			$content
+		);
+
+		return ( null === $result ) ? $content : $result;
 	}
 
 	/**
