@@ -165,7 +165,13 @@ function acrylicon_get_equivalent_url( $target_blog_id, &$has_translation = null
     // Determine mapping direction
     $direction = ( $current_blog_id === 3 ) ? 'no_to_en' : 'en_to_no';
 
-    // Edge cases: empty path (front page), search, 404 — no specific translation
+    // Front page: home <-> home is always a verified pair (same page ID on both
+    // blogs), so the target front page IS the genuine equivalent — emit it as real.
+    if ( empty( $path ) && is_front_page() ) {
+        return $finish( acrylicon_get_fallback_url( $target_blog_id ), true );
+    }
+
+    // Search, 404, or an otherwise-empty path: no specific translation exists.
     if ( empty( $path ) || is_search() || is_404() ) {
         return $finish( acrylicon_get_fallback_url( $target_blog_id ), false );
     }
@@ -177,9 +183,21 @@ function acrylicon_get_equivalent_url( $target_blog_id, &$has_translation = null
         if ( $post_id ) {
             switch_to_blog( $target_blog_id );
             $target_post = get_post( $post_id );
-            $real_url    = ( $target_post && $target_post->post_status === 'publish' )
-                ? get_permalink( $post_id )
-                : null;
+            $real_url    = null;
+            if ( $target_post && $target_post->post_status === 'publish' ) {
+                // switch_to_blog() does NOT re-register post types, so get_permalink()
+                // would build CPT URLs with the SOURCE blog's rewrite base (e.g.
+                // /produkter/ on .com instead of /products/). For CPTs, build the URL
+                // from the TARGET blog's rewrite slug (acrylicon_get_cpt_slugs() is
+                // blog-aware and now resolves to the target). Pages/posts have no
+                // blog-conditional rewrite base, so get_permalink() is correct for them.
+                $cpt_slugs = function_exists( 'acrylicon_get_cpt_slugs' ) ? acrylicon_get_cpt_slugs() : [];
+                if ( isset( $cpt_slugs[ $target_post->post_type ] ) ) {
+                    $real_url = home_url( '/' . $cpt_slugs[ $target_post->post_type ] . '/' . $target_post->post_name . '/' );
+                } else {
+                    $real_url = get_permalink( $post_id );
+                }
+            }
             restore_current_blog();
             if ( $real_url ) {
                 return $finish( $real_url, true );
@@ -365,6 +383,13 @@ function acrylicon_render_footer_switcher( $languages, $current_blog_id ) {
  * declaring hreflang alternates that point to non-existent (404) URLs.
  */
 function acrylicon_hreflang_tags() {
+    // Non-canonical pages (404, search) have no language equivalents; emitting
+    // hreflang here would self-reference the home page. Bail to match how
+    // canonical/OG/schema already skip these.
+    if ( is_404() || is_search() ) {
+        return;
+    }
+
     $languages       = acrylicon_get_languages();
     $current_blog_id = get_current_blog_id();
     $english_url     = '';
