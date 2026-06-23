@@ -34,6 +34,7 @@ function acrylicon_seo_init() {
 	new Acrylicon_SEO_Canonical();
 	new Acrylicon_SEO_Robots();
 	new Acrylicon_SEO_Sitemap_Integration();
+	new Acrylicon_SEO_Legacy_Redirects();
 
 	if ( is_admin() ) {
 		new Acrylicon_SEO_Admin_Metabox();

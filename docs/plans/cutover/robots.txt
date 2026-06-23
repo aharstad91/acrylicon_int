@@ -1,0 +1,15 @@
+# Reference copy — the live file lives at the Servebolt docroot:
+#   /cust/0/acryli_15806/acryli_28355/site/public/robots.txt
+#
+# Servebolt's edge injects a default robots.txt only when no physical file exists,
+# and WordPress' virtual robots.txt never reaches the request on this setup. This
+# static file overrides the Servebolt default. The docroot is shared by the whole
+# multisite, so both domains (acrylicon.no = blog 3, acrylicon.com = blog 1) are
+# served this same file — hence both Sitemap lines are listed.
+
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://acrylicon.no/wp-sitemap.xml
+Sitemap: https://acrylicon.com/wp-sitemap.xml
