@@ -1,9 +1,20 @@
 # SEO: Create OG default image
 
 **Priority:** P2
-**Status:** pending
+**Status:** resolved (2026-06-23)
 **Created:** 2026-02-25
 **Module:** mu-plugins/acrylicon-seo
+
+## Resolution (2026-06-23)
+
+OG default image was created and shipped in Sprint 1 (commit `109ad2f`, May 2026) —
+the todo was just never closed. Verified live, no code change needed:
+
+- `themes/acrylicon-2024/assets/gfx/acrylicon-og-default.jpg` exists: **1200×630**
+  (OG standard), deployed to prod.
+- `class-open-graph.php` emits it as the site-wide `og:image` fallback for pages
+  without a featured image. Confirmed live on the front page: `og:image` →
+  `…/acrylicon-og-default.jpg` with `og:image:width 1200` / `og:image:height 630`.
 
 ## Problem
 

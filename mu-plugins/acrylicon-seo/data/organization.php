@@ -12,8 +12,8 @@ return [
 	'logo'         => [
 		'@type'  => 'ImageObject',
 		'url'    => '{theme_url}/assets/gfx/acrylicon-logo-dark.png',
-		'width'  => 600,
-		'height' => 120,
+		'width'  => 1024,
+		'height' => 222,
 	],
 	'foundingDate' => '1977',
 	'telephone'    => '+47 73 90 10 00',

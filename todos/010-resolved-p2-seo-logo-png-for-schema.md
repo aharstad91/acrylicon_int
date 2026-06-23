@@ -1,9 +1,21 @@
 # SEO: Create logo PNG for Schema.org
 
 **Priority:** P2
-**Status:** pending
+**Status:** resolved (2026-06-23)
 **Created:** 2026-02-25
 **Module:** mu-plugins/acrylicon-seo
+
+## Resolution (2026-06-23)
+
+PNG was created and shipped in Sprint 1 (commit `109ad2f`, May 2026) — the todo
+was just never closed. Verified live:
+
+- `themes/acrylicon-2024/assets/gfx/acrylicon-logo-dark.png` exists: **1024×222**,
+  transparent (alpha), HTTP 200 (`image/png`) on prod.
+- Referenced in the live Organization JSON-LD on both acrylicon.no and acrylicon.com.
+- **Fixed today:** `data/organization.php` declared `width:600 / height:120`, which did
+  not match the actual file. Corrected to `1024×222` so the schema's stated dimensions
+  match the real image. Deployed + cache-flushed; live schema now reports 1024×222.
 
 ## Problem
 
