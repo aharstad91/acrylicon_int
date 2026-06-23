@@ -58,8 +58,9 @@ class Acrylicon_SEO_Open_Graph {
 		}
 
 		if ( is_post_type_archive() ) {
-			$obj = get_queried_object();
-			return $obj->labels->name . ' | AcryliCon';
+			// CPT labels are registered in Norwegian, so labels->name would leak
+			// "Industrier" onto the English archive. Use the language-correct title.
+			return wp_get_document_title();
 		}
 
 		if ( is_tax() ) {

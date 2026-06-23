@@ -11,7 +11,16 @@ class Acrylicon_SEO_Sitemap_Integration {
 
 	public function __construct() {
 		add_filter( 'wp_sitemaps_posts_query_args', [ $this, 'exclude_noindex' ], 10, 2 );
+		add_filter( 'wp_sitemaps_add_provider', [ $this, 'remove_users_sitemap' ], 10, 2 );
 		add_action( 'template_redirect', [ $this, 'redirect_yoast_sitemap' ], 5 );
+	}
+
+	/**
+	 * Drop the users (authors) sitemap — author archives are noindexed and author
+	 * enumeration is blocked, so exposing them in the sitemap is a conflicting signal.
+	 */
+	public function remove_users_sitemap( $provider, $name ) {
+		return ( 'users' === $name ) ? false : $provider;
 	}
 
 	/**

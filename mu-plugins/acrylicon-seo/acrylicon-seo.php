@@ -20,8 +20,10 @@ function acrylicon_seo_register_image_sizes() {
 	add_image_size( 'og-image', 1200, 630, true );
 }
 
-// Initialize modules
-add_action( 'init', 'acrylicon_seo_init' );
+// Initialize modules at init:5 — before core builds the sitemap server (init:10),
+// so the Sitemap module's wp_sitemaps_add_provider filter is registered in time.
+// Constructors only register hooks (which fire later), so the earlier priority is safe.
+add_action( 'init', 'acrylicon_seo_init', 5 );
 function acrylicon_seo_init() {
 	if ( ! defined( 'ACRYLICON_SEO_URL' ) ) {
 		define( 'ACRYLICON_SEO_URL', plugins_url( '', __FILE__ ) );
