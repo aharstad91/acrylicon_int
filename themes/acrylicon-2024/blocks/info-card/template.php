@@ -82,9 +82,13 @@ if (have_rows('feature_card_repeater')): ?>
 						<?php echo wp_kses_post($text); ?>
 					</div>
 				</div>
-				<?php if ($button_text && $button_link): ?>
-					<a class="flex w-fit px-4 py-2 text-white bg-acryl-dark-blue rounded-full mt-12" 
-					href="<?php echo esc_url(home_url($button_link)); ?>">
+				<?php if ($button_text && $button_link):
+					// Make the link name descriptive ("{card title} – {button text}") instead of a bare "Read more".
+					$card_link_label = $title ? sprintf('%s – %s', $title, $button_text) : $button_text;
+				?>
+					<a class="flex w-fit px-4 py-2 text-white bg-acryl-dark-blue rounded-full mt-12"
+					href="<?php echo esc_url(home_url($button_link)); ?>"
+					aria-label="<?php echo esc_attr($card_link_label); ?>">
 						<div class="flex gap-3 text-lg">
 							<span><?php echo esc_html($button_text); ?></span>
 							<!-- <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/gfx/arrow-right.svg" alt="" aria-hidden="true"> -->

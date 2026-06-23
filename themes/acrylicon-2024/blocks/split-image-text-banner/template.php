@@ -62,8 +62,19 @@ $class_name .= " icon-{$img_size} text-{$text_size}"; ?>
 	<div class="<?php echo esc_attr($class_name); ?> lg:flex h-full">
 		<?php if ($image) : ?>
 		<div class="<?php echo esc_attr($icon_class); ?>">
-			<?php if ($link) : ?>
-			<a href="<?php echo esc_url(home_url($link)); ?>" class="block h-full">
+			<?php if ($link) :
+				// Image-only link: guarantee a discernible name (image alt + title/link_text are often empty).
+				// Fall back to a readable label derived from the link slug, e.g. "/locations/" -> "Locations".
+				$image_link_label = $title ?: $link_text;
+				if (!$image_link_label) {
+					$path_parts = array_filter(explode('/', (string) wp_parse_url($link, PHP_URL_PATH)));
+					$last_slug  = $path_parts ? end($path_parts) : '';
+					$image_link_label = $last_slug
+						? ucwords(str_replace(array('-', '_'), ' ', $last_slug))
+						: get_bloginfo('name');
+				}
+			?>
+			<a href="<?php echo esc_url(home_url($link)); ?>" class="block h-full" aria-label="<?php echo esc_attr($image_link_label); ?>">
 			<?php endif; ?>
 			
 			<?php 
