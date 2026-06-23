@@ -57,12 +57,13 @@ function acrylicon_slug_map() {
             'nedlastinger'        => 'downloads',
             'informasjonskapsler' => 'cookie-policy',
         ],
-        // Taxonomies on Referanser CPT
+        // Taxonomies on Referanser CPT — keys MUST match the registered NO rewrite
+        // slugs and values the registered EN slugs (see acrylicon_get_cpt_slugs()).
         'taxonomies' => [
-            'referanser-type'       => 'reference-type',
-            'referanser-kategorier' => 'reference-categories',
-            'referanser-kontor'     => 'reference-offices',
-            'referanser-produkter'  => 'reference-products',
+            'referanser-type'     => 'reference-type',
+            'referanse-kategori'  => 'reference-category',
+            'referanse-kontor'    => 'reference-office',
+            'referanse-produkter' => 'reference-products',
         ],
     ];
 }
@@ -237,8 +238,17 @@ function acrylicon_get_equivalent_url( $target_blog_id, &$has_translation = null
         // otherwise the slug-mapped URL would 404 (untranslated content).
         $resolved = url_to_postid( $target_url );
         $exists   = ( $resolved && get_post_status( $resolved ) === 'publish' );
+    } elseif ( is_tax() ) {
+        // Taxonomy terms are NOT synced 1:1 (EN references are a subset of NO), so
+        // verify the same term slug exists in this taxonomy on the target blog before
+        // claiming a translation — otherwise the (correctly-based) alternate 404s.
+        $src_term = get_queried_object();
+        $term     = ( $src_term && ! empty( $src_term->slug ) )
+            ? get_term_by( 'slug', $src_term->slug, $src_term->taxonomy )
+            : false;
+        $exists   = ( $term && ! is_wp_error( $term ) );
     } else {
-        // Archives/listings: slug-mapped archive URLs are known-valid.
+        // CPT/date/author archives: slug-mapped archive URLs are known-valid.
         $exists = true;
     }
     restore_current_blog();

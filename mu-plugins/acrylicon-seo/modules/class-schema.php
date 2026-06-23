@@ -264,7 +264,10 @@ class Acrylicon_SEO_Schema {
 	private function get_local_business() {
 		$post    = get_post();
 		$title   = $post->post_title;
-		$address = get_field( 'office_adress', $post->ID );
+		$street  = get_field( 'office_address', $post->ID );
+		if ( empty( $street ) ) {
+			$street = get_field( 'office_adress', $post->ID );
+		}
 		$phone   = get_field( 'office_tel', $post->ID );
 
 		if ( empty( $title ) ) {
@@ -275,20 +278,38 @@ class Acrylicon_SEO_Schema {
 			'@type'              => 'ProfessionalService',
 			'@id'                => get_permalink() . '#localbusiness',
 			'name'               => $title,
+			'url'                => get_permalink(),
 			'parentOrganization' => [ '@id' => $this->get_site_url() . '#organization' ],
 		];
 
-		if ( ! empty( $address ) ) {
-			$clean_address = wp_strip_all_tags( $address, true );
-			$business['address'] = [
-				'@type'          => 'PostalAddress',
-				'streetAddress'  => $clean_address,
-				'addressCountry' => 'NO',
-			];
+		// Build the PostalAddress: street from office_address, postcode + locality
+		// from office_postnumber ("3070 Sande" => postalCode 3070 / locality Sande).
+		$address = [ '@type' => 'PostalAddress', 'addressCountry' => 'NO' ];
+		if ( ! empty( $street ) ) {
+			$address['streetAddress'] = wp_strip_all_tags( $street, true );
+		}
+		$postnumber = get_field( 'office_postnumber', $post->ID );
+		if ( ! empty( $postnumber )
+			&& preg_match( '/^\s*(\d{4})\s+(.+)$/', wp_strip_all_tags( $postnumber, true ), $m ) ) {
+			$address['postalCode']      = $m[1];
+			$address['addressLocality'] = trim( $m[2] );
+		}
+		if ( count( $address ) > 2 ) {
+			$business['address'] = $address;
+		}
+
+		$email = get_field( 'office_email', $post->ID );
+		if ( ! empty( $email ) ) {
+			$business['email'] = sanitize_email( $email );
 		}
 
 		if ( ! empty( $phone ) ) {
 			$business['telephone'] = '+47 ' . wp_strip_all_tags( $phone, true );
+		}
+
+		$areas = get_field( 'office_areas_text', $post->ID );
+		if ( ! empty( $areas ) ) {
+			$business['areaServed'] = wp_strip_all_tags( $areas, true );
 		}
 
 		$location = get_field( 'location', $post->ID );
