@@ -37,7 +37,7 @@ $references_query = new WP_Query( [
 			<?php echo $is_english ? 'References' : 'Referanser'; ?>
 		</a>
 		<h1 class="text-3xl lg:text-7xl font-buch mt-4 text-gray-900">
-			<?php echo esc_html( $current_term->name ); ?>
+			<?php echo esc_html( acrylicon_reference_category_name( $current_term ) ); ?>
 		</h1>
 	</div>
 
@@ -49,7 +49,7 @@ $references_query = new WP_Query( [
 					<li>
 						<a href="<?php echo esc_url( get_term_link( $nav_term, 'referanser-kategorier' ) ); ?>"
 						   class="flex rounded-full px-4 py-2 border border-solid border-neutral-1 no-underline <?php echo ( $current_term->term_id == $nav_term->term_id ) ? 'bg-acryl-dark-blue text-white border-acryl-dark-blue' : 'hover:bg-gray-100'; ?>">
-							<?php echo esc_html( $nav_term->name ); ?>
+							<?php echo esc_html( acrylicon_reference_category_name( $nav_term ) ); ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
@@ -87,7 +87,7 @@ $references_query = new WP_Query( [
 								<?php endif; ?>
 								<?php if ( is_array( $post_terms ) ) : foreach ( $post_terms as $term ) : ?>
 									<span class="inline-block bg-acryl-beige-lightest rounded-full px-3 py-1 text-sm">
-										<?php echo esc_html( $term->name ); ?>
+										<?php echo esc_html( acrylicon_reference_category_name( $term ) ); ?>
 									</span>
 								<?php endforeach; endif; ?>
 							</div>

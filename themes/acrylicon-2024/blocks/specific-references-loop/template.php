@@ -24,9 +24,9 @@ $current_term_id = get_queried_object_id();
 		<ul class="mt-4 flex flex-wrap gap-2 px-0 list-none reference-tax">
 			<?php foreach ($terms as $term): ?>
 				<li>
-					<a href="<?php echo esc_url(get_term_link($term, 'referanser-kategorier')); ?>" 
+					<a href="<?php echo esc_url(get_term_link($term, 'referanser-kategorier')); ?>"
 					   class="flex rounded-full px-4 py-2 border border-solid border-acryl-beige-light no-underline <?php echo ($current_term_id == $term->term_id) ? 'bg-gray-900 text-white' : 'hover:bg-gray-100'; ?>">
-					   <?php echo esc_html($term->name); ?>
+					   <?php echo esc_html(acrylicon_reference_category_name($term)); ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -60,9 +60,9 @@ $current_term_id = get_queried_object_id();
 									<?php endif; ?>
 									<?php if ($post_terms && !is_wp_error($post_terms)): ?>
 										<?php foreach($post_terms as $term): ?>
-											<a href="<?php echo esc_url(get_term_link($term)); ?>" 
+											<a href="<?php echo esc_url(get_term_link($term)); ?>"
 											class="inline-block bg-acryl-beige-lightest no-underline rounded-full px-3 py-1 text-sm mr-2 hover:bg-gray-300 relative top-3 left-3">
-												<?php echo esc_html($term->name); ?>
+												<?php echo esc_html(acrylicon_reference_category_name($term)); ?>
 											</a>
 										<?php endforeach; ?>
 									<?php endif; ?>

@@ -192,6 +192,46 @@ function acrylicon_get_cpt_slugs() {
 	];
 }
 
+/**
+ * The referanser-kategorier taxonomy table is shared across blogs (see
+ * acrylicon-shared-taxonomies mu-plugin), so term names only exist in English.
+ * This maps slugs to Norwegian display names for use on blog 3 (NO).
+ */
+function acrylicon_reference_category_name_no() {
+	return [
+		'aquaculture-and-fish-processing'             => 'Akvakultur og fiskeforedling',
+		'concrete-and-masonry-floor-sealing'          => 'Betong- og murgulvforsegling',
+		'fish-processing-industry'                    => 'Fiskeforedlingsindustri',
+		'food-processing-industry'                    => 'Næringsmiddelindustri',
+		'hospitals-and-veterinary-clinics'            => 'Sykehus og veterinærklinikker',
+		'hotels-restaurants-and-commercial-kitchens'  => 'Hoteller, restauranter og storkjøkken',
+		'livestock-barns'                             => 'Fjøs og dyrehold',
+		'mechanical-and-chemical-industry'            => 'Mekanisk og kjemisk industri',
+		'offshore'                                    => 'Offshore',
+		'other'                                       => 'Annet',
+		'parking-facilities-and-outdoor-areas'        => 'Parkeringsanlegg og uteområder',
+		'recreation'                                  => 'Rekreasjon',
+		'schools-and-public-buildings'                => 'Skoler og offentlige bygg',
+		'shopping-centres-and-retail'                 => 'Kjøpesentre og butikker',
+		'warehouses'                                  => 'Lagerbygg',
+		'workshops-and-car-washes'                    => 'Verksteder og bilvask',
+	];
+}
+
+/**
+ * Get the display name for a referanser-kategorier term, translated to
+ * Norwegian on blog 3 since the taxonomy table itself is shared/English-only.
+ */
+function acrylicon_reference_category_name( $term ) {
+	if ( get_current_blog_id() === 1 ) {
+		return $term->name;
+	}
+
+	$translations = acrylicon_reference_category_name_no();
+
+	return $translations[ $term->slug ] ?? $term->name;
+}
+
 function register_custom_post_types_and_taxonomies() {
 	$slugs = acrylicon_get_cpt_slugs();
 

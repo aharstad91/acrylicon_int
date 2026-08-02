@@ -74,7 +74,7 @@ $filter_offices    = [];
 
 foreach ( $cards as $card ) {
 	foreach ( $card['categories'] as $t ) {
-		$filter_categories[ $t->slug ] = $t->name;
+		$filter_categories[ $t->slug ] = acrylicon_reference_category_name( $t );
 	}
 	foreach ( $card['products'] as $t ) {
 		$filter_products[ $t->slug ] = $t->name;
@@ -174,7 +174,7 @@ $total = count( $cards );
 					<?php endif; ?>
 					<?php foreach ( $card['categories'] as $term ) : ?>
 						<span class="inline-block bg-acryl-beige-lightest rounded-full px-3 py-1 text-sm">
-							<?php echo esc_html( $term->name ); ?>
+							<?php echo esc_html( acrylicon_reference_category_name( $term ) ); ?>
 						</span>
 					<?php endforeach; ?>
 				</div>
