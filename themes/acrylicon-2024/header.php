@@ -22,7 +22,7 @@
 			window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 			var j = document.createElement('script');
 			j.async = true;
-			j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TJ93BLWH';
+			j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5496VPK';
 			document.head.appendChild(j);
 			/* Byggfakta Analytics Pro */
 			var b = document.createElement('script');
@@ -53,7 +53,7 @@
 <body <?php body_class('font-sohne-buch black text-base scroll-smooth bg-acryl-beige-lightest font-normal'); ?>>
 
 	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJ93BLWH"
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5496VPK"
 	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
 	
