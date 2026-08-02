@@ -337,23 +337,26 @@ function acrylicon_render_header_switcher( $languages, $current_blog_id ) {
 }
 
 /**
- * Mobile menu switcher (full width, inline).
+ * Mobile menu switcher (pinned to the bottom of the menu panel, inline row).
  */
 function acrylicon_render_mobile_switcher( $languages, $current_blog_id ) {
     ?>
-    <div class="flex flex-col w-full mt-4 border-t border-acryl-beige-light pt-4 px-6">
+    <div class="mt-auto flex items-center gap-4 border-t border-acryl-beige-light px-6 pt-5 pb-8 text-lg">
         <?php foreach ( $languages as $blog_id => $lang ) :
             $url       = acrylicon_get_equivalent_url( $blog_id );
             $is_active = ( $blog_id === $current_blog_id );
         ?>
             <a
                 href="<?php echo esc_url( $url ); ?>"
-                class="flex items-center gap-3 py-2 text-2xl <?php echo $is_active ? 'text-acryl-red' : 'text-acryl-black'; ?>"
+                class="flex items-center gap-2 transition-colors duration-150 <?php echo $is_active ? 'text-acryl-red underline' : 'text-acryl-black hover:text-acryl-red'; ?>"
                 <?php echo $is_active ? 'aria-current="true"' : ''; ?>
             >
                 <?php echo svg_icon( 'flags/' . $lang['flag'], [ 'width' => '24', 'height' => '16', 'class' => 'inline-block flex-shrink-0' ] ); ?>
                 <span><?php echo esc_html( $lang['label'] ); ?></span>
             </a>
+            <?php if ( $blog_id !== array_key_last( $languages ) ) : ?>
+                <span class="text-acryl-gray-2" aria-hidden="true">|</span>
+            <?php endif; ?>
         <?php endforeach; ?>
     </div>
     <?php

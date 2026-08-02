@@ -1,5 +1,5 @@
 <footer class="bg-acryl-red text-white py-10 font-normal">
-	<div class="max-w-screen-2xl mx-auto px-20">
+	<div class="max-w-screen-2xl mx-auto px-5 md:px-20">
 		<div class="grid lg:grid-cols-3  gap-12">
 			<!-- Left Column -->
 			<div class="space-y-8">

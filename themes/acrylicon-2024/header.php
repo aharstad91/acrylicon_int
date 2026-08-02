@@ -98,12 +98,12 @@
 		</button>
 	</div>
 	
-	<div id="menuPanel" class="z-40 w-full h-screen bg-acryl-beige-lighter overflow-y-auto opacity-0 invisible">
+	<div id="menuPanel" class="z-40 w-full h-[calc(100vh_-_74px)] bg-acryl-beige-lighter overflow-y-auto opacity-0 invisible flex flex-col">
 		<?php wp_nav_menu(array(
 			'theme_location'  => 'mobile',
 			'menu_class'      => 'flex flex-col w-full',
 			'container'       => 'nav',
-			'container_class' => 'flex h-full',
+			'container_class' => 'flex',
 		));
 		?>
 		<?php acrylicon_render_language_switcher( 'mobile' ); ?>
