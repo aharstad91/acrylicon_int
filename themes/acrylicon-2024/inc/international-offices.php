@@ -231,7 +231,7 @@ return [
 		'offices' => [
 			[
 				'name'    => 'AcryliCon UK — Outer London - North',
-				'company' => 'Acrylicon Distribution',
+				'company' => 'Acrylicon UK Ltd.',
 				'address' => [ 'Wyboston Lakes, Great North Road', 'Wyboston, Bedfordshire MK44 3BY' ],
 				'phone'   => '+44 (0) 844 800 7191',
 				'email'   => 'UK@acrylicon.com',
