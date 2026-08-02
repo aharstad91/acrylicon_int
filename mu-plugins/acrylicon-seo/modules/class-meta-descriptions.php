@@ -59,8 +59,8 @@ class Acrylicon_SEO_Meta_Descriptions {
 		// Industry archive
 		if ( is_post_type_archive( 'industrier' ) ) {
 			return $is_no
-				? 'Industriløsninger fra AcryliCon — sømløse gulv for alle bransjer.'
-				: 'Industrial solutions by AcryliCon — seamless flooring for all industries.';
+				? 'Industriløsninger fra AcryliCon – sømløse gulv for alle bransjer.'
+				: 'Industrial solutions by AcryliCon – seamless flooring for all industries.';
 		}
 
 		// Taxonomy archive
@@ -68,8 +68,8 @@ class Acrylicon_SEO_Meta_Descriptions {
 			$term = get_queried_object();
 			if ( $term && ! is_wp_error( $term ) ) {
 				return $is_no
-					? "{$term->name} — se referanseprosjekter fra AcryliCon."
-					: "{$term->name} — see reference projects by AcryliCon.";
+					? "{$term->name} – se referanseprosjekter fra AcryliCon."
+					: "{$term->name} – see reference projects by AcryliCon.";
 			}
 		}
 
@@ -123,11 +123,11 @@ class Acrylicon_SEO_Meta_Descriptions {
 		if ( ! empty( $excerpt ) ) {
 			$clean = wp_strip_all_tags( $excerpt, true );
 			$clean = trim( preg_replace( '/\s+/', ' ', $clean ) );
-			$meta  = "AcryliCon {$title} — {$clean}";
+			$meta  = "AcryliCon {$title} – {$clean}";
 		} else {
 			$meta = $is_no
-				? "AcryliCon {$title} — profesjonelt gulvsystem for industri og næring fra AcryliCon."
-				: "AcryliCon {$title} — professional flooring system for industry and commercial use.";
+				? "AcryliCon {$title} – profesjonelt gulvsystem for industri og næring fra AcryliCon."
+				: "AcryliCon {$title} – professional flooring system for industry and commercial use.";
 		}
 
 		return $this->truncate( $meta );
@@ -145,12 +145,12 @@ class Acrylicon_SEO_Meta_Descriptions {
 		if ( ! empty( $term_names ) ) {
 			$products = implode( ', ', array_slice( $term_names, 0, 2 ) );
 			$meta = $is_no
-				? "{$title} — referanseprosjekt med {$products} fra AcryliCon."
-				: "{$title} — reference project with {$products} by AcryliCon.";
+				? "{$title} – referanseprosjekt med {$products} fra AcryliCon."
+				: "{$title} – reference project with {$products} by AcryliCon.";
 		} else {
 			$meta = $is_no
-				? "{$title} — referanseprosjekt fra AcryliCon. Sømløse industrigulv med dokumentert levetid."
-				: "{$title} — reference project by AcryliCon. Seamless industrial flooring with proven durability.";
+				? "{$title} – referanseprosjekt fra AcryliCon. Sømløse industrigulv med dokumentert levetid."
+				: "{$title} – reference project by AcryliCon. Seamless industrial flooring with proven durability.";
 		}
 
 		return $this->truncate( $meta );
@@ -163,12 +163,12 @@ class Acrylicon_SEO_Meta_Descriptions {
 		if ( ! empty( $address ) ) {
 			$address = wp_strip_all_tags( $address, true );
 			$meta = $is_no
-				? "{$title} — {$address}. Kontakt oss for profesjonelle gulvløsninger i din region."
-				: "{$title} — {$address}. Contact us for professional flooring solutions in your region.";
+				? "{$title} – {$address}. Kontakt oss for profesjonelle gulvløsninger i din region."
+				: "{$title} – {$address}. Contact us for professional flooring solutions in your region.";
 		} else {
 			$meta = $is_no
-				? "{$title} — AcryliCon kontor. Kontakt oss for profesjonelle gulvløsninger."
-				: "{$title} — AcryliCon office. Contact us for professional flooring solutions.";
+				? "{$title} – AcryliCon kontor. Kontakt oss for profesjonelle gulvløsninger."
+				: "{$title} – AcryliCon office. Contact us for professional flooring solutions.";
 		}
 
 		return $this->truncate( $meta );
@@ -177,25 +177,63 @@ class Acrylicon_SEO_Meta_Descriptions {
 	private function meta_bruksomrader( $post_id, $is_no ) {
 		$title = get_the_title( $post_id );
 		$meta = $is_no
-			? "Gulvløsninger for {$title} — skreddersydde gulv- og veggløsninger fra AcryliCon."
-			: "Flooring solutions for {$title} — tailored floor and wall solutions by AcryliCon.";
+			? "Gulvløsninger for {$title} – skreddersydde gulv- og veggløsninger fra AcryliCon."
+			: "Flooring solutions for {$title} – tailored floor and wall solutions by AcryliCon.";
 		return $this->truncate( $meta );
 	}
 
 	private function meta_industrier( $post_id, $is_no ) {
 		$title = get_the_title( $post_id );
 		$meta = $is_no
-			? "Gulvløsninger for {$title} — slitesterke og hygieniske systemer fra AcryliCon."
-			: "Flooring for {$title} — durable and hygienic systems by AcryliCon.";
+			? "Gulvløsninger for {$title} – slitesterke og hygieniske systemer fra AcryliCon."
+			: "Flooring for {$title} – durable and hygienic systems by AcryliCon.";
 		return $this->truncate( $meta );
 	}
 
 	private function meta_generic_cpt( $post_id, $is_no ) {
+		// Prefer real page content (these pages have 200–850 words) over the
+		// generic fallback. Good-reasons / lifecycle / sustainability subpages.
+		$excerpt = $this->content_excerpt( $post_id );
+		if ( ! empty( $excerpt ) ) {
+			return $this->truncate( $excerpt );
+		}
+
 		$title = get_the_title( $post_id );
 		$meta = $is_no
-			? "{$title} — les mer fra AcryliCon."
-			: "{$title} — learn more from AcryliCon.";
+			? "{$title} – les mer fra AcryliCon."
+			: "{$title} – learn more from AcryliCon.";
 		return $this->truncate( $meta );
+	}
+
+	/**
+	 * Build a description from the post's own paragraph/heading/list blocks.
+	 * Only renders text blocks (cheap, no loop/query blocks), strips a leading
+	 * "01. " numeric label, and collapses whitespace. Returns '' if no text.
+	 */
+	private function content_excerpt( $post_id ) {
+		$post = get_post( $post_id );
+		if ( ! $post || empty( $post->post_content ) ) {
+			return '';
+		}
+
+		$blocks = parse_blocks( $post->post_content );
+		$parts  = [];
+		foreach ( $blocks as $b ) {
+			if ( in_array( $b['blockName'], [ 'core/paragraph', 'core/heading', 'core/list' ], true ) ) {
+				$txt = wp_strip_all_tags( render_block( $b ), true );
+				$txt = trim( preg_replace( '/\s+/', ' ', $txt ) );
+				if ( $txt !== '' ) {
+					$parts[] = $txt;
+				}
+			}
+			if ( mb_strlen( implode( ' ', $parts ) ) >= 170 ) {
+				break;
+			}
+		}
+
+		$text = trim( implode( ' ', $parts ) );
+		$text = preg_replace( '/^\d{1,2}\.\s+/', '', $text ); // drop "01. " label
+		return $text;
 	}
 
 	private function meta_page( $post_id ) {
@@ -203,6 +241,12 @@ class Acrylicon_SEO_Meta_Descriptions {
 
 		if ( ! empty( $post->post_excerpt ) ) {
 			return $this->truncate( $post->post_excerpt );
+		}
+
+		// Block-built pages: pull text from paragraph/heading blocks.
+		$excerpt = $this->content_excerpt( $post_id );
+		if ( ! empty( $excerpt ) ) {
+			return $this->truncate( $excerpt );
 		}
 
 		if ( ! empty( $post->post_content ) ) {

@@ -1,6 +1,11 @@
 # SEO-strategi
 
 > Sist oppdatert: 2026-02-11
+>
+> **NB (2026-08-01):** Tallene under er historiske (PSI er nå 72–100, hreflang/sitemap/
+> strukturert data er DONE). Målte, gjeldende innsikter vedlikeholdes i
+> **`seo-innsikter.md`**; handlingsplanen er
+> `../plans/2026-08-01-seo-arbeidsplan-systematisk.md`.
 
 ---
 

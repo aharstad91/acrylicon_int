@@ -51,6 +51,17 @@ class Acrylicon_SEO_Meta_Titles {
 				$title['title'] = $this->parse_yoast_title( $yoast );
 				return $title;
 			}
+
+			// Application (bruksomrader) pages on the EN site get a "Flooring"
+			// keyword qualifier — "Offshore" alone targets nothing in search.
+			// Length-guarded so it stays within SERP limits; skipped if the
+			// title already references flooring.
+			if ( ! $is_no && is_singular( 'bruksomrader' ) ) {
+				$base = get_the_title( $post_id );
+				if ( $base && mb_stripos( $base, 'floor' ) === false && mb_strlen( $base ) <= 32 ) {
+					$title['title'] = "{$base} Flooring";
+				}
+			}
 		}
 
 		// Search

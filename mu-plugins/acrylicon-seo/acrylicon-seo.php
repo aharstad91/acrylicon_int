@@ -31,12 +31,14 @@ function acrylicon_seo_init() {
 
 	new Acrylicon_SEO_Meta_Titles();
 	new Acrylicon_SEO_Meta_Descriptions();
+	new Acrylicon_SEO_Headings();
 	new Acrylicon_SEO_Schema();
 	new Acrylicon_SEO_Open_Graph();
 	new Acrylicon_SEO_Canonical();
 	new Acrylicon_SEO_Robots();
 	new Acrylicon_SEO_Sitemap_Integration();
 	new Acrylicon_SEO_Legacy_Redirects();
+	new Acrylicon_SEO_Image_Alt();
 
 	if ( is_admin() ) {
 		new Acrylicon_SEO_Admin_Metabox();
