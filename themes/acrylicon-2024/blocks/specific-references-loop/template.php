@@ -75,10 +75,8 @@ $current_term_id = get_queried_object_id();
 									'alt'   => get_the_title($post->ID),
 									'sizes' => '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw',
 								];
-								// First 3 cards are above the fold — eager load, no lazy
-								if ( $ref_index < 3 ) {
-									$img_attrs['loading'] = 'eager';
-								}
+								// Block is only used mid-page on the front page — below the fold,
+								// so let WP's default lazy-loading apply (frees bandwidth for LCP).
 								echo get_the_post_thumbnail($post->ID, 'large', $img_attrs);
 								?>
 							</a>

@@ -87,7 +87,7 @@ if ($is_preview) {
 		<?php if ($link && $link_text) : ?>
 		<a class="w-fit px-8 py-3 text-white bg-acryl-red rounded-full" 
 		   href="<?php echo esc_url(home_url($link)); ?>"
-		   aria-label="<?php echo esc_attr(sprintf(__('%s - Read more', 'your-theme-text-domain'), $title)); ?>">
+		   aria-label="<?php echo esc_attr($title ? sprintf('%s – %s', $title, $link_text) : $link_text); ?>">
 			<div class="flex gap-3 text-lg">
 				<span><?php echo esc_html($link_text); ?></span>
 				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/gfx/arrow-right.svg" 

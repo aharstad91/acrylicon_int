@@ -120,6 +120,46 @@ function acrylicon_preload_font() {
 }
 add_action( 'wp_head', 'acrylicon_preload_font', 1 );
 
+// Preload the front page video poster (the LCP element on mobile) so it wins
+// the bandwidth race against the autoplaying video itself. The uploads subpath
+// is identical on both blogs; wp_get_upload_dir() resolves the sites/3 prefix.
+// NB: coupled to the video block on the front page (post 4540).
+function acrylicon_preload_front_poster() {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$poster = wp_get_upload_dir()['baseurl'] . '/2025/02/Nasjonalteateret_Timelapse_1-1-poster.jpg';
+	echo '<link rel="preload" href="' . esc_url( $poster ) . '" as="image" fetchpriority="high">' . "\n";
+}
+add_action( 'wp_head', 'acrylicon_preload_front_poster', 1 );
+
+// Defer autoplay-video downloads: the 2.6MB front page timelapse otherwise
+// saturates mobile bandwidth and delays LCP (the poster). Strip autoplay at
+// render time and start playback from JS once the page has finished loading.
+// Users with prefers-reduced-motion keep the poster + controls instead.
+function acrylicon_defer_autoplay_videos( $block_content, $block ) {
+	if ( ( $block['blockName'] ?? '' ) !== 'core/video' ) {
+		return $block_content;
+	}
+	return str_replace( ' autoplay ', ' data-deferred-autoplay ', $block_content );
+}
+add_filter( 'render_block', 'acrylicon_defer_autoplay_videos', 10, 2 );
+
+function acrylicon_deferred_autoplay_script() {
+	?>
+	<script>
+	window.addEventListener('load', function () {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		document.querySelectorAll('video[data-deferred-autoplay]').forEach(function (v) {
+			var p = v.play();
+			if (p && p.catch) { p.catch(function () {}); }
+		});
+	});
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'acrylicon_deferred_autoplay_script', 99 );
+
 
 function enqueue_custom_block_editor_assets() {
 	wp_enqueue_script(
