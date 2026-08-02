@@ -82,6 +82,17 @@ function theme_enqueue_scripts() {
 	// Headroom removed — unused (Sprint 1, 2026-02-26)
 	wp_enqueue_script('acrylicon-transitions', get_template_directory_uri() . '/assets/scripts/transitions.js', array('gsap'), '1.0.0', true);
 	wp_enqueue_script('scripts', get_template_directory_uri() . '/assets/scripts/scripts.js', array('jquery'), '1.0.0', true);
+
+	// Reference filter — only load on pages that use the global-reference block
+	if ( $post && has_block( 'acf/global-reference', $post ) ) {
+		wp_enqueue_script(
+			'reference-filter',
+			get_template_directory_uri() . '/assets/js/reference-filter.js',
+			array(),
+			filemtime( get_template_directory() . '/assets/js/reference-filter.js' ),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
 
