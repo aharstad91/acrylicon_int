@@ -21,15 +21,20 @@ add_action('after_setup_theme', 'theme_setup');
  * WordPress defaults to "(max-width: {width}px) 100vw, {width}px" which tells the
  * browser the image is always full-width. Our grid layouts are typically 3-col on
  * desktop and 2-col on tablet, so we override with accurate breakpoint sizes.
+ *
+ * Exception: a post's own featured image (e.g. the Featured Image block at the top
+ * of a reference/case-study post) is full-bleed, not a grid card. Forcing 33vw on
+ * it made the browser pick a much smaller srcset candidate and upscale it, which
+ * showed up as a visibly blurry hero image.
  */
-add_filter( 'wp_calculate_image_sizes', function ( $sizes, $size ) {
+add_filter( 'wp_calculate_image_sizes', function ( $sizes, $size, $image_src, $image_meta, $attachment_id ) {
 	// Only override for images wider than 300px (skip thumbnails/icons)
 	$width = is_array( $size ) ? $size[0] : $size;
-	if ( $width > 300 ) {
+	if ( $width > 300 && $attachment_id !== get_post_thumbnail_id() ) {
 		return '(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw';
 	}
 	return $sizes;
-}, 10, 2 );
+}, 10, 5 );
 
 // Register Menus
 function register_theme_menus() {

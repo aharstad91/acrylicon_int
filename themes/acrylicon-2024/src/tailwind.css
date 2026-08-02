@@ -390,9 +390,13 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  margin-top: 0;
+  /* !important needed: Swiper's own bundled CSS (swiper-bundle.min.css) loads
+     after this stylesheet and sets width/height/margin-top with equal
+     specificity, which otherwise wins the cascade and squashes these into
+     27x44px ellipses with a conflicting vertical offset. */
+  width: 50px !important;
+  height: 50px !important;
+  margin-top: 0 !important;
   background-color: white;
   border-radius: 50%;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -410,7 +414,10 @@
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
-  font-size: 20px;
+  /* !important: same cascade-order issue as above — Swiper's own :after rule
+     sets font-size to its --swiper-navigation-size (44px) and would otherwise
+     win. */
+  font-size: 20px !important;
   color: #111827;
   transition: color 0.3s ease;
 }
